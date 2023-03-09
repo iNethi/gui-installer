@@ -1,0 +1,47 @@
+
+// Form editor
+.mce-panel{
+  border: 1px solid $gray-200 !important;
+  background-color: $editor-layout !important;
+  color: $gray-700 !important;
+}
+.mce-label{
+  text-shadow: none !important;
+  color: $gray-500 !important;
+}
+.mce-tinymce{
+  box-shadow: none !important;
+}
+.mce-btn {
+  background: transparent !important;
+}
+.mce-flow-layout,
+.mce-top-part::before{
+  box-shadow: none !important;
+  background-color: $gray-200 !important;
+}
+.mce-caret{
+  border-top: 4px solid $gray-700 !important;
+  opacity: .7 !important;
+}
+.mce-menubar .mce-caret {
+  border-top-color: $gray-700 !important;
+  opacity: .7 !important;
+}
+.mce-menubar .mce-menubtn button span,
+.mce-btn .mce-txt,
+.mce-ico{
+  color: $gray-700 !important;
+}
+
+.mce-btn.mce-disabled button, 
+.mce-btn.mce-disabled:hover button{
+  opacity: .7 !important;
+}
+.mce-menu-item.mce-disabled, 
+.mce-menu-item.mce-disabled:hover,
+.mce-menu-item:hover, 
+.mce-menu-item:focus{
+  background: $gray-100 !important;
+}
+

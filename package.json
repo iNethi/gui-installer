@@ -1,0 +1,18 @@
+{
+  "name": "inethi",
+  "version": "1.0.0",
+  "description": "A GUI Installer for the iNethi system",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "iNethi"
+  ],
+  "author": "Pieter Hoppenbrouwers",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^23.1.3"
+  }
+}

@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>iNethi Installer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta content="A GUI for the installation of the iNethi system" name="description" />
+        <meta content="" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- Sweet Alert -->
+        <link href="../plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
+        <link href="../plugins/animate/animate.css" rel="stylesheet" type="text/css">
+
+        <!--Form Wizard-->
+        <link rel="stylesheet" href="../plugins/jquery-steps/jquery.steps.css">
+
+        <!-- App css -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/jquery-ui.min.css" rel="stylesheet">
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/metisMenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body style="padding: 20px 50px 20px 50px;">
+
+        <style>
+            .lds-dual-ring {
+                display: inline-block;
+                width: 80px;
+                height: 80px;
+            }
+            
+            .lds-dual-ring:after {
+                content: " ";
+                display: block;
+                width: 64px;
+                height: 64px;
+                margin: 8px;
+                border-radius: 50%;
+                border: 6px solid #a5a5a5;
+                border-color: #a5a5a5 transparent #a5a5a5 transparent;
+                animation: lds-dual-ring 1.2s linear infinite;
+            }
+
+            @keyframes lds-dual-ring {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+
+        <!-- <div class="page-content"> -->
+            <div class="container-fluid">
+                <!-- Page-Title -->
+                <!-- <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title-box">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="page-title">iNethi</h4>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">Installer</li>
+                                    </ol>
+                                </div>
+                            </div>                                                      
+                        </div>
+                    </div>
+                </div> -->
+                
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Welcome to the iNethi Installer</h4>
+                                <p class="text-muted mb-0">Pleace follow the on screen instructions to configure your iNethi installation.</p>
+                            </div><!--end card-header-->
+                            <div class="card-body">
+                                <form id="form-vertical" class="form-horizontal form-wizard-wrapper">
+                                    <h3>Introduction</h3>
+                                    <fieldset>
+                                        <p>You will be guided through the steps necessary to install this software.</p>
+                                        <p>By installing this application, you are accepting the Terms of Service and Privacy Statement and are consenting to receive communications, updates, and upgrades for iNethi services. iNethi may collect usage data and personal information, such as your email address, from your computer or device for the operation of the iNethi service.</p>
+                                        <div class="custom-control custom-checkbox my-3">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">I accept the Terms of Service and the Privacy Statement.</label>
+                                        </div>
+                                    </fieldset>                                               
+                                    <h3>Server config</h3>
+                                    <fieldset>
+                                        <p>Please enter the requested details from the server where you want to install iNethi. The installer will attempt to connect to the server, after which upon success the installation will continue.</p>                                                                                         
+                                        <div class="form-group ">
+                                            <label for="server-ip" class="col-form-label">Server IP</label>
+                                            <div class="">
+                                                <input class="form-control" type="email" value="" id="server-ip" placeholder="192.168.0.1">
+                                            </div>
+                                        </div> 
+                                        <div class="form-group ">
+                                            <label for="server-username" class="col-form-label">Server Username</label>
+                                            <div class="">
+                                                <input class="form-control" type="text" id="server-username" placeholder="root">                                                       
+                                            </div>                                                    
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="server-password" class="col-form-label">Server Password</label>
+                                            <div class="">
+                                                <input class="form-control" type="password" id="server-password" placeholder="********">                                                       
+                                            </div>                                                    
+                                        </div>
+                                    </fieldset>
+
+                                    <h3>Module Selection</h3>
+                                    <fieldset>
+                                        <p>Please select the modules you want to install during on your iNethi service. Modules can also be installed afterwards.</p>
+                                           <p><strong>Note:</strong> Installing modules requires the installation of docker and docker-compose. If these are not installed, these will be installed additionally. Moreover, the installation requires a few required modules for the system to function properly.</p>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                <input class="form-control" type="text" id="name" placeholder="Name">                                                       
+                                            </div> 
+                                            <div class="col-sm-12 col-lg-6">
+                                                <input class="form-control" type="email" id="example-email-input3" placeholder="Email">
+                                            </div>                                                   
+                                        </div><!--end form-group--> 
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="subject2" placeholder="Subject">                                                       
+                                            </div>                                                    
+                                        </div><!--end form-group--> 
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Your message"></textarea>
+                                        </div><!--end form-group-->                                                 
+                                        <div class="custom-control custom-radio my-2">
+                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="">
+                                            <label class="custom-control-label" for="customRadio1">Male</label>
+                                        </div><!--end form-group--> 
+                                        <div class="custom-control custom-radio my-2">
+                                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio2">Female</label>
+                                        </div>
+                                    </fieldset><!--end fieldset--> 
+                                    <h3>Installation</h3>
+                                    <fieldset>
+                                        <p>Please wait while the selected modules are being installed on your server.</p>
+                                    </fieldset><!--end fieldset-->
+                                    <h3>Summary</h3>
+                                    <fieldset>
+                                        <p>The installation was successful. You can now close this window.</p>
+                                        <p>Next steps...</p>
+                                    </fieldset><!--end fieldset-->                               
+                                </form><!--end form-->
+                                <p class="text-muted mb-0">© iNethi 2023</p>    
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+            </div><!-- container -->
+        <!-- </div> -->
+        <!-- end page-wrapper -->
+
+        <!-- jQuery  -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/metismenu.min.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/simplebar.min.js"></script>
+        <script src="assets/js/jquery-ui.min.js"></script>
+        <script src="assets/js/moment.js"></script>
+
+        <!-- Wizard  -->
+        <script src="../plugins/jquery-steps/jquery.steps.js"></script>
+        <script src="assets/pages/jquery.form-wizard.init.js"></script>
+
+        <!-- Sweet-Alert  -->
+        <script src="../plugins/sweet-alert2/sweetalert2.min.js"></script>
+        <script src="assets/pages/jquery.sweet-alert.init.js"></script>
+
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+        
+    </body>
+
+</html>

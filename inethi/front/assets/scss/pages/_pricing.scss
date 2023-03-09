@@ -1,0 +1,97 @@
+//
+// Pricing
+// 
+
+
+.pricingTable1{ 
+  .title1{
+    color: $gray-700;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .amount{
+    display: block;
+    position: relative;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: $font-secondary;
+    color: $gray-700;
+    &.amount-border{
+      &::after{
+        content: '';
+        position: absolute;
+        height: 6px;
+        background-color: rgba($warning, 0.6);
+        top: 28px;
+        width: 100%;
+        right: 0;
+        border-radius: 30px;
+        transform: rotate(-5deg);
+      }
+    }    
+  }
+  .pricing-content-2{
+    margin: 0 0 0px 0;
+  }
+  
+  .pricing-content-2 li{
+    color: $gray-700;
+    line-height: 40px;
+    &::before{
+      content: "\f00c" !important;
+      font-family: 'Font Awesome 5 Free' !important;
+      font-weight: 600;
+      font-size: 9px;
+      text-align: center;
+      background-color: rgba($purple, 0.1);
+      color: $purple !important;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      display: inline-block;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+  }  
+}
+
+.pricingTable1 .a-animate-blink {
+  -webkit-animation: a-animate-blink 1s step-start 0s infinite;
+  -moz-animation: a-animate-blink 1s step-start 0s infinite;
+  -ms-animation: a-animate-blink 1s step-start 0s infinite;
+  -o-animation: a-animate-blink 1s step-start 0s infinite;
+  animation: a-animate-blink 1s step-start 0s infinite;
+  animation-fill-mode: initial;
+}
+
+@-webkit-keyframes a-animate-blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+
+@-moz-keyframes a-animate-blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+
+@-o-keyframes a-animate-blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+
+@keyframes a-animate-blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+
+// .custom-border{
+//   height: 5px;
+//   width: 100%;
+//   background-color: $gray-200;
+// }

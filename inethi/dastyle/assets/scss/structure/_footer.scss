@@ -1,0 +1,38 @@
+/*
+Template Name: Dastyle - Admin & Dashboard Template
+Author: Mannatthemes
+Version: 1.0.0
+File: footer Css
+*/
+
+
+.footer {
+  border-top: 1px solid $border_2;
+  bottom: 0;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  color: $gray-600;
+}
+
+[data-layout="horizontal"] {
+  display: inherit;
+  .footer{
+    .boxed-footer{
+      width: 1380px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  [data-layout="horizontal"] {
+    .footer{
+      .boxed-footer{
+        width: 100%;
+      }
+    }
+  }
+}

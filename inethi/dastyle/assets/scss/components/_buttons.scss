@@ -1,0 +1,409 @@
+// 
+// _buttons.scss
+// 
+
+
+
+.btn-round {
+  border-radius: 30px;
+}
+.btn-icon-circle{
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.btn-icon-circle-sm{
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.btn-icon-square{
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-icon-square-sm{
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-square{
+  border-radius: 0;
+}
+.btn-skew{
+  transform: skew(-15deg);
+  span{
+    display: inline-block;
+    transform: skew(15deg);
+  }
+}
+.accordion{
+  .btn:focus{
+    box-shadow: none;
+  }
+}
+.btn.btn-outline-dashed {
+  outline: 1px dashed $white !important;
+  outline-offset: -5px;
+  -moz-outline-radius: 25px;
+}
+
+
+.btn-link{
+  &:active,
+  &.active,
+  &:focus,
+  &:hover{
+    text-decoration: none;
+  }
+}
+
+.button-list, 
+.button-items {
+  margin-bottom: -8px;
+  .btn{
+      margin: 0 5px 8px 0;
+  }
+}
+.btn{
+box-shadow: none;  
+&.focus,
+&:focus{
+  box-shadow: none;
+} 
+}
+
+.btn-xs {
+padding: 2px 10px;
+font-size: 11px;
+}
+
+.btn-xl {
+  padding: 8px 20px;
+  font-size: 15px;
+}
+
+.btn-outline-light {
+  color: $gray-600;
+  background-image: none;
+  background-color: transparent;
+  border-color: $gray-300;
+}
+
+
+.btn-outline-dark {
+  color: $gray-900;
+&:hover{
+  box-shadow: none;
+  color: $gray-100;
+}
+}
+
+.btn-outline-info{
+&.focus,
+&:focus{
+  box-shadow: none;
+}
+}
+
+/*soft buttons*/
+
+.btn-soft-primary{
+  background-color: rgba($primary,0.1);
+  color: $primary;
+  &:hover{
+    background-color: $primary;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($primary,0.2);
+    background-color: rgba($primary,0.8);
+    color: $white;
+  }
+}
+.btn-soft-secondary{
+  background-color: rgba($secondary,0.15);
+  color: $secondary;
+  &:hover{
+    background-color: $secondary;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($secondary,0.2);
+    background-color: rgba($secondary,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-success{
+  background-color: rgba($success,0.1);
+  color: $success;
+  &:hover{
+    background-color: $success;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($success,0.2);
+    background-color: rgba($success,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-warning{
+  background-color: rgba($warning,0.18);
+  color: $warning;
+  &:hover{
+    background-color: $warning;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($warning,0.2);
+    background-color: rgba($warning,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-danger{
+  background-color: rgba($danger,0.1);
+  color: $danger;
+  &:hover{
+    background-color: $danger;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($danger,0.2);
+    background-color: rgba($danger,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-info{
+  background-color: rgba($info,0.1);
+  color: $info;
+  &:hover{
+    background-color: $info;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($info,0.2);
+    background-color: rgba($info,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-dark{
+  background-color: rgba($dark,0.1);
+  color: $dark;
+  &:hover{
+    background-color: $dark;
+    color: $gray-100;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($dark,0.2);
+    background-color: rgba($dark,0.8);
+    color: $gray-100;
+  }
+}
+
+.btn-soft-pink{
+  background-color: rgba($pink,0.1);
+  color: $pink;
+  &:hover{
+    background-color: $pink;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($pink,0.2);
+    background-color: rgba($pink,0.8);
+    color: $white;
+  }
+}
+.btn-soft-purple{
+  background-color: rgba($purple,0.1);
+  color: $purple;
+  &:hover{
+    background-color: $purple;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($purple,0.2);
+    background-color: rgba($purple,0.8);
+    color: $white;
+  }
+}
+
+.btn-soft-blue{
+  background-color: rgba($blue,0.1);
+  color: $blue;
+  &:hover{
+    background-color: $blue;
+    color: $white;
+  }
+  &:focus{
+    box-shadow: 0 0 0 0.1rem rgba($blue,0.2);
+    background-color: rgba($blue,0.8);
+    color: $white;
+  }
+}
+
+
+
+/*btn-gradient-primary*/
+
+.btn-gradient-primary{
+  background: linear-gradient(14deg, $primary 0%, rgba($primary, .6));
+  color:$white;
+  border: none;
+}
+.btn-gradient-primary:hover, .btn-gradient-primary:focus, .btn-gradient-primary:active, .btn-gradient-primary.active,
+.btn-gradient-primary.focus, .btn-gradient-primary:active, .btn-gradient-primary:focus, .btn-gradient-primary:hover,
+.open > .dropdown-toggle.btn-gradient-primary,.btn-gradient-primary.active,
+.btn-gradient-primary:active, .show>.btn-gradient-primary.dropdown-toggle {
+  background: linear-gradient(14deg, $primary 0%, rgba($primary, .6));
+  color: $white;
+}
+
+
+/*btn-gradient-success*/
+
+.btn-gradient-success{
+  background: linear-gradient(14deg, $success 0%, rgba($success, .7));
+  color:$white;
+  border: none;
+}
+.btn-gradient-success:hover, .btn-gradient-success:focus, .btn-gradient-success:active, .btn-gradient-success.active,
+.btn-gradient-success.focus, .btn-gradient-success:active, .btn-gradient-success:focus, .btn-gradient-success:hover,
+.open > .dropdown-toggle.btn-gradient-success,.btn-gradient-success.active,
+.btn-gradient-success:active, .show>.btn-gradient-success.dropdown-toggle {
+  background: linear-gradient(14deg, $success 0%, rgba($success, .7));
+  color: $white;
+}
+
+
+/*btn-gradient-secondary*/
+
+.btn-gradient-secondary{
+  background: linear-gradient(14deg, $secondary 0%, rgba($secondary, .7));
+  color:$white;
+  border: none;
+}
+
+.btn-gradient-secondary:hover, .btn-gradient-secondary:focus, .btn-gradient-secondary:active, .btn-gradient-secondary.active,
+.btn-gradient-secondary.focus, .btn-gradient-secondary:active, .btn-gradient-secondary:focus, .btn-gradient-secondary:hover,
+.open > .dropdown-toggle.btn-gradient-secondary,.btn-gradient-secondary.active,
+.btn-gradient-secondary:active, .show>.btn-gradient-secondary.dropdown-toggle {
+  background: linear-gradient(14deg, $secondary 0%, rgba($secondary, .7));
+  color: $white;
+}
+
+/*btn-gradient-danger*/
+
+.btn-gradient-danger{
+  background: linear-gradient(14deg, $danger 0%, rgba($danger, .7));
+  color:$white;
+  border:none;
+}
+.btn-gradient-danger:hover, .btn-gradient-danger:focus, .btn-gradient-danger:active, .btn-gradient-danger.active,
+.btn-gradient-danger.focus, .btn-gradient-danger:active, .btn-gradient-danger:focus, .btn-gradient-danger:hover,
+.open > .dropdown-toggle.btn-gradient-danger,.btn-gradient-danger.active,
+.btn-gradient-danger:active, .show>.btn-gradient-danger.dropdown-toggle {
+  background: linear-gradient(14deg, $danger 0%, rgba($danger, .7));
+  color: $white;
+}
+
+
+/*btn-gradient-warning*/
+
+.btn-gradient-warning{
+  background: linear-gradient(14deg, $warning 0%, rgba($warning, .7));
+  color:$white;
+  border: none;
+}
+
+.btn-gradient-warning:hover, .btn-gradient-warning:focus, .btn-gradient-warning:active, .btn-gradient-warning.active,
+.btn-gradient-warning.focus, .btn-gradient-warning:active, .btn-gradient-warning:focus, .btn-gradient-warning:hover,
+.open > .dropdown-toggle.btn-gradient-warning,.btn-gradient-warning.active,
+.btn-gradient-warning:active, .show>.btn-gradient-warning.dropdown-toggle {
+  background: linear-gradient(14deg, $warning 0%, rgba($warning, .7));
+  color: $white;
+}
+
+/*btn-gradient-info*/
+
+.btn-gradient-info{
+  background: linear-gradient(14deg, $info 0%, rgba($info, .7));
+  color:$white;
+  border: none;
+}
+.btn-gradient-info:hover, .btn-gradient-info:focus, .btn-gradient-info:active, .btn-gradient-info.active,
+.btn-gradient-info.focus, .btn-gradient-info:active, .btn-gradient-info:focus, .btn-gradient-info:hover,
+.open > .dropdown-toggle.btn-gradient-info,.btn-gradient-info.active,
+.btn-gradient-info:active, .show>.btn-gradient-info.dropdown-toggle {
+  background: linear-gradient(14deg, $info 0%, rgba($info, .7));
+  color: $white;
+}
+
+
+/*btn-gradient-dark*/
+
+.btn-gradient-dark{
+  background: linear-gradient(14deg, $dark 0%, rgba($dark, .7));
+  color:$gray-100;
+  border: none;
+}
+
+.btn-gradient-dark:hover, .btn-gradient-dark:focus, .btn-gradient-dark:active, .btn-gradient-dark.active,
+.btn-gradient-dark.focus, .btn-gradient-dark:active, .btn-gradient-dark:focus, .btn-gradient-dark:hover,
+.open > .dropdown-toggle.btn-gradient-dark,.btn-gradient-dark.active,
+.btn-gradient-dark:active, .show>.btn-gradient-dark.dropdown-toggle {
+  background: linear-gradient(14deg, $dark 0%, rgba($dark, .7));
+  color: $gray-100;
+}
+
+
+
+/*btn-gradient-pink*/
+
+.btn-gradient-pink{
+  background: linear-gradient(14deg, $pink 0%, rgba($pink, .7));
+  color:$white;
+  border: none;
+}
+.btn-gradient-pink:hover, .btn-gradient-pink:focus, .btn-gradient-pink:active, .btn-gradient-pink.active,
+.btn-gradient-pink.focus, .btn-gradient-pink:active, .btn-gradient-pink:focus, .btn-gradient-pink:hover,
+.open > .dropdown-toggle.btn-gradient-pink,.btn-gradient-pink.active,
+.btn-gradient-pink:active, .show>.btn-gradient-pink.dropdown-toggle {
+  background: linear-gradient(14deg, $pink 0%, rgba($pink, .7));
+ color: $white;
+}
+
+
+/*btn-gradient-purple*/
+
+.btn-gradient-purple{
+  background: linear-gradient(14deg, $purple 0%, rgba($purple, .7));
+  color:$white;
+  border: none;
+}
+
+.btn-gradient-purple:hover, .btn-gradient-purple:focus, .btn-gradient-purple:active, .btn-gradient-purple.active,
+.btn-gradient-purple.focus, .btn-gradient-purple:active, .btn-gradient-purple:focus, .btn-gradient-purple:hover,
+.open > .dropdown-toggle.btn-gradient-purple,.btn-gradient-purple.active,
+.btn-gradient-purple:active, .show>.btn-gradient-purple.dropdown-toggle {
+  background: linear-gradient(14deg, $purple 0%, rgba($purple, .7));
+  color: $white;
+}

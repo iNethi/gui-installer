@@ -1,0 +1,163 @@
+//
+// Forms
+// 
+
+label {
+  font-weight: 400;
+  color: $label;
+  font-size: 13px;
+}
+.custom-control-label{
+  padding-top: 2px;
+}
+.form-control {
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.input-group-text{
+  font-size: $font-size-base;
+  background-color: $gray-200;
+  border: 1px solid $border_2;
+}
+.custom-file-input,
+.custom-file-label{
+  height: calc(2.3rem + 1px);
+  line-height: 26px;
+}
+.custom-file-label::after{
+  height: calc(1.5em + 15px);
+  line-height: 24px;
+}
+.form-group{
+  margin-bottom: 20px;
+}
+.custom-select:focus{
+  border-color: rgba($primary, 0.5);
+  box-shadow: none;
+}
+.custom-control-input:checked~.custom-control-indicator {
+  background-color: $primary;
+}
+
+.custom-control-input:focus~.custom-control-indicator {
+  -webkit-box-shadow: 0 0 0 1px $white, 0 0 0 3px $primary;
+  box-shadow: 0 0 0 1px $white, 0 0 0 3px $primary;
+}
+
+.has-success {
+  .form-control {
+    border-color: $success;
+    box-shadow: none;
+  }
+}
+
+.has-warning {
+  .form-control {
+    border-color: $warning;
+    box-shadow: none;
+  }
+}
+
+.has-error {
+  .form-control {
+    border-color: $danger;
+    box-shadow: none;
+  }
+}
+
+.input-group-addon {
+  border-radius: 2px;
+  border: 1px solid $light;
+}
+.col-form-label{
+  text-align: right;
+}
+
+.form-control.is-valid:focus, 
+.custom-select.is-valid:focus, 
+.was-validated .custom-select:valid:focus {
+  border-color: $success;
+  box-shadow: none;
+}
+.custom-select.is-invalid:focus, 
+.was-validated .custom-select:invalid:focus {
+  border-color: $danger;
+  box-shadow:none;
+}
+.custom-select{
+  font-size: 13px;
+  height: 38px;
+}
+.custom-file-input.is-invalid:focus~.custom-file-label, 
+.was-validated .custom-file-input:invalid:focus~.custom-file-label,
+.form-control.is-invalid:focus, 
+.was-validated .form-control:invalid:focus {
+  border-color: $danger;
+  box-shadow: none;
+}
+.custom-file-input:focus~.custom-file-label{
+  border-color: rgba($primary, 0.5);
+  box-shadow: none;
+}
+
+
+dt {
+  font-weight: 600;
+}
+
+
+.demo-container {
+	box-sizing: border-box;
+	width: 850px;
+	height: 450px;
+	padding: 20px 15px 15px 15px;
+	margin: 15px auto 30px auto;
+	border: 1px solid #ddd;
+	background: #fff;
+	background: linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+	-o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.demo-placeholder {
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+}
+
+.dropify-wrapper{
+  background-color: $card-bg;
+  border: 2px dashed $border_2;
+  .dropify-message {
+    p{
+      color: $gray-500;
+    }
+    span.file-icon{
+      color: $primary;
+    }
+  }
+  &:hover {
+    background-size: 30px 30px;
+    background-image: linear-gradient(-45deg,$gray-200 25%,transparent 25%,transparent 50%,$gray-200 50%,$gray-200 75%,transparent 75%,transparent);
+  } 
+  .dropify-preview{
+    background-color: $card-bg;
+  }
+}

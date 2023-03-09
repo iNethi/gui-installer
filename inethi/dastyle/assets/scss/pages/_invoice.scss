@@ -1,0 +1,22 @@
+//
+// Invoice
+// 
+
+
+
+.invoice-head{
+  border-bottom: 4px double $gray-400;
+  .logo-lg.logo-light{
+    display: none;
+  }
+ .contact-detail{
+   li{
+     border-left: 2px solid $gray-400;
+     i{
+       font-size: 24px;
+       color: $info;
+       margin-bottom: 5px;
+     }
+   }
+ }
+}

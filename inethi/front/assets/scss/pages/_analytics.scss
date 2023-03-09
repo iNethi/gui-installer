@@ -1,0 +1,76 @@
+//
+// Analytics
+// 
+
+.analytic-dash-activity{
+  height: 290px;
+}
+
+
+.dash-chart {
+  position: relative;
+  height: 350px;
+}
+
+.browser_users{
+  table{
+    td{
+      i{
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.impressions-data{
+  h2{
+    font-size: 28px;
+  }
+}
+
+
+// Report
+
+
+.rep-map{
+  height: 280px;
+}
+
+.chart-report-card{
+  background-color: lighten($gray-300, 4%);
+}
+
+.chart-report-card,
+.report-card{
+  .report-main-icon{
+    font-size: 28px;
+    width: 64px;
+    height: 64px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 50%;
+  }
+  h3{
+    color: $dark;
+    font-weight: 600;
+    font-size: 20px;
+  }
+}
+.url-list{
+  li{
+    i{
+      font-size: 24px;
+      vertical-align: middle;
+    }
+  }
+}
+.traffic-card{
+  margin: 20px 0;
+  h3{
+    font-size: 28px;
+    color: $gray-700;
+    margin: 20px 0;
+  }
+}
+

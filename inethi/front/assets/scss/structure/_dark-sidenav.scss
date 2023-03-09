@@ -1,0 +1,206 @@
+//
+//  Dark Sidenav
+// 
+
+
+
+body{
+  &.dark-topbar{
+    .topbar {
+      .brand {
+        background-color: $bg-dark-navbar;
+        .logo {
+          .logo-lg{
+            display: none;
+            &.logo-light{
+              display: inline-block;
+              height: 22px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+    }
+    .navbar-custom {
+      background: $bg-dark-navbar;
+      .nav-link {
+          color: $header-item-dark-color;
+      }
+      .topbar-nav {
+          li {
+              &.show {
+                  .nav-link {
+                      background-color: lighten($bg-dark-navbar, 3%);
+                      color: $body-color;
+                  }
+              }
+          }
+      }
+    }
+
+    .navbar-custom-menu {
+      .has-submenu:hover{
+        a{
+          span{
+            color: $white;
+            background-color: lighten($bg-dark-navbar, 3%);
+          }
+        }
+        &.active {
+          a {
+              i{
+                  color: $topnav-menu-icon-color;
+              }
+              span{
+                background-color: lighten($bg-dark-navbar, 3%);
+                color: $white;
+              }
+          }         
+        }
+      }
+  }
+    
+    .button-menu-mobile {
+      color: $vertical-menu-btn-dark-color !important;
+    }
+
+  /* Notification */
+  
+    .notification-list {
+      .noti-icon {
+          color: $noti-icon-dark-color;
+      }
+      .noti-icon-badge {
+          border: 2px solid rgba($white, 0.6);
+      }
+    } 
+     @media (min-width: 992px){
+      .topbar {
+        .navigation-menu>li>a{
+          color: $topnav-menu-item-dark-color;
+        }
+        .navbar-custom-menu .has-submenu.active a span{
+          background-color: lighten($bg-dark-navbar, 3%);
+          color: $white;
+        }
+      }
+    }    
+  }
+}
+
+
+body{
+  &.dark-sidenav{    
+    .left-sidenav {
+      background-color: $bg-dark-leftbar;
+      .brand {
+        .logo {
+          .logo-lg{
+            display: none;
+            &.logo-light{
+              display: inline-block;
+            }
+          }
+        }
+      }
+      hr.hr-dashed.hr-menu{
+        border-color: $hr-dark-leftbar;
+      }
+    }
+    
+    .left-sidenav-menu {
+      li {
+          > a {
+              color: $menu-item-dark-color;
+              &.active{
+                color: $menu-item-active-dark-color;
+              }
+
+              &:hover {
+                  color: $menu-sub-item-hover-dark-color;
+                  i{
+                      color: $leftbar-icon-hover-dark-color;                      
+                  } 
+                  span{
+                    i{
+                        color: $menu-item-hover-dark-color
+                    }
+                }                
+              }
+              i {
+                  color: $leftbar-icon-dark-color;
+                  
+              }
+              
+          }
+
+          ul {
+
+              li {
+                  > a {
+                      color: $menu-sub-item-dark-color;
+                      &:hover {
+                          color: $menu-sub-item-hover-dark-color;
+                          i{
+                              color: $primary; 
+                          }
+                      }
+                  }
+              }
+          }
+
+          &.mm-active { 
+              .mm-active{
+                  >a{
+                      color: $menu-sub-item-active-dark-color;
+                      background: $bg-dark-leftbar;
+                      &.active{
+                          color: $menu-sub-item-active-dark-color;
+                          background-color: transparent; 
+                          font-weight: 500;                                                
+                      }
+                      i{
+                          color: $primary;
+                      }                               
+                  }
+                  .mm-show{
+                      li{
+                          a.active{
+                              color: $menu-sub-item-active-color;
+                          }
+                      }
+                  }
+              }
+
+              > a  {
+                  color: $menu-item-active-color;
+                  i{
+                      color: $menu-item-active-dark-color;
+                  }
+              }
+              .nav-item.active{
+                  a.nav-link.active{
+                      background-color:transparent;
+                      color: $menu-nav-item-active-dark-color;
+                      i{
+                          color: $menu-nav-item-active-dark-color; 
+                      }
+                  }
+              }
+              
+          }
+          
+      }
+
+      .menu-arrow {
+          i {
+              width: 15px;
+              color: $menu-arrow-dark-color;
+          }
+      }
+    }   
+  }
+}
+
+
+

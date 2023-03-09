@@ -1,0 +1,119 @@
+/*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+.prettyprint {
+  background: $card-bg;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+  border: 0 !important;
+  line-height: 20px !important;
+}
+
+.pln {
+  color: $pln !important;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #cccccc;
+}
+
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L4,
+li.L5,
+li.L6,
+li.L7,
+li.L8,
+li.L9 {
+  padding-left: 1em;
+  background-color: $card-bg;
+  list-style-type: decimal !important;
+}
+@media screen {
+
+  /* string content */
+
+  .str {
+    color: #d14;
+  }
+
+  /* keyword */
+
+  .kwd {
+    color: #333;
+  }
+
+  /* comment */
+
+  .com {
+    color: $com !important;
+  }
+
+  /* type name */
+
+  .typ {
+    color: $atn !important;
+  }
+
+  /* literal value */
+
+  .lit {
+    color: #458;
+  }
+
+  /* punctuation */
+
+  .pun {
+    color: #333;
+  }
+
+  /* lisp open bracket */
+
+  .opn {
+    color: #333;
+  }
+
+  /* lisp close bracket */
+
+  .clo {
+    color: #333;
+  }
+
+  /* markup tag name */
+
+  .tag {
+    color: $tag !important;
+  }
+
+  /* markup attribute name */
+
+  .atn {
+    color: $atn !important;
+  }
+
+  /* markup attribute value */
+
+  .atv {
+    color: $atv !important;
+  }
+
+  /* declaration */
+
+  .dec {
+    color: #333;
+  }
+
+  /* variable name */
+
+  .var {
+    color: $tag !important;
+  }
+
+  /* function name */
+
+  .fun {
+    color: $tag !important;
+  }
+}

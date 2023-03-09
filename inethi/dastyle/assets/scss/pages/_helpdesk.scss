@@ -1,0 +1,45 @@
+//
+// helpdesk
+// 
+
+.happiness-score{
+    position: absolute;
+    bottom: 56%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    h2{
+      font-size: 22px;
+      font-weight: 600;
+    }
+}
+
+.help-activity-height{
+  height: 365px !important;
+}
+.timer-data{
+  .icon-info {
+    i {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-size: 26px;
+      z-index: 5;
+    }
+  }  
+  h3{
+    font-weight: 700;
+    font-size: 26px;
+  }  
+}
+
+.support-tickets{
+  h4{
+    font-weight: 700;
+    font-size: 26px;
+    color: $dark;
+  }
+}

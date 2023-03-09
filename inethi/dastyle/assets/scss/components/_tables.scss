@@ -1,0 +1,115 @@
+// 
+// _tables.scss
+// 
+
+
+.table {
+  font-family: $font-secondary;
+  th{
+    color: $gray-700;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  td {
+    font-weight: 400;
+    vertical-align: middle;
+  }
+  &.border-dashed{
+    th {
+      font-weight: 500;
+      border-top: 1px dashed $table-border-color;      
+    }
+    td{
+      border-top: 1px dashed $table-border-color;
+    }
+    thead {
+      th {
+        border-bottom: 2px dashed $table-border-color;
+      }
+    }
+  }
+  &.table-bordered{
+    thead{
+      background-color: $gray-200;
+    }
+  }
+  .thead-light {
+    th{
+      color: $gray-700;
+    }
+  }
+  &.table-dark {
+    color: $gray-100;
+    th{
+      color: $gray-100;
+    }
+  }
+}
+
+/*===Datatable===*/
+.table{
+  td {
+    vertical-align: middle;
+    &.highlight {
+      font-weight: bold;
+      color: $info;
+    }
+    &.details-control {
+      background: url('../images/open.png') no-repeat center center;
+      cursor: pointer;
+    }
+  }
+  tr.shown td.details-control {
+    background: url('../images/close.png') no-repeat center center;
+  }
+}
+
+
+  
+  /*== Table Responsive ==*/
+  
+  .table-rep-plugin {
+    .btn-toolbar {
+        display: block;
+    }
+    .btn-default {
+        border: none;
+        background: $primary;
+        color: $white;
+        margin-right: 5px;
+        transition: .3s ease-out;
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+    }
+    .btn-default.btn-primary:active,
+    .btn-default.btn-primary:hover,
+    .btn-default.btn-primary:focus {
+        border: none !important;
+        background: $primary;
+        color: $white;
+    }
+    tbody th {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    table.focus-on tbody tr.focused th, 
+    table.focus-on tbody tr.focused td {
+      background-color: $primary;
+      color: $white;
+  }
+}
+
+/* Sticky Header */
+.fixed-solution .sticky-table-header {
+  top: 0 !important;
+  background-color: $gray-100;
+  border-top: 1px solid $border_2;
+  border-bottom: 1px solid $border_2;
+}
+
+.table-responsive[data-pattern="priority-columns"]{
+  border: 1px solid $border_2;
+}

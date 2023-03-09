@@ -1,0 +1,75 @@
+// 
+// _nav.scss
+// 
+
+.nav {
+    &.nav-tabs{
+        .nav-item.show,
+        .nav-link{
+            &:focus ,
+            &.active{
+                color: $primary;
+                background-color: $card-bg;
+                border-color: transparent transparent $primary;
+            }
+            &.active:hover{
+                border-color: transparent transparent $primary;
+            }
+            &:hover {
+                border-color: transparent transparent $border;
+            }
+        }
+        .nav-item.show{
+            .nav-link{
+                color: $primary;
+                background-color: $card-bg;
+            }
+        }
+    }
+    &.nav-pills{
+        background-color: $light;
+    }
+}
+
+
+.navbar-dark {
+    .navbar-nav {
+        .nav-link{
+            &:hover,
+            &:focus{
+                color: $light;
+            }
+        }
+    }
+} 
+
+.nav-tabs-custom{
+    .nav{
+      &.nav-tabs{
+        border-bottom: none;
+        display: inline-flex;
+        .nav-item{
+          border: 2px solid $gray-200;
+          border-radius: 4px;
+          margin-right: 5px;        
+        }
+        .nav-link{
+          border-radius: 3px;
+          padding: 10px 14px;
+          &.active{
+            background-color: $light;
+            border-color: transparent;  
+            color: $primary;  
+            i{
+                color: $primary;
+            }      
+          }
+          i{
+            font-size: 24px;
+            vertical-align: middle;
+            color: $secondary;
+          }
+        }
+      }
+    }
+  }

@@ -1,0 +1,24 @@
+// 
+// _card.scss
+// 
+
+.card {
+  box-shadow: $box-shadow;
+  margin-bottom: 24px;
+  background-color: $card-bg;
+  border: 1px solid $border;
+  .card-header{
+    background-color: $card-bg;
+    border-bottom: 1px solid $border;
+    &:first-child {
+      border-radius: calc(.5rem - 1px) calc(.5rem - 1px) 0 0;
+    }
+  }
+  .card-footer{
+    background-color: $card-bg;
+    border-top: 1px dashed $border;
+  }
+}
+
+
+

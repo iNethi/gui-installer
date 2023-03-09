@@ -1,0 +1,173 @@
+/*
+Template Name: Dastyle - Admin & Dashboard Template
+Author: Mannatthemes
+File: Topbar
+*/
+
+
+
+.topbar {
+ width: 100%;
+}
+
+.navbar-custom {
+  background: $bg-navbar;
+  min-height: $topbar-height;
+  position: relative;
+  border-bottom: 1px solid $border_2;
+  .nav-link {
+      padding: 0 0.75rem;
+      color: $header-item-color;
+      line-height: $topbar-height;
+      max-height: $topbar-height;
+      .nav-icon {
+          font-size: 18px;
+      }
+  }
+  .dropdown-toggle {
+      &:after {
+          content: initial;
+      }
+  }
+  .topbar-nav {
+    height: $topbar-height;
+      li {
+          float: left;
+          &.show {
+              .nav-link {
+                  background-color: lighten($bg-navbar, 3%);
+                  color: $body-color;
+              }
+          }
+         .topbar-icon{
+           height: 20px;
+           width: 20px;
+         }
+      }
+  }
+}
+
+.button-menu-mobile {
+  border: none;
+  color: $vertical-menu-btn-color !important;
+  width: 60px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.nav-user {
+  .nav-user-name {
+      vertical-align: middle;
+  }
+  img {
+      height: 36px;
+      width: 36px;
+  }
+}
+
+/* Notification */
+
+.notification-list {
+  .notification-menu{
+    max-height: 220px;
+    margin-left: 0;
+  } 
+  .noti-icon {
+      font-size: 22px;
+      vertical-align: middle;
+      color: $noti-icon-color;
+  }
+  .noti-icon-badge {
+      display: inline-block;
+      position: absolute;
+      top: 14px;
+      right: 8px;
+      border: 2px solid rgba($white, 0.6);
+      border-radius: 50%;
+      padding: 1px 3px 1px;
+      font-size: 9px !important;
+  }
+}
+
+// Search
+
+
+.app-search-topbar {
+  form {
+      position: relative;
+      z-index: 1; 
+  }
+  button {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      text-align: center;
+      background-color: transparent;
+      color: $noti-icon-color; 
+      i{
+          display: flex;
+      }
+      &:focus {
+          outline: none; 
+      }
+  }
+  input {
+      width: 100%;
+      height: 56px;
+      border: none;
+      font-size: 12px;
+      border-radius: 4px;
+      padding-left: 54px;
+      padding-right: 15px; 
+      &:focus {
+          box-shadow: none;
+          outline: none !important; 
+      }
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .topbar {
+      .topbar-left {
+          width: $leftbar-width-collapsed;            
+          .logo-lg {
+              display: none !important; 
+          }
+      }
+     
+      .app-search {
+          .form-control,
+          .form-control:focus{
+              width: 230px;
+          }  
+      }
+  }   
+}
+
+@media (max-width: 768px) and (max-width: 1023.98px){
+  .app-search{
+      display: none;
+  }
+}
+
+@media (max-width: 767px){
+  .app-search,
+  .hidden-sm {
+      display: none;
+  }
+}
+
+@media (max-width: 375px){
+  
+  .page-title-box {
+      .breadcrumb{
+          display: none;
+      }
+  }
+}
+

@@ -1,0 +1,291 @@
+//
+// Background-color
+// 
+.bg-black{
+  background-color: $black !important;
+  color: $white;
+}
+.bg-card{
+  background-color: $card-bg !important;
+}
+
+.bg-light-alt{
+  background-color: $light-alt !important;
+}
+// bg-soft
+
+.bg-soft-primary{
+  background-color: rgba($primary, 0.08) !important;
+  color: $primary !important;
+}
+
+.bg-soft-secondary{
+  background-color: rgba($secondary, 0.08) !important;
+  color: $secondary !important;
+}
+
+.bg-soft-success{
+  background-color: rgba($success, 0.08) !important;
+  color: $success !important;
+}
+
+.bg-soft-warning{
+  background-color: rgba($warning, 0.08) !important;
+  color: $warning !important;
+}
+
+.bg-soft-info{
+  background-color: rgba($info, 0.08) !important;
+  color: $info !important;
+}
+
+.bg-soft-danger{
+  background-color: rgba($danger, 0.08) !important;
+  color: $danger !important;
+}
+
+.bg-soft-pink{
+  background-color: rgba($pink, 0.08) !important;
+  color: $pink !important;
+}
+
+.bg-soft-purple{
+  background-color: rgba($purple, 0.08) !important;
+  color: $purple !important;
+}
+
+.bg-soft-blue{
+  background-color: rgba($blue, 0.08) !important;
+  color: $blue !important;
+}
+
+.bg-soft-dark{
+  background-color: rgba($dark, 0.08) !important;
+  color: $dark !important;
+}
+
+
+.bg-primary-50{
+  background-color: rgba($primary, 0.5) !important;
+  color: $primary !important;
+}
+
+.bg-secondary-50{
+  background-color: rgba($secondary, 0.5) !important;
+  color: $secondary !important;
+}
+
+.bg-success-50{
+  background-color: rgba($success, 0.5) !important;
+  color: $success !important;
+}
+
+.bg-warning-50{
+  background-color: rgba($warning, 0.5) !important;
+  color: $warning !important;
+}
+
+.bg-info-50{
+  background-color: rgba($info, 0.5) !important;
+  color: $info !important;
+}
+
+.bg-danger-50{
+  background-color: rgba($danger, 0.5) !important;
+  color: $danger !important;
+}
+
+.bg-pink-50{
+  background-color: rgba($pink, 0.5) !important;
+  color: $pink !important;
+}
+
+.bg-purple-50{
+  background-color: rgba($purple, 0.5) !important;
+  color: $purple !important;
+}
+
+.bg-blue-50{
+  background-color: rgba($blue, 0.5) !important;
+  color: $blue !important;
+}
+
+.bg-dark-50{
+  background-color: rgba($dark, 0.5) !important;
+  color: $dark !important;
+}
+
+// bg-gradient
+
+.bg-primary-gradient{  
+  background: linear-gradient(14deg, #4d79f6 36%, #39add0 100%);
+}
+.bg-secondary-gradient{
+  background: linear-gradient(14deg, #42cef1 36%, #63ddfb 100%);
+}
+.bg-success-gradient{
+  background: linear-gradient(14deg, #22d4b3 36%, #71e6d1 100%);
+}
+.bg-info-gradient{
+  background: linear-gradient(14deg, #4b545d 36%, #67737b 100%);
+}
+.bg-warning-gradient{
+  background: linear-gradient(14deg, #efc039 36%, #f1cb60 100%);
+}
+.bg-danger-gradient{
+  background: linear-gradient(14deg, #fb7589 36%, #ff9595 100%);
+}
+.bg-pink-gradient{
+  background: linear-gradient(14deg, #FE5D9E 36%, #8E73FE 100%);
+}
+.bg-purple-gradient{
+  background: linear-gradient(14deg, #6d81f5 36%, #8498f3 100%);
+}
+.bg-blue-gradient{
+  background: linear-gradient(14deg, #11368a 36%, #326eca 100%);
+}
+.bg-dark-gradient{
+  background: linear-gradient(14deg, #12100e 36%, #2b4162 100%);
+}
+.bg-light-gradient{
+  background: linear-gradient(14deg, #c3cbdc 36%, #edf1f4 100%);
+}
+.bg-custom-gradient{
+  background: linear-gradient(14deg, #521c85 36%, #4400ff 100%);
+}
+
+// Badge
+.badge{
+  box-shadow:none;
+  font-size: 11px !important;
+  &.badge-soft-primary{
+    background-color: rgba($primary, 0.15) !important;
+    color: $primary !important;
+    box-shadow: 0px 0px 13px 0px rgba($primary,0.05);
+  }
+  
+  &.badge-soft-secondary{
+    background-color: rgba($secondary, 0.15) !important;
+    color: $secondary !important;
+    box-shadow: 0px 0px 13px 0px rgba($secondary,0.05);
+  }
+  
+  &.badge-soft-success{
+    background-color: rgba($success, 0.15) !important;
+    color: $success !important;
+    box-shadow: 0px 0px 13px 0px rgba($success,0.05);
+  }
+  
+  &.badge-soft-warning{
+    background-color: rgba($warning, 0.15) !important;
+    color: $warning !important;
+    box-shadow: 0px 0px 13px 0px rgba($warning,0.05);
+  }
+  
+  &.badge-soft-info{
+    background-color: rgba($info, 0.15) !important;
+    color: $info !important;
+    box-shadow: 0px 0px 13px 0px rgba($info,0.05);
+  }
+  
+  &.badge-soft-danger{
+    background-color: rgba($danger, 0.15) !important;
+    color: $danger !important;
+    box-shadow: 0px 0px 13px 0px rgba($danger,0.05);
+  }
+  
+  &.badge-soft-pink{
+    background-color: rgba($pink, 0.15) !important;
+    color: $pink !important;
+    box-shadow: 0px 0px 13px 0px rgba($pink,0.05);
+  }
+  
+  &.badge-soft-purple{
+    background-color: rgba($purple, 0.15) !important;
+    color: $purple !important;
+    box-shadow: 0px 0px 13px 0px rgba($purple,0.05);
+  }
+  
+  &.badge-soft-dark{
+    background-color: rgba($dark, 0.15) !important;
+    color: $dark !important;
+    box-shadow: 0px 0px 13px 0px rgba($dark,0.05);
+  }
+}
+
+
+// shadow
+
+.shadow-primary{
+  box-shadow: 0 6px 20px 0 rgba($primary, .5) !important
+}
+.shadow-secondary{
+  box-shadow: 0 6px 20px 0 rgba($secondary, .5) !important
+}
+.shadow-success{
+  box-shadow: 0 6px 20px 0 rgba($success, .5) !important
+}
+.shadow-warning{
+  box-shadow: 0 6px 20px 0 rgba($warning, .5) !important
+}
+.shadow-info{
+  box-shadow: 0 6px 20px 0 rgba($info, .5) !important
+}
+.shadow-danger{
+  box-shadow: 0 6px 20px 0 rgba($danger, .5) !important
+}
+.shadow-pink{
+  box-shadow: 0 6px 20px 0 rgba($pink, .5) !important
+}
+.shadow-purple{
+  box-shadow: 0 6px 20px 0 rgba($purple, .5) !important
+}
+.shadow-orange{
+  box-shadow: 0 6px 20px 0 rgba($orange, .5) !important
+}
+.shadow-dark{
+  box-shadow: 0 6px 20px 0 rgba($dark, .5) !important
+}
+
+// Icon
+
+.icon-dual-2 {
+  color: $gray-600;
+  fill: rgba($gray-600,.25);
+}
+.icon-dual-primary {
+  color: $primary;
+  fill: rgba($primary,.25);
+}
+.icon-dual-secondary {
+  color: $secondary;
+  fill: rgba($secondary,.25);
+}
+.icon-dual-success {
+  color: $success;
+  fill: rgba($success,.25);
+}
+.icon-dual-warning {
+  color: $warning;
+  fill: rgba($warning,.25);
+}
+.icon-dual-info {
+  color: $info;
+  fill: rgba($info,.25);
+}
+.icon-dual-danger {
+  color: $danger;
+  fill: rgba($danger,.25);
+}
+.icon-dual-pink {
+  color: $pink;
+  fill: rgba($pink,.25);
+}
+.icon-dual-purple {
+  color: $purple;
+  fill: rgba($purple,.25);
+}
+.icon-dual-dark {
+  color: $dark;
+  fill: rgba($dark,.25);
+}

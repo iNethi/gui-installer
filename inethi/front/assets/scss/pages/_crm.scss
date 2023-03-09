@@ -1,0 +1,42 @@
+//
+// CRM
+// 
+
+
+.crm-dash-map{
+  height: 300px;
+}
+
+.crm-activity-height{
+  height: 365px;
+}
+.dash-data-card,
+.crm-data-card{
+  .icon-info {
+    i {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-size: 26px;
+      z-index: 5;
+      margin: 0 auto;
+    }
+  }
+  h3{
+    font-weight: 600;
+    font-size: 30px;
+  }
+}
+
+.welcome-img{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.flot-chart {
+  height: 300px;
+}

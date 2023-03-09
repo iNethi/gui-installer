@@ -1,0 +1,198 @@
+/*
+Template Name: Dastyle - Admin & Dashboard Template
+Author: Mannatthemes
+File: Menu
+
+*/
+/* Metis Menu css */
+
+.metismenu {
+
+  li {
+    display: block;
+    width: 100%;
+  }
+
+  .mm-collapse {
+    display: none;
+
+    &:not(.mm-show) {
+      display: none;
+    }
+
+    &.mm-show {
+      display: block
+    }
+  }
+
+  .mm-collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height, visibility;
+  }
+}
+
+.navbar-brand-box {
+  text-align: center;
+}
+
+.logo {
+  line-height: 70px;
+
+  i {
+    display: none;
+  }
+}
+
+
+.vertical-menu {
+  width: 250px;
+  z-index: 1001;
+  background: $sidebar-light-bg;
+  bottom: 0;
+  margin-top: 0;
+  position: fixed;
+  top: 0;
+  box-shadow: $box-shadow;
+  padding-bottom: 30px;
+}
+
+.main-content {
+  margin-left: 250px;
+  overflow: hidden;
+
+  .content {
+    padding: 0 15px 10px 15px;
+    margin-top: 70px;
+  }
+}
+
+
+#sidebar-menu {
+  padding-top: 10px;
+
+  .mm-active {
+    > .has-arrow {
+      &:after {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+  .has-arrow {
+    &:after {
+      content: "\F140";
+      font-family: 'Material Design Icons';
+      display: block;
+      float: right;
+      transition: transform .2s;
+      font-size: 1rem;
+    }
+  }
+
+  ul {
+    li {
+      a {
+        display: block;
+        padding: .55rem 1.5rem;
+        color: #6e84a3;
+        position: relative;
+
+        &:hover {
+          color: #12263f;
+        }
+
+        i {
+          display: inline-block;
+          min-width: 1.75rem;
+          padding-bottom: .125em;
+          font-size: 1rem;
+          line-height: 1.40625rem;
+        }
+      }
+      ul.sub-menu {
+        padding: 0;
+
+        li {
+          a {
+            padding: .4rem 1.5rem .4rem 3.25rem;
+            font-size: 13.5px;
+          }
+          ul.sub-menu {
+            padding: 0;
+            
+            li {
+              a {
+                padding: .4rem 1.5rem .4rem 4.5rem;
+                font-size: 13.5px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+.menu-title {
+  padding: 12px 20px !important;
+  letter-spacing: .05em;
+  pointer-events: none;
+  cursor: default;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: $gray-500;
+  font-family: $font-family-secondary;
+}
+
+
+.mm-active {
+  .active {
+    color: $dark !important;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: .5rem;
+      bottom: .5rem;
+      left: 0;
+      right: auto;
+      border-left: 2px solid $primary;
+      border-bottom: 0;
+    }
+  }
+}
+
+
+@media (max-width: 992px) {
+  .vertical-menu {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+body.enable-vertical-menu {
+  overflow: hidden;
+
+  .vertical-menu,
+  .menu-overlay {
+    display: block;
+  }
+}
+
+.menu-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba($dark,0.3);
+  display: none;
+  z-index: 1000;
+}

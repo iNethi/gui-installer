@@ -1,0 +1,76 @@
+// 
+// _badge.scss
+// 
+.badge-success,
+.badge-orange{
+    color: $white;
+}
+
+
+.badge{
+    &.badge-outline-primary{
+        border: 1px solid rgba($primary, 0.5);
+        color: $primary;
+    }  
+    &.badge-outline-secondary{
+        border: 1px solid rgba($secondary, 0.5);
+        color: $secondary;
+    }  
+    &.badge-outline-success{
+        border: 1px solid rgba($success, 0.5);
+        color: $success;
+    }  
+    &.badge-outline-warning{
+        border: 1px solid rgba($warning, 0.5);
+        color: $warning;
+    }  
+    &.badge-outline-danger{
+        border: 1px solid rgba($danger, 0.5);
+        color: $danger;
+    }  
+    &.badge-outline-info{
+        border: 1px solid rgba($info, 0.5);
+        color: $info;
+    }  
+    &.badge-outline-light{
+        border: 1px solid $light;
+        color: $gray-600;
+    }  
+    &.badge-outline-dark{
+        border: 1px solid rgba($dark, 0.5);
+        color: $dark;
+    }  
+    &.badge-outline-pink{
+        border: 1px solid rgba($pink, 0.5);
+        color: $pink;
+    }   
+    &.badge-outline-purple{
+        border: 1px solid rgba($purple, 0.5);
+        color: $purple;
+    }   
+    
+    &.badge-dot {
+        display: inline-flex;
+        align-items: center;
+        &:after {
+            position: absolute;
+            content: "";
+            right: 3px;
+            top: -13px;
+            transform: translateY(-50%);
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            border: 2px solid $card-bg;
+            border-radius: 50%;
+        }
+        &.online:after{
+            background-color: $success;
+        }
+        &.offline:after{
+            background-color: $secondary;
+        }
+    }  
+}
+
+  

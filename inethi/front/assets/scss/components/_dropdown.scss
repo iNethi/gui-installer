@@ -1,0 +1,60 @@
+// 
+// _dropdown.scss
+// 
+
+.dropdown-menu{
+  box-shadow: 0 3px 12px $drop-shadow-color;
+  margin: 0;
+  .dropdown-item:hover, 
+  .dropdown-item:focus{
+    background-color: rgba($gray-100, .5);
+    color: $gray-900;
+  }
+}
+.dropdown-lg{
+  width: $dropdown-lg-width;
+}
+
+.ui-widget-content{
+  padding: 4px 0;
+  font-size: $font-size-base;
+  box-shadow: 0 3px 12px rgba($gray-300,.4);
+  border-color: $dropdown-border-color;
+  background-color: $dropdown-bg;
+  margin: 0;
+  .ui-menu-item {
+    padding: 6px 24px;
+    color: $gray-700;
+    &:hover,
+    &:focus, 
+    &.active,
+    &:active{
+      color: $gray-800;
+      text-decoration: none;
+      background-color: $gray-100;
+    }
+  }
+}
+
+.ui-widget.ui-widget-content{
+    border: 1px solid rgba($gray-200,.4);
+    z-index: 1111;
+    position: fixed;
+  }
+  
+  .ui-state-active, 
+  .ui-widget-content .ui-state-active, 
+  .ui-widget-header .ui-state-active, 
+  a.ui-button:active, 
+  .ui-button:active, 
+  .ui-button.ui-state-active:hover {
+    border: none;
+    color: $gray-800;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  
+  .ui-menu .ui-state-focus, 
+  .ui-menu .ui-state-active {
+    margin: 0;
+  }
