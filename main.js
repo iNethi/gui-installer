@@ -8,7 +8,7 @@ function sleep(ms) {
 }
 
 async function handleConnection() {
-  await sleep(2500);
+  await sleep(500);
   return 1
 }
 
