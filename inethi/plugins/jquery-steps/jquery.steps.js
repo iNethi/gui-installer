@@ -127,10 +127,44 @@
     }
 
     function check_action(a, b, c) {
+        function throwError(message) {
+
+        }
+
+        function checkEmptyValues(obj) {
+            for (var key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                if (!obj[key]) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Incomplete data',
+                        footer: 'Please make sure all credentials have been provided.',
+                        showCancelButton: false,
+                        showConfirmButton: false
+                    })
+                    return false;
+                }
+              }
+            }
+            return true;
+        }
+
         switch (c.currentIndex) {
             case 1:
                 if (!connected) {
-                    window.electronAPI.openConnection();
+
+                    var args = {
+                        'ip': document.getElementById('serverIp').value,
+                        'username': document.getElementById('serverUsername').value,
+                        'password': document.getElementById('serverPassword').value
+                    }
+
+                    if (!checkEmptyValues(args)) {
+                        return B(a, b, c, v(c, 0));
+                    }
+
+                    window.mainAPI.openConnection(JSON.stringify(args));
 
                     Swal.fire({
                         title: 'Connecting to server...',
@@ -141,9 +175,9 @@
                     });
 
                     window.addEventListener("message", (event) => {
-                        const res = event.data;
+                        const success = event.data;
 
-                        if (res == 1) {
+                        if (success) {
                             Swal.fire({
                                 title: 'Successful!',
                                 text: 'We successfully connected to your server!',
@@ -167,6 +201,28 @@
                     return B(a, b, c, v(c, 1));
                 }
                 break;
+            case 2:
+                var args = {
+                    'storagepath': document.getElementById('storagePath').value,
+                    'domainname': document.getElementById('domainName').value,
+                    'https': document.getElementById('httpsCheckbox').checked.toString(),
+                    // 'acme': "",
+                    'master': document.getElementById('masterPassword').value
+                }
+
+                if (args.https === "true") {
+                    // CATCH IF NO FILE
+                    args.acme = document.getElementById('acmeFile').files[0].path;
+                }
+
+                console.log(args)
+
+                if (!checkEmptyValues(args)) {
+                    return B(a, b, c, v(c, 0));
+                } else {
+                    return B(a, b, c, v(c, 1));
+                }
+
             default:
                 return B(a, b, c, v(c, 1));
         }

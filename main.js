@@ -7,11 +7,6 @@ function sleep(ms) {
     });
 }
 
-async function handleConnection() {
-  await sleep(500);
-  return 1
-}
-
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1200,
@@ -25,7 +20,14 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
-  ipcMain.handle('openConnection', handleConnection)
+
+  ipcMain.handle('openConnection', async (event, args) => {
+    await sleep(1000);
+    data = JSON.parse(args);
+    console.log(data.ip);
+    return true
+  })
+
   createWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

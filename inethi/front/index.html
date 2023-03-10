@@ -85,7 +85,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">Welcome to the iNethi Installer</h4>
                                 <p class="text-muted mb-0">Pleace follow the on screen instructions to configure your iNethi installation.</p>
-                            </div><!--end card-header-->
+                            </div>
                             <div class="card-body">
                                 <form id="form-vertical" class="form-horizontal form-wizard-wrapper needs-validation" novalidate>
                                     <h3>Introduction</h3>
@@ -103,42 +103,42 @@
                                         <div class="form-group ">
                                             <label for="server-ip" class="col-form-label">Server IP</label>
                                             <div class="">
-                                                <input class="form-control" type="text" value="" id="server-ip" placeholder="192.168.0.1" required>
+                                                <input class="form-control" type="text" value="" id="serverIp" placeholder="192.168.0.1" required>
                                             </div>
                                         </div> 
                                         <div class="form-group ">
                                             <label for="server-username" class="col-form-label">Server Username</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="server-username" placeholder="root" required>                                                       
+                                                <input class="form-control" type="text" id="serverUsername" placeholder="root" required>                                                       
                                             </div>                                                    
                                         </div>
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Server Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="server-password" placeholder="********" required>                                                       
+                                                <input class="form-control" type="password" id="serverPassword" placeholder="••••••••" required>                                                       
                                             </div>                                                    
                                         </div>
                                     </fieldset>
 
                                     <h3>Installation details</h3>
                                     <fieldset>
-                                        <p>Please specify how you want iNethi installed. Leaving the fields below blank will have the installation default to the placeholder values.</p>
+                                        <p>Please specify further how you want the iNethi networks system to be installed.</p>
                                         <div class="form-group ">
                                             <label for="server-username" class="col-form-label">Data Storage Location</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="server-username" placeholder="/mnt/data" aria-describedby="dataStorageHelp">
-                                                <div id="dataStorageHelp" class="form-text">The location where services that require data storage will store their data. Leave blank for <code>/mnt/code</code>.</div>
+                                                <input class="form-control" type="text" id="storagePath" placeholder="/mnt/data" value="/mnt/data" aria-describedby="dataStorageHelp">
+                                                <div id="dataStorageHelp" class="form-text">The location where services that require data storage will store their data. Default is <code>/mnt/code</code>.</div>
                                             </div>                                                    
                                         </div>
                                         <div class="form-group ">
                                             <label for="domainname" class="col-form-label">Domain Name</label>
                                             <div class="">
-                                                <input class="form-control" type="text" value="" id="domainname" placeholder="inethilocal.net" aria-describedby="domainNameHelp">
-                                                <div id="domainNameHelp" class="form-text">The domain name through which the iNethi platform can be accessed. Leave blank for <code>inethilocal.net</code>.</div>
+                                                <input class="form-control" type="text" id="domainName" placeholder="inethilocal.net" value="inethilocal.net" aria-describedby="domainNameHelp">
+                                                <div id="domainNameHelp" class="form-text">The domain name through which the iNethi platform can be accessed. Default is <code>inethilocal.net</code>.</div>
                                             </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input httpsSwitch" type="checkbox" id="httpsCheckbox" aria-describedby="httpsHelp">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input httpsSwitch" role="switch" type="checkbox" id="httpsCheckbox" aria-describedby="httpsHelp">
                                             <label class="form-check-label" for="httpsCheckbox">HTTPS</label>
                                         </div>
                                         <div class="mb-3 acmeFileUpload">
@@ -149,7 +149,7 @@
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Master Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="server-password" placeholder="********" aria-describedby="passwordHelp">
+                                                <input class="form-control" type="password" id="masterPassword" placeholder="••••••••" aria-describedby="passwordHelp">
                                                 <div id="passwordHelp" class="form-text">The master password required to adjust service settings.</div>                                                    
                                             </div>                                                    
                                         </div>
@@ -251,24 +251,6 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-            // var form = document.querySelector('#myForm'),
-            // checkbox = document.querySelector('.httpsSwitch'),
-            // uploader = document.querySelector('.acmeFileUpload');
-
-            // // checkbox.style.display = "none";
-            // uploader.style.display = "none";
-
-            // document.querySelector('.httpsSwitch').addEventListener("click", function () {
-            //     console.log('clok');
-            //     // if(document.querySelector(this).is(':checked')) {
-            //     //     uploader.style.display = "block";
-            //     //     uploader.querySelector('input').attr('required', true);
-            //     // } else {
-            //     //     uploader.style.display = "none";
-            //     //     uploader.querySelector('input').attr('required', false);
-            //     // }
-            // });
-
             $(document).ready(function(){
                 $(".acmeFileUpload").hide();
                 $(".httpsSwitch").click(function () {
@@ -280,23 +262,6 @@
                     }
                 });
             });
-
-            // $(document).ready(function(){
-            //     var checkbox = $('.httpsSwitch'),
-            //     acme = $('.acmeFileUpload');
-
-            //     acme.hide();
-
-            //     checkbox.on('click', function() {
-            //         if($(this).is(':checked')) {
-            //             acme.toggle();
-            //             acme.find('input').attr('required', true);
-            //         } else {
-            //             acme.toggle();
-            //             acme.find('input').attr('required', false);
-            //         }
-            //     })
-            // });
         </script>
         
     </body>

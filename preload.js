@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-contextBridge.exposeInMainWorld('electronAPI', {
-  openConnection: () => ipcRenderer.invoke('openConnection').then((result) => {
+contextBridge.exposeInMainWorld('mainAPI', {
+  openConnection: (data) => ipcRenderer.invoke('openConnection', data).then((result) => {
     window.postMessage(result)
   })
 });
