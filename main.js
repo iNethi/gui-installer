@@ -24,7 +24,21 @@ app.whenReady().then(() => {
   ipcMain.handle('openConnection', async (event, args) => {
     await sleep(1000);
     data = JSON.parse(args);
-    console.log(data.ip);
+    console.log(data);
+    return true
+  })
+
+  ipcMain.handle('saveConfig', async (event, args) => {
+    await sleep(1000);
+    data = JSON.parse(args);
+    console.log(data);
+    return true
+  })
+
+  ipcMain.handle('saveModuleSelection', async (event, args) => {
+    await sleep(1000);
+    data = JSON.parse(args);
+    console.log(data);
     return true
   })
 

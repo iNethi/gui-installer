@@ -5,7 +5,7 @@
  */
 
 !(function (a, b) {
-    var connected = false;
+    var connected, saved = false;
 
     function c(a, b) {
         o(a).push(b);
@@ -127,8 +127,25 @@
     }
 
     function check_action(a, b, c) {
-        function throwError(message) {
+        function throwSuccess(text) {
+            Swal.fire({
+                title: 'Successful!',
+                text: text,
+                icon: 'success'
+            })
+            return B(a, b, c, v(c, 1));
+        }
 
+        function throwError(text, footer) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: text,
+                footer: footer,
+                showCancelButton: false,
+                showConfirmButton: true
+            })
+            return B(a, b, c, v(c, 0));
         }
 
         function checkEmptyValues(obj) {
@@ -139,9 +156,9 @@
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Incomplete data',
-                        footer: 'Please make sure all credentials have been provided.',
+                        footer: 'Please make sure all information has been provided.',
                         showCancelButton: false,
-                        showConfirmButton: false
+                        showConfirmButton: true
                     })
                     return false;
                 }
@@ -164,6 +181,8 @@
                         return B(a, b, c, v(c, 0));
                     }
 
+                    console.log(args)
+
                     window.mainAPI.openConnection(JSON.stringify(args));
 
                     Swal.fire({
@@ -171,32 +190,19 @@
                         html: '<div class="lds-dual-ring"></div>',
                         showConfirmButton: false,
                         allowOutsideClick: false,
-                        showCancelButton: true
+                        showCancelButton: false
                     });
 
                     window.addEventListener("message", (event) => {
                         const success = event.data;
 
                         if (success) {
-                            Swal.fire({
-                                title: 'Successful!',
-                                text: 'We successfully connected to your server!',
-                                icon: 'success'
-                            })
                             connected = true;
-                            return B(a, b, c, v(c, 1));
+                            return throwSuccess('Connection successful!');
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Connection unsuccessful',
-                                footer: 'Check your credentials and try again.',
-                                showCancelButton: false,
-                                showConfirmButton: false
-                            })
-                            return B(a, b, c, v(c, 0));
+                            return throwError('Connection unsuccessful', 'Check your credentials and try again.')
                         }
-                    })
+                    }, {once: true});
                 } else {
                     return B(a, b, c, v(c, 1));
                 }
@@ -206,23 +212,73 @@
                     'storagepath': document.getElementById('storagePath').value,
                     'domainname': document.getElementById('domainName').value,
                     'https': document.getElementById('httpsCheckbox').checked.toString(),
-                    // 'acme': "",
                     'master': document.getElementById('masterPassword').value
                 }
 
                 if (args.https === "true") {
-                    // CATCH IF NO FILE
-                    args.acme = document.getElementById('acmeFile').files[0].path;
+                    try {
+                        args.acme = document.getElementById('acmeFile').files[0].path;
+                    } catch {
+                        return throwError('Missing required fields', 'Check your inputs and try again.')
+                    }
                 }
 
                 console.log(args)
 
                 if (!checkEmptyValues(args)) {
                     return B(a, b, c, v(c, 0));
-                } else {
-                    return B(a, b, c, v(c, 1));
                 }
 
+                args.https = (args.https === 'true');
+
+                window.mainAPI.saveConfig(JSON.stringify(args));
+
+                Swal.fire({
+                    title: 'Saving config...',
+                    html: '<div class="lds-dual-ring"></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    showCancelButton: false
+                });
+
+                window.addEventListener("message", (event) => {
+                    const success = event.data;
+
+                    if (success) {
+                        return throwSuccess('Your config was saved successfully!');
+                    } else {
+                        throwError('Saving config unsuccessful', 'Check your input for errors and try again.')
+                    }
+                }, {once: true});
+                break;
+            case 3:
+                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'paum'];
+                var args = {};
+                modules.forEach((module) => {
+                    args[module] = document.getElementById(module + 'Checkbox').checked;
+                });
+
+                console.log(args);
+
+                window.mainAPI.saveModuleSelection(JSON.stringify(args));
+
+                Swal.fire({
+                    title: 'Saving module selection...',
+                    html: '<div class="lds-dual-ring"></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    showCancelButton: false
+                });
+
+                window.addEventListener("message", (event) => {
+                    const success = event.data;
+                    if (success) {
+                        return throwSuccess('Your module selection was saved successfully!');
+                    } else {
+                        return throwError('Saving module selection unsuccessful', 'Check for errors and try again.');
+                    }
+                }, {once: true});
+                break;
             default:
                 return B(a, b, c, v(c, 1));
         }
