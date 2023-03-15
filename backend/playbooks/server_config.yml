@@ -1,0 +1,59 @@
+---
+- name: Connect to remote server and install Docker
+  hosts: localserver
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: Distribution
+      debug: msg="{{ ansible_distribution }}"
+
+    - name: Exit with error if not Ubuntu
+      fail:
+          msg: "Remote system is not Ubuntu"
+      when: not ansible_distribution == "Ubuntu"
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+        state: latest
+        update_cache: yes
+    - name: GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: repository docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+    - name: install docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+        update_cache: yes
+    - name: adding users to group docker
+      user:
+        name: '{{ item }}'
+        groups: docker
+        append: yes
+      loop:
+        - user1
+        - user2
+    - name: Install docker-compose
+      get_url:
+        url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '755'
