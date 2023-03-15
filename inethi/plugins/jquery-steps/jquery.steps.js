@@ -167,6 +167,23 @@
             return true;
         }
 
+        function startInstall() {
+            window.mainAPI.startInstallation();
+
+            window.addEventListener("message", (event) => {
+
+
+                
+                // const success = event.data;
+
+                // if (success) {
+                //     return throwSuccess('Connection successful!');
+                // } else {
+                //     return throwError('Connection unsuccessful', 'Check your credentials and try again.')
+                // }
+            });
+        }
+
         switch (c.currentIndex) {
             case 1:
                 if (!connected) {
@@ -273,6 +290,7 @@
                 window.addEventListener("message", (event) => {
                     const success = event.data;
                     if (success) {
+                        startInstall();
                         return throwSuccess('Your module selection was saved successfully!');
                     } else {
                         return throwError('Saving module selection unsuccessful', 'Check for errors and try again.');
