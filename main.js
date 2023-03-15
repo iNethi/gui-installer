@@ -1,5 +1,24 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const { PythonShell } = require('python-shell')
+
+function startPython(event, data) {
+    let pyshell = new PythonShell('install.py', {mode: 'text'});
+    
+    pyshell.send(data);
+
+    pyshell.on('message', function (message, event) {
+      console.log(message);
+      event.sender.send(message)
+    });
+
+    pyshell.end(function (err,code,signal) {
+      if (err) throw err;
+      console.log('The exit code was: ' + code);
+      console.log('The exit signal was: ' + signal);
+      console.log('finished');
+    });
+}
 
 function sleep(ms) {
     return new Promise((resolve) => {
@@ -19,12 +38,15 @@ const createWindow = () => {
   win.loadFile('inethi/front/index.html')
 }
 
+var credentials, config, modules;
+
 app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
     await sleep(1000);
     data = JSON.parse(args);
     console.log(data);
+    credentials = data
     return true
   })
 
@@ -32,6 +54,7 @@ app.whenReady().then(() => {
     await sleep(1000);
     data = JSON.parse(args);
     console.log(data);
+    config = data
     return true
   })
 
@@ -39,6 +62,18 @@ app.whenReady().then(() => {
     await sleep(1000);
     data = JSON.parse(args);
     console.log(data);
+    modules = data;
+    return true
+  })
+
+  ipcMain.handle('startInstallation', async (event) => {
+    console.log('Starting installation');
+    const data = {
+      'credentials': credentials,
+      'config': config,
+      'modules': modules
+    }
+    startPython(event, data);
     return true
   })
 
