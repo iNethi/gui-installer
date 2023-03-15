@@ -12,6 +12,10 @@ contextBridge.exposeInMainWorld('mainAPI', {
 
   saveModuleSelection: (data) => ipcRenderer.invoke('saveModuleSelection', data).then((result) => {
     window.postMessage(result)
+  }),
+
+  startInstallation: () => ipcRenderer.invoke('startInstallation', data).then((result) => {
+    window.postMessage(result)
   })
 
 });
