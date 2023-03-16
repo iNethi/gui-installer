@@ -1,4 +1,4 @@
-- name: Deploy Wordpress
+- name: Deploy Wordpress stack
   hosts: localserver
   become: true
   gather_facts: no

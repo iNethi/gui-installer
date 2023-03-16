@@ -2,6 +2,7 @@
   hosts: localserver
   become: true
   gather_facts: no
+
   vars:
     traefikssl_volume: "/mnt/data/traefikssl"
     inethiDN: "inethilocal.net"
