@@ -98,7 +98,6 @@
     }
     function s(a, b, c) {
         return check_action(a, b, c)
-        // return B(a, b, c, v(c, 1));
     }
     function t(a, b, c) {
         return B(a, b, c, f(c, 1));
@@ -171,16 +170,14 @@
             window.mainAPI.startInstallation();
 
             window.addEventListener("message", (event) => {
-
-
-                
-                // const success = event.data;
-
-                // if (success) {
-                //     return throwSuccess('Connection successful!');
-                // } else {
-                //     return throwError('Connection unsuccessful', 'Check your credentials and try again.')
-                // }
+                console.log(event);
+                console.log(event.data);
+                const success = event.data
+                if (success) {
+                    return throwSuccess('Connection successful!');
+                } else {
+                    return throwError('Connection unsuccessful', 'Check your credentials and try again.')
+                }
             });
         }
 
@@ -290,12 +287,37 @@
                 window.addEventListener("message", (event) => {
                     const success = event.data;
                     if (success) {
-                        startInstall();
-                        return throwSuccess('Your module selection was saved successfully!');
+                        // return throwSuccess('Your module selection was saved successfully!');
+
+                        Swal.fire({
+                            title: 'Successful!',
+                            text: 'Your module selection was saved successfully!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        })
+
+                        setTimeout(function() {
+                            Swal.fire({
+                                title: 'Installation ready',
+                                text: 'The iNethi system is ready to be installed.',
+                                confirmButtonText: 'Start',
+                                icon: 'info',
+                                showConfirmButton: true
+                            }, {once: true}).then(function() {
+                                B(a, b, c, v(c, 1));
+                                check_action(a, b, c);
+                            })
+                        }, 3000);
                     } else {
                         return throwError('Saving module selection unsuccessful', 'Check for errors and try again.');
                     }
-                }, {once: true});
+                });
+                break;
+            case 4:
+                console.log('Start installation!');
+                startInstall()
+                return B(a, b, c, v(c, 1));
                 break;
             default:
                 return B(a, b, c, v(c, 1));

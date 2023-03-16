@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
     window.postMessage(result)
   }),
 
-  startInstallation: () => ipcRenderer.invoke('startInstallation', data).then((result) => {
+  startInstallation: () => ipcRenderer.invoke('startInstallation').then((result) => {
     window.postMessage(result)
   })
 

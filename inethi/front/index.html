@@ -103,19 +103,19 @@
                                         <div class="form-group ">
                                             <label for="server-ip" class="col-form-label">Server IP</label>
                                             <div class="">
-                                                <input class="form-control" type="text" value="" id="serverIp" placeholder="192.168.0.1" required>
+                                                <input class="form-control" type="text" id="serverIp" value="test" placeholder="192.168.0.1" required>
                                             </div>
                                         </div> 
                                         <div class="form-group ">
                                             <label for="server-username" class="col-form-label">Server Username</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="serverUsername" placeholder="root" required>                                                       
+                                                <input class="form-control" type="text" id="serverUsername" value="test" placeholder="root" required>                                                       
                                             </div>                                                    
                                         </div>
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Server Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="serverPassword" placeholder="••••••••" required>                                                       
+                                                <input class="form-control" type="password" id="serverPassword" value="test" placeholder="••••••••" required>                                                       
                                             </div>                                                    
                                         </div>
                                     </fieldset>
@@ -149,7 +149,7 @@
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Master Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="masterPassword" placeholder="••••••••" aria-describedby="passwordHelp">
+                                                <input class="form-control" type="password" id="masterPassword" placeholder="••••••••" value="test" aria-describedby="passwordHelp">
                                                 <div id="passwordHelp" class="form-text">The master password required to adjust service settings.</div>                                                    
                                             </div>                                                    
                                         </div>
@@ -251,14 +251,21 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-            $(document).ready(function(){
+            $(document).ready(function() {
                 $(".acmeFileUpload").hide();
                 $(".httpsSwitch").click(function () {
-                    $(".acmeFileUpload").toggle();
-                    if ($("#acmeFile").prop('required')) {
-                        $("#acmeFile").prop('required', false);
+                    if (document.getElementById('domainName').disabled == true) {
+                        document.getElementById('domainName').disabled = false;
                     } else {
-                        $("#acmeFile").prop('required', true);
+                        document.getElementById('domainName').disabled = true;
+                    }
+                    if (document.getElementById('domainName').value !== "inethilocal.net") {
+                        $(".acmeFileUpload").toggle();
+                        if ($("#acmeFile").prop('required')) {
+                            $("#acmeFile").prop('required', false);
+                        } else {
+                            $("#acmeFile").prop('required', true);
+                        }
                     }
                 });
             });

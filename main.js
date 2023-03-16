@@ -8,15 +8,15 @@ function startPython(event, data) {
     pyshell.send(data);
 
     pyshell.on('message', function (message, event) {
-      console.log(message);
-      event.sender.send(message)
+        console.log(message);
+        event.sender.send('startInstallation', message)
     });
 
-    pyshell.end(function (err,code,signal) {
-      if (err) throw err;
-      console.log('The exit code was: ' + code);
-      console.log('The exit signal was: ' + signal);
-      console.log('finished');
+    pyshell.end(function (err, code, signal) {
+        if (err) throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('finished');
     });
 }
 
@@ -74,6 +74,7 @@ app.whenReady().then(() => {
       'modules': modules
     }
     startPython(event, data);
+    // event.sender.send('startInstallation', 1)
     return true
   })
 
