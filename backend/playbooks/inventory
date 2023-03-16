@@ -1,4 +1,4 @@
 [localserver]
-10.0.0.11 ansible_user=inethi ansible_password=iNethi2023£ ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_become_pass=iNethi2023£
+10.0.0.9 ansible_user=inethi ansible_password=iNethi2023£ ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_become_pass=iNethi2023£
 
 
