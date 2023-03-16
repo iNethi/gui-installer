@@ -4,7 +4,7 @@ from ansible_runner import Runner, RunnerConfig
 
 def main():
     # Define the path to the playbook and inventory files
-    playbook_path = "traefik_ssl.yml"
+    playbook_path = "wordpress.yml"
     inventory_path = "inventory"
 
     # Define the Ansible Runner configuration
