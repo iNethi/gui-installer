@@ -8,6 +8,9 @@
     - name: Distribution
       debug: msg="{{ ansible_distribution }}"
 
+    - name: User
+      debug: msg="{{ ansible_user }}"
+
     - name: Exit with error if not Ubuntu
       fail:
           msg: "Remote system is not Ubuntu"
@@ -46,14 +49,25 @@
         update_cache: yes
     - name: adding users to group docker
       user:
-        name: '{{ item }}'
+        name: '{{ ansible_user }}'
         groups: docker
         append: yes
-      loop:
-        - user1
-        - user2
+
     - name: Install docker-compose
       get_url:
         url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
         mode: '755'
+
+    - name: Reboot the system
+      reboot:
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 3
+
+    - name: Create the network
+      docker_network:
+        name: inethi-bridge-traefik
+        driver: bridge
+        attachable: yes
+

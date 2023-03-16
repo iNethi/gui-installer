@@ -44,6 +44,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
     await sleep(1000);
+    // add call to test_server_connection.py here.
     data = JSON.parse(args);
     console.log(data);
     credentials = data

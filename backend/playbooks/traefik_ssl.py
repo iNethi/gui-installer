@@ -3,9 +3,8 @@ from ansible_runner import Runner, RunnerConfig
 
 
 def main():
-    abs_path = os.path.abspath("./")  # get absolute path
     # Define the path to the playbook and inventory files
-    playbook_path = "server_config.yml"
+    playbook_path = "traefik_ssl.yml"
     inventory_path = "inventory"
 
     # Define the Ansible Runner configuration

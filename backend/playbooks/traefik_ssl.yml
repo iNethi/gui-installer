@@ -1,0 +1,51 @@
+- name: Deploy Traefik
+  hosts: localserver
+  become: true
+  gather_facts: no
+
+  vars:
+    traefikssl_volume: "/mnt/data/traefikssl"
+    inethiDN: "inethilocal.net"
+    traefik_api_rule_host: "traefik"
+    traefik_api_service: "api@internal"
+    traefik_entrypoint: "websecure"
+    inethi_network: "inethi-bridge-traefik"
+
+  tasks:
+    - name: Create the Traefik SSL container
+      docker_container:
+        name: inethi-traefikssl
+        image: traefik:v2.5
+        restart_policy: unless-stopped
+        state: started
+        command:
+          - "--api.dashboard=true"
+          - "--api.insecure=true"
+          - "--providers.docker=true"
+          - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+          - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=route53"
+          - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+          - "--entrypoints.web.address=:80"
+          - "--entrypoints.websecure.address=:443"
+          - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+          - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+          - "--entrypoints.websecure.http.tls=true"
+          - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
+          - "--entrypoints.websecure.http.tls.domains[0].main={{ inethiDN }}"
+          - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ inethiDN }}"
+          - "--serversTransport.insecureSkipVerify=true"
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - "{{ traefikssl_volume }}/letsencrypt:/letsencrypt"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.traefik.rule: "Host(`{{ traefik_api_rule_host }}.{{ inethiDN }}`)"
+          traefik.http.routers.traefik.service: "{{ traefik_api_service }}"
+          traefik.http.routers.traefik.entrypoints: "{{ traefik_entrypoint }}"
+          traefik.http.routers.traefik.tls.certresolver: "letsencrypt"
+
+        networks:
+          - name: "{{ inethi_network }}"
