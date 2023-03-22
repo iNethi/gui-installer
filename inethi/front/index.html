@@ -77,7 +77,6 @@
                         </div>
                     </div>
                 </div> -->
-                
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -126,19 +125,19 @@
                                         <div class="form-group ">
                                             <label for="server-username" class="col-form-label">Data Storage Location</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="storagePath" placeholder="/mnt/data" value="/mnt/data" aria-describedby="dataStorageHelp">
+                                                <input class="form-control" type="text" id="storagePath" placeholder="/mnt/data" value="/mnt/data" aria-describedby="dataStorageHelp" disabled>
                                                 <div id="dataStorageHelp" class="form-text">The location where services that require data storage will store their data. Default is <code>/mnt/code</code>.</div>
                                             </div>                                                    
                                         </div>
                                         <div class="form-group ">
                                             <label for="domainname" class="col-form-label">Domain Name</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="domainName" placeholder="inethilocal.net" value="inethilocal.net" aria-describedby="domainNameHelp">
+                                                <input class="form-control" type="text" id="domainName" placeholder="inethilocal.net" value="inethilocal.net" aria-describedby="domainNameHelp" disabled>
                                                 <div id="domainNameHelp" class="form-text">The domain name through which the iNethi platform can be accessed. Default is <code>inethilocal.net</code>.</div>
                                             </div>
                                         </div>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input httpsSwitch" role="switch" type="checkbox" id="httpsCheckbox" aria-describedby="httpsHelp">
+                                            <input class="form-check-input httpsSwitch" role="switch" type="checkbox" id="httpsCheckbox" aria-describedby="httpsHelp" checked disabled>
                                             <label class="form-check-label" for="httpsCheckbox">HTTPS</label>
                                         </div>
                                         <div class="mb-3 acmeFileUpload">
@@ -201,8 +200,16 @@
                                                             <label class="form-check-label" for="wordpressCheckbox">WordPress</label>
                                                         </div>
                                                         <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="peertubeCheckbox">
+                                                            <label class="form-check-label" for="peertubeCheckbox">PeerTube</label>
+                                                        </div>
+                                                        <div class="form-check form-switch">
                                                             <input class="form-check-input" type="checkbox" role="switch" id="paumCheckbox">
                                                             <label class="form-check-label" for="paumCheckbox">Payment and User Management</label>
+                                                        </div>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="radiusdeskCheckbox">
+                                                            <label class="form-check-label" for="radiusdeskCheckbox">Radius Desk</label>
                                                         </div>
                                                     </div><!--end card-body-->                                
                                                 </div><!--end card-->                            
@@ -212,6 +219,7 @@
                                     <h3>Installation</h3>
                                     <fieldset>
                                         <p>Please wait while the selected modules are being installed on your server.</p>
+                                        <p class="logs"></p>
                                     </fieldset><!--end fieldset-->
                                     <h3>Summary</h3>
                                     <fieldset>
@@ -268,9 +276,16 @@
                         }
                     }
                 });
+
+                $("#paumCheckbox").click(function () {
+                    if ($('#paumCheckbox').is(':checked')) {
+                        $('#radiusdeskCheckbox').prop('checked', true);
+                        $('#radiusdeskCheckbox').prop('disabled', true);
+                    } else {
+                        $('#radiusdeskCheckbox').prop('disabled', false);
+                    }
+                });
             });
         </script>
-        
     </body>
-
 </html>
