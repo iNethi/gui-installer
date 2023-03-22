@@ -10,7 +10,6 @@ def main():
     lines = sys.stdin.readlines()
     data = json.loads(lines[0])
 
-    print(data)
     for key, value in data.items():
         for key, value in data[key].items():
             print(f'{key}: {value}', flush=True)
