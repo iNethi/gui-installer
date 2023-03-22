@@ -51,5 +51,7 @@
           traefik.enable: "true"
           traefik.http.routers.wordpress.rule: "Host(`{{ TRAEFIK_API_RULE_WORDPRESS }}.{{ inethiDN }}`)"
           traefik.http.routers.wordpress.entrypoints: "{{ TRAEFIK_ENTRYPOINT }}"
+        links:
+          - "inethi-wordpress-mariadb:inethi-wordpress-mariadb-alias"
         networks:
           - name: "{{ INETHI_NETWORK }}"
