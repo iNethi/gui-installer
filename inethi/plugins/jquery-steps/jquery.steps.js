@@ -4,6 +4,9 @@
  * Licensed under MIT http://www.opensource.org/licenses/MIT
  */
 
+// const { ipcRenderer } = require("electron");
+
+
 !(function (a, b) {
     var connected, saved = false;
 
@@ -166,21 +169,6 @@
             return true;
         }
 
-        function startInstall() {
-            window.mainAPI.startInstallation();
-
-            window.addEventListener("message", (event) => {
-                console.log(event);
-                console.log(event.data);
-                const success = event.data
-                if (success) {
-                    return throwSuccess('Connection successful!');
-                } else {
-                    return throwError('Connection unsuccessful', 'Check your credentials and try again.')
-                }
-            });
-        }
-
         switch (c.currentIndex) {
             case 1:
                 if (!connected) {
@@ -197,7 +185,7 @@
 
                     console.log(args)
 
-                    window.mainAPI.openConnection(JSON.stringify(args));
+                    api.send('openConnection', JSON.stringify(args));
 
                     Swal.fire({
                         title: 'Connecting to server...',
@@ -207,16 +195,14 @@
                         showCancelButton: false
                     });
 
-                    window.addEventListener("message", (event) => {
-                        const success = event.data;
-
-                        if (success) {
+                    api.handle('openConnection', (event, data) => function(event, data) {
+                        if (data) {
                             connected = true;
                             return throwSuccess('Connection successful!');
                         } else {
                             return throwError('Connection unsuccessful', 'Check your credentials and try again.')
                         }
-                    }, {once: true});
+                    });
                 } else {
                     return B(a, b, c, v(c, 1));
                 }
@@ -229,7 +215,7 @@
                     'master': document.getElementById('masterPassword').value
                 }
 
-                if (args.https === "true") {
+                if (args.https === "true" && args.domainname !== "inethilocal.net") {
                     try {
                         args.acme = document.getElementById('acmeFile').files[0].path;
                     } catch {
@@ -245,7 +231,7 @@
 
                 args.https = (args.https === 'true');
 
-                window.mainAPI.saveConfig(JSON.stringify(args));
+                api.send('saveConfig', JSON.stringify(args));
 
                 Swal.fire({
                     title: 'Saving config...',
@@ -255,18 +241,16 @@
                     showCancelButton: false
                 });
 
-                window.addEventListener("message", (event) => {
-                    const success = event.data;
-
-                    if (success) {
+                api.handle('saveConfig', (event, data) => function(event, data) {
+                    if (data) {
                         return throwSuccess('Your config was saved successfully!');
                     } else {
                         throwError('Saving config unsuccessful', 'Check your input for errors and try again.')
                     }
-                }, {once: true});
+                });
                 break;
             case 3:
-                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'paum'];
+                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk'];
                 var args = {};
                 modules.forEach((module) => {
                     args[module] = document.getElementById(module + 'Checkbox').checked;
@@ -274,7 +258,7 @@
 
                 console.log(args);
 
-                window.mainAPI.saveModuleSelection(JSON.stringify(args));
+                api.send('saveModuleSelection', JSON.stringify(args));
 
                 Swal.fire({
                     title: 'Saving module selection...',
@@ -284,31 +268,31 @@
                     showCancelButton: false
                 });
 
-                window.addEventListener("message", (event) => {
-                    const success = event.data;
-                    if (success) {
-                        // return throwSuccess('Your module selection was saved successfully!');
+                api.handle('saveModuleSelection', (event, data) => function(event, data) {
+                    if (data) {
 
                         Swal.fire({
                             title: 'Successful!',
                             text: 'Your module selection was saved successfully!',
                             icon: 'success',
                             showConfirmButton: false,
-                            allowOutsideClick: false,
+                            allowOutsideClick: false
                         })
 
                         setTimeout(function() {
                             Swal.fire({
                                 title: 'Installation ready',
-                                text: 'The iNethi system is ready to be installed.',
+                                text: 'The iNethi system is ready to be installed. This may take a while. Please make sure the installation is not interrupted by a disruption in internet or power.',
                                 confirmButtonText: 'Start',
                                 icon: 'info',
-                                showConfirmButton: true
+                                showConfirmButton: true,
+                                allowOutsideClick: false
                             }, {once: true}).then(function() {
                                 B(a, b, c, v(c, 1));
                                 check_action(a, b, c);
                             })
-                        }, 3000);
+                        }, 1000);
+
                     } else {
                         return throwError('Saving module selection unsuccessful', 'Check for errors and try again.');
                     }
@@ -316,8 +300,24 @@
                 break;
             case 4:
                 console.log('Start installation!');
-                startInstall()
-                return B(a, b, c, v(c, 1));
+
+                api.send('startInstallation', 'hello')
+
+                api.handle('startInstallation', (event, data) => function(event, data) {
+                    if (data) {
+                        console.log(data);
+                        var logs = document.getElementsByClassName("logs")[0];
+                        var text = document.createTextNode(`${data}\n`);
+                        logs.appendChild(text);
+                    } else {
+                        return throwError('Starting installation failed.', 'Please contact developers or try again.')
+                    }
+                    if (data.code == 1) {
+                        return B(a, b, c, v(c, 1));
+                    } else {
+                        return B(a, b, c, v(c, 0));
+                    }
+                });
                 break;
             default:
                 return B(a, b, c, v(c, 1));
