@@ -1,0 +1,67 @@
+- name: Deploy Splash Screen stack
+  hosts: localserver
+  become: true
+  gather_facts: no
+
+  vars:
+    NGINX_VOLUME: "/mnt/data/nginx-splash"
+    TRAEFIK_API_RULE_HOST: "splash"
+    inethiDN: "inethilocal.net"
+    TRAEFIK_ENTRYPOINT: "websecure"
+    INETHI_NETWORK: "inethi-bridge-traefik"
+
+  tasks:
+    - name: create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0745'
+      with_items:
+        - "{{ NGINX_VOLUME }}"
+        - "{{ NGINX_VOLUME }}/html"
+
+    - name: Copy files to Server
+      copy:
+        src: resources/splash
+        dest: "{{ NGINX_VOLUME }}"
+
+#    - name: Set execute permission on generate_html.sh
+#      file:
+#        path: "{{ NGINX_VOLUME }}/splash/generate_html.sh"
+#        mode: '0755'
+#
+#    - name: Generate HTML
+#      shell: /mnt/data/nginx-splash/splash/generate_html.sh
+
+#    - name: Copy index.html to splash
+#      copy:
+#        src: /mnt/data/nginx-splash/splash/index.html
+#        dest: /mnt/data/nginx-splash/splash/generic-splash
+
+    - name: Copy splash files to Nginx
+      copy:
+        src: "{{ NGINX_VOLUME }}/splash/generic-splash"
+        dest: "{{ NGINX_VOLUME }}/html/"
+        remote_src: yes
+
+
+    - name: Set permissions on Nginx volume
+      file:
+        path: "{{ NGINX_VOLUME }}"
+        mode: '0745'
+        recurse: yes
+    - name: Start Nginx Docker Container
+      docker_container:
+        name: inethi-nginx-splash
+        image: nginx:latest
+        restart_policy: unless-stopped
+        state: started
+        volumes:
+          - "{{ NGINX_VOLUME }}/html/generic-splash:/usr/share/nginx/html"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.splash.rule: "Host(`{{ TRAEFIK_API_RULE_HOST }}.{{ inethiDN }}`)"
+          traefik.http.routers.splash.entrypoints: "{{ TRAEFIK_ENTRYPOINT}}"
+
+        networks:
+          - name: "{{ INETHI_NETWORK }}"
