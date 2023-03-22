@@ -1,6 +1,5 @@
 from ansible_runner import Runner, RunnerConfig
 
-
 def main():
     # Define the path to the playbook and inventory files
     playbook_path = "nextcloud.yml"

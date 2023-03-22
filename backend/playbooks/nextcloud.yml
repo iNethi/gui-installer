@@ -17,7 +17,7 @@
     INETHI_NETWORK: "inethi-bridge-traefik"
 
   tasks:
-    - name: Start MySQL container
+    - name: Start MySQL container for Nextcloud
       docker_container:
         name: inethi-nextcloud-mysql
         image: mysql:latest
