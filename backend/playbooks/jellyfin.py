@@ -1,9 +1,10 @@
+import os.path
 from ansible_runner import Runner, RunnerConfig
 
 
 def main():
     # Define the path to the playbook and inventory files
-    playbook_path = "nextcloud.yml"
+    playbook_path = "jellyfin.yml"
     inventory_path = "inventory"
 
     # Define the Ansible Runner configuration
