@@ -1,0 +1,8 @@
+
+PLAY [Test if remote connection and SUDO privileges work] **********************
+
+TASK [Gathering Facts] *********************************************************
+[1;31mfatal: [10.0.0.9]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 10.0.0.9 port 22: Operation timed out", "unreachable": true}[0m
+
+PLAY RECAP *********************************************************************
+[0;31m10.0.0.9[0m                   : ok=0    changed=0    [1;31munreachable=1   [0m failed=0    skipped=0    rescued=0    ignored=0   
