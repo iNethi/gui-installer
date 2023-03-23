@@ -10,7 +10,7 @@
   "keywords": [
     "iNethi"
   ],
-  "author": "Pieter Hoppenbrouwers",
+  "author": "iNethi",
   "license": "MIT",
   "devDependencies": {
     "electron": "^23.1.3",

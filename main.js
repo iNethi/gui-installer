@@ -123,7 +123,7 @@ app.whenReady().then(() => {
       'config': config,
       'modules': modules
     }
-    startPython(event, data);
+    testConnection(event, data);
   })
 
   createWindow()
