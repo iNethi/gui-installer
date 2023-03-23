@@ -1,0 +1,69 @@
+- name: Deploy Peertube
+  hosts: localserver
+  become: true
+  gather_facts: false
+
+  vars:
+    PEERTUBE_VOLUME: "/mnt/data/peertube"
+    REDIS_VOLUME: "/mnt/data/peertube-redis"
+    POSTGRESS_VOLUME: "/mnt/data/peertube-postgress"
+
+  tasks:
+    - name: Create Postgres container
+      docker_container:
+        name: inethi-peertube-postgress
+        image: postgres:13-alpine
+        volumes:
+          - "{{ POSTGRESS_VOLUME }}:/var/lib/postgresql/data"
+        env:
+          POSTGRES_USER: "inethi"
+          POSTGRES_PASSWORD: "iNethi2023#"
+          POSTGRES_DB: "peertube"
+        restart_policy: unless-stopped
+        networks:
+          - name: inethi-bridge-traefik
+
+    - name: Create Redis container
+      docker_container:
+        name: redis
+        image: redis:6-alpine
+        volumes:
+          - "{{ REDIS_VOLUME }}:/data"
+        restart_policy: unless-stopped
+        networks:
+          - name: inethi-bridge-traefik
+
+    - name: Create Peertube container
+      docker_container:
+        name: inethi-peertube
+        image: chocobozzz/peertube:production-bullseye
+        volumes:
+          - "{{ PEERTUBE_VOLUME }}/data:/data"
+          - "{{ PEERTUBE_VOLUME }}/config:/config"
+        env:
+          PEERTUBE_TRUST_PROXY: '["127.0.0.1", "loopback", "172.18.0.0/16"]'
+          PEERTUBE_SECRET: "59feff05bff4842e6aeb29531dc4b198d57fbda212aac06b6be6fa6839d6f32e"
+          PEERTUBE_DB_USERNAME: "inethi"
+          PEERTUBE_DB_PASSWORD: "iNethi2023#"
+          PEERTUBE_DB_HOSTNAME: "inethi-peertube-postgress"
+          PEERTUBE_WEBSERVER_HOSTNAME: "peertube.inethilocal.net"
+          PEERTUBE_SMTP_HOSTNAME: "postfix"
+          PEERTUBE_SMTP_PORT: "25"
+          PEERTUBE_SMTP_FROM: "noreply@inethilocal.net"
+          PEERTUBE_SMTP_TLS: "false"
+          PEERTUBE_SMTP_DISABLE_STARTTLS: "false"
+          PEERTUBE_ADMIN_EMAIL: "keeganthomaswhite@gmail.com"
+          PEERTUBE_INITIAL_ROOT_PASSWORD: "iNethi2023#"
+        restart_policy: unless-stopped
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.peertube.rule: "Host(`peertube.inethilocal.net`)"
+          traefik.http.routers.peertube.entrypoints: "websecure"
+          traefik.http.services.peertube.loadbalancer.server.port: "9000"
+        networks:
+          - name: inethi-bridge-traefik
+
+
+
+
+

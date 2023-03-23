@@ -17,13 +17,35 @@ services:
 
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.radiusdesk.rule=Host(`radiusdesk.${inethiDN}`)"
+        - "traefik.http.routers.radiusdesk.rule=Host(`${TRAEFIK_API_RULE_HOST}.${inethiDN}`)"
         - "traefik.http.routers.radiusdesk.entrypoints=${TRAEFIK_ENTRYPOINT}"
+
     depends_on:
-      - "inethi-radiusdesk-mariadb"
+      - "rdmariadb"
+
     ports:
       - "1812:1812/udp"
       - "1813:1813/udp"
+
+  rdmariadb:
+    container_name: inethi-radiusdesk-mariadb
+    image: docker.io/bitnami/mariadb:10.5
+
+    restart: always
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+      - "MARIADB_USER=rd"
+      - "MARIADB_DATABASE=rd"
+      - "MARDIADB_PASSWORD=rd"
+
+    volumes:
+      - ${RADIUSDESK_VOLUME}/db_conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - rd_data:/bitnami/mariadb
+      - ${RADIUSDESK_VOLUME}/db_startup:/tmp
+
+volumes:
+  rd_data:
+
 
 networks:
   default:
