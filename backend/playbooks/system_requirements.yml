@@ -59,9 +59,24 @@
         dest: /usr/local/bin/docker-compose
         mode: '755'
 
+    - name: Install pip3
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install Python Docker library
+      pip:
+        name: docker
+        state: present
+
+    - name: Install Docker Compose Python Library
+      pip:
+        name: docker-compose
+        state: present
+
     - name: Reboot the system
       reboot:
-        reboot_timeout: 300
+        reboot_timeout: 150
         pre_reboot_delay: 0
         post_reboot_delay: 3
 
@@ -70,4 +85,5 @@
         name: inethi-bridge-traefik
         driver: bridge
         attachable: yes
+
 

@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  radiusdesk:
+    build:
+      context: ./
+      dockerfile: Dockerfile-build-radiusdesk
+      args:
+        radiusdesk_volume: ${RADIUSDESK_VOLUME}
+    container_name: inethi-radiusdesk
+
+    environment:
+      - "PHP_INI_SCAN_DIR=:/p/gd"
+      - "PHP.cgi.fix_pathinfo=1"
+      - "PHP_SELF=/index.php"
+    restart: always
+
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.radiusdesk.rule=Host(`radiusdesk.${inethiDN}`)"
+        - "traefik.http.routers.radiusdesk.entrypoints=${TRAEFIK_ENTRYPOINT}"
+    depends_on:
+      - "inethi-radiusdesk-mariadb"
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+
+networks:
+  default:
+    external:
+      name: "${INETHI_NETWORK}"
+
+
+
+
