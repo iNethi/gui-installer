@@ -6,7 +6,9 @@ const fs = require('fs');
 
 function runPython(channel, filename) {
   win.send(channel, `Starting installation of ${filename}`);
-  let pyshell = new PythonShell(`./backend/playbooks/${filename}.py`, { mode: 'text' });
+  let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
+
+  pyshell.send(filename);
 
   pyshell.on('message', function (message) {
     win.send(channel, message);
@@ -40,7 +42,7 @@ function runInstallation(data) {
       console.log(module);
       try {
         runPython('startInstallation', module)
-      } catch(error) {
+      } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
     }
