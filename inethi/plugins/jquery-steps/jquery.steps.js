@@ -111,13 +111,13 @@
             return (
                 a.triggerHandler("stepChanging", [c.currentIndex, d])
                     ? ((c.currentIndex = d),
-                      O(a, b, c),
-                      E(a, b, c, e),
-                      D(a, b, c),
-                      A(a, b, c),
-                      P(a, b, c, d, e, function () {
-                          a.triggerHandler("stepChanged", [d, e]);
-                      }))
+                        O(a, b, c),
+                        E(a, b, c, e),
+                        D(a, b, c),
+                        A(a, b, c),
+                        P(a, b, c, d, e, function () {
+                            a.triggerHandler("stepChanged", [d, e]);
+                        }))
                     : a.find(".steps li").eq(e).addClass("error"),
                 !0
             );
@@ -152,21 +152,36 @@
 
         function checkEmptyValues(obj) {
             for (var key in obj) {
-              if (obj.hasOwnProperty(key)) {
-                if (!obj[key]) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Incomplete data',
-                        footer: 'Please make sure all information has been provided.',
-                        showCancelButton: false,
-                        showConfirmButton: true
-                    })
-                    return false;
+                if (obj.hasOwnProperty(key)) {
+                    if (!obj[key]) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Incomplete data',
+                            footer: 'Please make sure all information has been provided.',
+                            showCancelButton: false,
+                            showConfirmButton: true
+                        })
+                        return false;
+                    }
                 }
-              }
             }
             return true;
+        }
+
+        function countOccurrences(str, value) {
+            var regExp = new RegExp(value, "gi");
+            return (str.match(regExp) || []).length;
+        }
+
+        function success(message) {
+            if (countOccurrences(message, 'unreachable=1')) {
+                return 1
+            } else if (countOccurrences(message, 'ok=1')) {
+                return 1
+            } else {
+                return 0
+            }
         }
 
         switch (c.currentIndex) {
@@ -195,12 +210,29 @@
                         showCancelButton: false
                     });
 
-                    api.handle('openConnection', (event, data) => function(event, data) {
-                        if (data) {
+                    api.handle('openConnection', (event, data) => function (event, message) {
+                        // try {
+                        //     message = JSON.parse(message);
+                        //     console.log(message)
+                        // } catch (e) {
+                        //     console.log(message);
+                        // }
+                        // var count = 0;
+                        // if (count == 0) {
+                        //     count += 1;
+                        //     return throwSuccess('Connection successful!');
+                        // }
+
+                        console.log(message);
+                        var res = success(message);
+                        console.log(res);
+                        if (res == 1) {
                             connected = true;
                             return throwSuccess('Connection successful!');
-                        } else {
+                        } else if (res == -1) {
                             return throwError('Connection unsuccessful', 'Check your credentials and try again.')
+                        // } else if (res == 0) {
+                        //     console.log('Normal message')
                         }
                     });
                 } else {
@@ -241,7 +273,7 @@
                     showCancelButton: false
                 });
 
-                api.handle('saveConfig', (event, data) => function(event, data) {
+                api.handle('saveConfig', (event, data) => function (event, data) {
                     if (data) {
                         return throwSuccess('Your config was saved successfully!');
                     } else {
@@ -268,7 +300,7 @@
                     showCancelButton: false
                 });
 
-                api.handle('saveModuleSelection', (event, data) => function(event, data) {
+                api.handle('saveModuleSelection', (event, data) => function (event, data) {
                     if (data) {
 
                         Swal.fire({
@@ -279,7 +311,7 @@
                             allowOutsideClick: false
                         })
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             Swal.fire({
                                 title: 'Installation ready',
                                 text: 'The iNethi system is ready to be installed. This may take a while. Please make sure the installation is not interrupted by a disruption in internet or power.',
@@ -287,7 +319,7 @@
                                 icon: 'info',
                                 showConfirmButton: true,
                                 allowOutsideClick: false
-                            }, {once: true}).then(function() {
+                            }, { once: true }).then(function () {
                                 B(a, b, c, v(c, 1));
                                 check_action(a, b, c);
                             })
@@ -303,7 +335,7 @@
 
                 api.send('startInstallation', 'hello')
 
-                api.handle('startInstallation', (event, data) => function(event, data) {
+                api.handle('startInstallation', (event, data) => function (event, data) {
                     if (data) {
                         console.log(data);
                         var logs = document.getElementsByClassName("logs")[0];
@@ -342,8 +374,8 @@
             0 === e
                 ? g.prepend(i).prepend(h)
                 : k(b, e - 1)
-                      .after(i)
-                      .after(h),
+                    .after(i)
+                    .after(h),
             K(b, d, i, e),
             N(b, c, d, h, e),
             F(b, c, d, e),
@@ -473,16 +505,16 @@
         return 0 > d || d >= c.stepCount || c.currentIndex === d
             ? !1
             : (I(a, d),
-              c.currentIndex > d && (c.currentIndex--, O(a, b, c)),
-              c.stepCount--,
-              l(a, d).remove(),
-              k(a, d).remove(),
-              j(a, d).parent().remove(),
-              0 === d && a.find(".steps li").first().addClass("first"),
-              d === c.stepCount && a.find(".steps li").eq(d).addClass("last"),
-              F(a, b, c, d),
-              D(a, b, c),
-              !0);
+                c.currentIndex > d && (c.currentIndex--, O(a, b, c)),
+                c.stepCount--,
+                l(a, d).remove(),
+                k(a, d).remove(),
+                j(a, d).parent().remove(),
+                0 === d && a.find(".steps li").first().addClass("first"),
+                d === c.stepCount && a.find(".steps li").eq(d).addClass("last"),
+                F(a, b, c, d),
+                D(a, b, c),
+                !0);
     }
     function I(a, b) {
         o(a).splice(b, 1);
@@ -556,9 +588,9 @@
             0 === f
                 ? l.prepend(n)
                 : l
-                      .find("li")
-                      .eq(f - 1)
-                      .after(n),
+                    .find("li")
+                    .eq(f - 1)
+                    .after(n),
             0 === f && l.find("li").removeClass("first").eq(f).addClass("first"),
             f === d.stepCount - 1 && l.find("li").removeClass("last").eq(f).addClass("last"),
             n.children("a").bind("click" + i(b), Q);
@@ -587,7 +619,7 @@
                             })
                                 .promise()
                                 .done(g),
-                            (c.transitionElement = null));
+                                (c.transitionElement = null));
                     });
                 break;
             case ab.slideLeft:
@@ -649,13 +681,13 @@
         },
     }),
         String.prototype.format ||
-            (String.prototype.format = function () {
-                for (var b = 1 === arguments.length && a.isArray(arguments[0]) ? arguments[0] : arguments, c = this, d = 0; d < b.length; d++) {
-                    var e = new RegExp("\\{" + d + "\\}", "gm");
-                    c = c.replace(e, b[d]);
-                }
-                return c;
-            });
+        (String.prototype.format = function () {
+            for (var b = 1 === arguments.length && a.isArray(arguments[0]) ? arguments[0] : arguments, c = this, d = 0; d < b.length; d++) {
+                var e = new RegExp("\\{" + d + "\\}", "gm");
+                c = c.replace(e, b[d]);
+            }
+            return c;
+        });
     var T = 0,
         U = "jQu3ry_5teps_St@te_",
         V = "-t-",
@@ -736,14 +768,14 @@
             onStepChanging: function () {
                 return !0;
             },
-            onStepChanged: function () {},
-            onCanceled: function () {},
+            onStepChanged: function () { },
+            onCanceled: function () { },
             onFinishing: function () {
                 return !0;
             },
-            onFinished: function () {},
-            onContentLoaded: function () {},
-            onInit: function () {},
+            onFinished: function () { },
+            onContentLoaded: function () { },
+            onInit: function () { },
             labels: { cancel: "Cancel", current: "current step:", pagination: "Pagination", finish: "Finish", next: "Next", previous: "Previous", loading: "Loading ..." },
         });
 })(jQuery);

@@ -3,16 +3,16 @@ const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
 
-function testConnection(event, data) {
-  let pyshell = new PythonShell('./backend/playbooks/test_server_connection.py', {mode: 'text'});
-  
-  pyshell.send(JSON.stringify(data));
 
-  pyshell.on('message', function(message) {
-      win.send('startInstallation', message);
+function runPython(channel, filename) {
+  win.send(channel, `Starting installation of ${filename}`);
+  let pyshell = new PythonShell(`./backend/playbooks/${filename}.py`, { mode: 'text' });
+
+  pyshell.on('message', function (message) {
+    win.send(channel, message);
   });
 
-  pyshell.end(function(err, code, signal) {
+  pyshell.end(function (err, code, signal) {
     var res = {
       'error': []
     };
@@ -27,52 +27,41 @@ function testConnection(event, data) {
     console.log('The exit signal was: ' + signal);
     console.log('finished');
 
-    win.send('startInstallation', JSON.stringify(res));
+    win.send(channel, JSON.stringify(res));
   });
 }
 
-function runInstallation(event, data, filename) {
-    let pyshell = new PythonShell(`./backend/playbooks/${filename}.py`, {mode: 'text'});
-    
-    pyshell.send(JSON.stringify(data));
-
-    pyshell.on('message', function(message) {
-        win.send('startInstallation', message);
-    });
-
-    pyshell.end(function(err, code, signal) {
-      var res = {
-        'error': []
-      };
-      if (err) {
-        res.error.push(err);
-        throw err;
+function runInstallation(data) {
+  runPython('startInstallation', 'system_requirements');
+  runPython('startInstallation', 'traefik_ssl');
+  Object.entries(data['modules']).forEach(([module, selected]) => {
+    console.log(`${module}: ${selected}`)
+    if (selected) {
+      console.log(module);
+      try {
+        runPython('startInstallation', module)
+      } catch(error) {
+        console.log(`There is no installation script for ${module} yet.`)
       }
-      res.code = code;
-      res.signal = signal;
-
-      console.log('The exit code was: ' + code);
-      console.log('The exit signal was: ' + signal);
-      console.log('finished');
-
-      win.send('startInstallation', JSON.stringify(res));
-    });
-}
+    }
+  }
+  )
+};
 
 function write_env_vars(filename, string) {
   try {
     fs.writeFileSync(`./backend/${filename}.env`, string, 'utf-8');
     return true
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     return false
   }
 }
 
 function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 const createWindow = () => {
@@ -80,10 +69,9 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   })
-
   win.loadFile('inethi/front/index.html')
 }
 
@@ -93,11 +81,12 @@ app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
     await sleep(200);
-    // add call to test_server_connection.py here.
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = write_env_vars('credentials', `CRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
-    win.send('openConnection', res);
+    if (res) {
+      runPython('openConnection', 'test_server_connection');
+    }
   })
 
   ipcMain.handle('saveConfig', async (event, args) => {
@@ -118,12 +107,12 @@ app.whenReady().then(() => {
 
   ipcMain.handle('startInstallation', async (event, args) => {
     console.log('Starting installation');
-    const data = {
+    var data = {
       'credentials': credentials,
       'config': config,
       'modules': modules
     }
-    testConnection(event, data);
+    runInstallation(data);
   })
 
   createWindow()

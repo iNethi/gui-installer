@@ -1,12 +1,13 @@
-import os.path
 from ansible_runner import Runner, RunnerConfig
+import pathlib
 
 
 def main():
-    abs_path = os.path.abspath("./")  # get absolute path
+    abs_path = pathlib.Path(__file__).parent.resolve()  # get absolute path
+
     # Define the path to the playbook and inventory files
-    playbook_path = "system_requirements.yml"
-    inventory_path = "inventory"
+    playbook_path = f"{abs_path}/system_requirements.yml"
+    inventory_path = f"{abs_path}/inventory"
 
     # Define the Ansible Runner configuration
     runner_config = RunnerConfig(
