@@ -16,18 +16,14 @@ function runPython(channel, filename) {
 
   pyshell.end(function (err, code, signal) {
     var res = {
+      'code': code,
+      'signal': signal,
       'error': []
     };
     if (err) {
       res.error.push(err);
       throw err;
     }
-    res.code = code;
-    res.signal = signal;
-
-    console.log('The exit code was: ' + code);
-    console.log('The exit signal was: ' + signal);
-    console.log('finished');
 
     win.send(channel, JSON.stringify(res));
   });
@@ -37,17 +33,14 @@ function runInstallation(data) {
   runPython('startInstallation', 'system_requirements');
   runPython('startInstallation', 'traefik_ssl');
   Object.entries(data['modules']).forEach(([module, selected]) => {
-    console.log(`${module}: ${selected}`)
-    if (selected) {
-      console.log(module);
+    if (selected && module != "docker") {
       try {
         runPython('startInstallation', module)
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
     }
-  }
-  )
+  })
 };
 
 function write_env_vars(filename, string) {

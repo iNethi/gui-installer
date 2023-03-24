@@ -6,6 +6,7 @@ import sys
 def main():
     abs_path = pathlib.Path(__file__).parent.resolve()  # get absolute path
 
+    # Get the filename from stdin through pyshell.send
     filename = sys.stdin.readlines()[0][:-1]
 
     # Define the path to the playbook and inventory files

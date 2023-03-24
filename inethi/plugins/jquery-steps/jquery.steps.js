@@ -339,7 +339,7 @@
                     if (data) {
                         console.log(data);
                         var logs = document.getElementsByClassName("logs")[0];
-                        var text = document.createTextNode(`${data}\n`);
+                        var text = document.createTextNode(`${data}` + "\n");
                         logs.appendChild(text);
                     } else {
                         return throwError('Starting installation failed.', 'Please contact developers or try again.')
