@@ -2,9 +2,10 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
-
+var lock = false;
 
 function runPython(channel, filename) {
+  lock = true;
   win.send(channel, `Starting installation of ${filename}`);
   let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
 
@@ -26,15 +27,25 @@ function runPython(channel, filename) {
     }
 
     win.send(channel, JSON.stringify(res));
+    lock = false;
   });
 }
 
-function runInstallation(data) {
+async function runInstallation(data) {
   runPython('startInstallation', 'system_requirements');
+  while (lock) {
+    await sleep(1000);
+  }
   runPython('startInstallation', 'traefik_ssl');
-  Object.entries(data['modules']).forEach(([module, selected]) => {
+  while (lock) {
+    await sleep(1000);
+  }
+  Object.entries(data['modules']).forEach( async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
       try {
+        while (lock) {
+          await sleep(1000);
+        }
         runPython('startInstallation', module)
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
@@ -75,7 +86,7 @@ var credentials, config, modules;
 app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
-    await sleep(200);
+    // await sleep(200);
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = write_env_vars('credentials', `CRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
@@ -85,7 +96,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('saveConfig', async (event, args) => {
-    await sleep(200);
+    await sleep(1000);
     config = JSON.parse(args);
     console.log(config);
     var res = write_env_vars('config', `CONF_STORAGE_PATH=${config.storagepath}\nCONF_DOMAIN_NAME=${config.domainname}\nCONF_HTTPS=${config.https}\nCONF_MASTER_PASSWORD=${config.master}\n`);
@@ -93,7 +104,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('saveModuleSelection', async (event, args) => {
-    await sleep(200);
+    await sleep(1000);
     modules = JSON.parse(args);
     console.log(modules);
     var res = write_env_vars('modules', `MODS_DOCKER=${modules.docker}\nMODS_TRAEFIK=${modules.traefik}\nMODS_NGINX=${modules.nginx}\nMODS_KEYCLOAK=${modules.keycloak}\nMODS_NEXTCLOUD=${modules.nextcloud}\nMODS_JELLYFIN=${modules.jellyfin}\nMODS_WORDPRESS=${modules.wordpress}\nMODS_PEERTUBE=${modules.peertube}\nMODS_PAUM=${modules.paum}\nMODS_RADIUSDESK=${modules.radiusdesk}\n`);

@@ -175,12 +175,11 @@
         }
 
         function success(message) {
-            if (countOccurrences(message, 'unreachable=1')) {
-                return 0
-            } else if (countOccurrences(message, 'ok=2')) {
+            if (countOccurrences(message, 'failed')) {
                 return 1
-            }
-            else {
+            } else if (countOccurrences(message, 'successful')) {
+                return 1
+            } else {
                 return 0
             }
         }
