@@ -176,10 +176,11 @@
 
         function success(message) {
             if (countOccurrences(message, 'unreachable=1')) {
+                return 0
+            } else if (countOccurrences(message, 'ok=2')) {
                 return 1
-            } else if (countOccurrences(message, 'ok=1')) {
-                return 1
-            } else {
+            }
+            else {
                 return 0
             }
         }
