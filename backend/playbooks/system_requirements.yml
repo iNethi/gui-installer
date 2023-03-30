@@ -76,9 +76,9 @@
 
     - name: Reboot the system
       reboot:
-        reboot_timeout: 150
+        reboot_timeout: 600
         pre_reboot_delay: 0
-        post_reboot_delay: 3
+        post_reboot_delay: 5
 
     - name: Create the network
       docker_network:
