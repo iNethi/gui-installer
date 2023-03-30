@@ -33,7 +33,7 @@ function runInstallation(data) {
   runPython('startInstallation', 'system_requirements');
   runPython('startInstallation', 'traefik_ssl');
   Object.entries(data['modules']).forEach(([module, selected]) => {
-    if (selected && module != "docker") {
+    if (selected && module != "docker" && module != "traefik") {
       try {
         runPython('startInstallation', module)
       } catch (error) {
