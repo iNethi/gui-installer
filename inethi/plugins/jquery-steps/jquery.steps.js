@@ -225,7 +225,7 @@
 
                         console.log(message);
                         var res = success(message);
-                        console.log(res);
+                        // console.log(res);
                         if (res == 1) {
                             connected = true;
                             return throwSuccess('Connection successful!');

@@ -3,8 +3,12 @@ const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
 var lock = false;
+var res;
 
-function runPython(channel, filename) {
+async function runPython(channel, filename) {
+  while (lock) {
+    await sleep(1000);
+  }
   lock = true;
   win.send(channel, `Starting installation of ${filename}`);
   let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
@@ -16,45 +20,32 @@ function runPython(channel, filename) {
   });
 
   pyshell.end(function (err, code, signal) {
-    var res = {
-      'code': code,
-      'signal': signal,
-      'error': []
-    };
-    if (err) {
-      res.error.push(err);
-      throw err;
-    }
-
+    var res = { 'code': code };
+    if (err) { res.error = err.message; reject(res.error); }
     win.send(channel, JSON.stringify(res));
     lock = false;
+    resolve(res.code == 0);
   });
 }
 
-async function runInstallation(data) {
+function runInstallation(data) {
   runPython('startInstallation', 'system_requirements');
-  while (lock) {
-    await sleep(1000);
-  }
   runPython('startInstallation', 'traefik_ssl');
-  while (lock) {
-    await sleep(1000);
-  }
-  Object.entries(data['modules']).forEach( async ([module, selected]) => {
+  Object.entries(data['modules']).forEach(async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
       try {
-        while (lock) {
-          await sleep(1000);
-        }
-        runPython('startInstallation', module)
+        res = await runPython('startInstallation', module)
+        console.log(res);
+        win.send(channel, JSON.stringify(res));
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
     }
   })
+  win.send('startInstallation', JSON.stringify(res));
 };
 
-function write_env_vars(filename, string) {
+function writeEnvVars(filename, string) {
   try {
     fs.writeFileSync(`./backend/${filename}.env`, string, 'utf-8');
     return true
@@ -89,7 +80,7 @@ app.whenReady().then(() => {
     // await sleep(200);
     credentials = JSON.parse(args);
     console.log(credentials);
-    var res = write_env_vars('credentials', `CRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
+    var res = writeEnvVars('credentials', `CRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
     if (res) {
       runPython('openConnection', 'test_server_connection');
     }
@@ -99,7 +90,7 @@ app.whenReady().then(() => {
     await sleep(1000);
     config = JSON.parse(args);
     console.log(config);
-    var res = write_env_vars('config', `CONF_STORAGE_PATH=${config.storagepath}\nCONF_DOMAIN_NAME=${config.domainname}\nCONF_HTTPS=${config.https}\nCONF_MASTER_PASSWORD=${config.master}\n`);
+    var res = writeEnvVars('config', `CONF_STORAGE_PATH=${config.storagepath}\nCONF_DOMAIN_NAME=${config.domainname}\nCONF_HTTPS=${config.https}\nCONF_MASTER_PASSWORD=${config.master}\n`);
     win.send('saveConfig', res);
   })
 
@@ -107,7 +98,7 @@ app.whenReady().then(() => {
     await sleep(1000);
     modules = JSON.parse(args);
     console.log(modules);
-    var res = write_env_vars('modules', `MODS_DOCKER=${modules.docker}\nMODS_TRAEFIK=${modules.traefik}\nMODS_NGINX=${modules.nginx}\nMODS_KEYCLOAK=${modules.keycloak}\nMODS_NEXTCLOUD=${modules.nextcloud}\nMODS_JELLYFIN=${modules.jellyfin}\nMODS_WORDPRESS=${modules.wordpress}\nMODS_PEERTUBE=${modules.peertube}\nMODS_PAUM=${modules.paum}\nMODS_RADIUSDESK=${modules.radiusdesk}\n`);
+    var res = writeEnvVars('modules', `MODS_DOCKER=${modules.docker}\nMODS_TRAEFIK=${modules.traefik}\nMODS_NGINX=${modules.nginx}\nMODS_KEYCLOAK=${modules.keycloak}\nMODS_NEXTCLOUD=${modules.nextcloud}\nMODS_JELLYFIN=${modules.jellyfin}\nMODS_WORDPRESS=${modules.wordpress}\nMODS_PEERTUBE=${modules.peertube}\nMODS_PAUM=${modules.paum}\nMODS_RADIUSDESK=${modules.radiusdesk}\n`);
     win.send('saveModuleSelection', res);
   })
 
