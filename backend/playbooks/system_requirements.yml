@@ -5,10 +5,10 @@
   become: true
 
   tasks:
-    - name: Distribution
+    - name: Check Distribution
       debug: msg="{{ ansible_distribution }}"
 
-    - name: User
+    - name: Check User
       debug: msg="{{ ansible_user }}"
 
     - name: Exit with error if not Ubuntu
@@ -21,7 +21,7 @@
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
 
-    - name: install dependencies
+    - name: Install Docker dependencies
       apt:
         name:
           - apt-transport-https
@@ -31,15 +31,15 @@
           - software-properties-common
         state: latest
         update_cache: yes
-    - name: GPG key
+    - name: Add Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
-    - name: repository docker
+    - name: Add repository docker
       apt_repository:
         repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
         state: present
-    - name: install docker
+    - name: Install docker
       apt:
         name:
           - docker-ce
@@ -47,7 +47,7 @@
           - containerd.io
         state: latest
         update_cache: yes
-    - name: adding users to group docker
+    - name: Adding users to docker group
       user:
         name: '{{ ansible_user }}'
         groups: docker
@@ -80,7 +80,7 @@
         pre_reboot_delay: 0
         post_reboot_delay: 5
 
-    - name: Create the network
+    - name: Create the Docker Network network
       docker_network:
         name: inethi-bridge-traefik
         driver: bridge

@@ -20,7 +20,7 @@ def main():
     system_requirements = "system_requirements"
 
     # Define the path to the playbook and inventory files
-    playbook_path = f"{abs_path}/{system_requirements}.yml"
+    playbook_path = f"{abs_path}/{test_server}.yml"
     inventory_path = f"{abs_path}/inventory"
 
     r = ansible_runner.run(private_data_dir='./', playbook=playbook_path, inventory=inventory_path,
