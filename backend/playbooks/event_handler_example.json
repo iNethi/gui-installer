@@ -1,0 +1,29 @@
+{
+    "uuid": "5af3984c-7416-0995-1712-00000000000c",
+    "counter": 30,
+    "stdout": "\r\nTASK [adding users to group docker] ********************************************",
+    "start_line": 33,
+    "end_line": 35,
+    "runner_ident": "dbdbffb3-5d5e-4992-bf5e-009d73d23fdc",
+    "event": "playbook_on_task_start",
+    "pid": 59996,
+    "created": "2023-03-30T12:59:05.963601",
+    "parent_uuid": "5af3984c-7416-0995-1712-000000000002",
+    "event_data": {
+        "playbook": "/Users/keeganwhite/Desktop/2023/iNethi/Code/inethi-gui-electron/backend/playbooks/system_requirements.yml",
+        "playbook_uuid": "ac21e2cc-0116-41b3-a815-595631a6e4cb",
+        "play": "Connect to remote server and install Docker",
+        "play_uuid": "5af3984c-7416-0995-1712-000000000002",
+        "play_pattern": "localserver",
+        "task": "adding users to group docker",
+        "task_uuid": "5af3984c-7416-0995-1712-00000000000c",
+        "task_action": "user",
+        "resolved_action": "ansible.builtin.user",
+        "task_args": "",
+        "task_path": "/Users/keeganwhite/Desktop/2023/iNethi/Code/inethi-gui-electron/backend/playbooks/system_requirements.yml:50",
+        "name": "adding users to group docker",
+        "is_conditional": false,
+        "uuid": "5af3984c-7416-0995-1712-00000000000c"
+    }
+}
+
