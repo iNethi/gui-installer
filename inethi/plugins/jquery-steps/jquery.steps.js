@@ -224,12 +224,13 @@
                         // }
 
                         console.log(message);
-                        var res = success(message);
+                        // var res = success(message);
+                        // res = message 
                         // console.log(res);
-                        if (res == 1) {
+                        if (message == "failed") {
                             connected = true;
                             return throwSuccess('Connection successful!');
-                        } else if (res == -1) {
+                        } else if (message == "failed") {
                             return throwError('Connection unsuccessful', 'Check your credentials and try again.')
                         // } else if (res == 0) {
                         //     console.log('Normal message')

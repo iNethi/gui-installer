@@ -21,10 +21,10 @@ async function runPython(channel, filename) {
 
   pyshell.end(function (err, code, signal) {
     var res = { 'code': code };
-    if (err) { res.error = err.message; reject(res.error); }
+    if (err) { res.error = err.message; }
     win.send(channel, JSON.stringify(res));
     lock = false;
-    resolve(res.code == 0);
+    return res.code == 0;
   });
 }
 
