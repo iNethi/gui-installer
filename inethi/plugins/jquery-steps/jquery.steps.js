@@ -361,8 +361,15 @@
 
                 api.handle('abortInstall', (event, data) => function (event, data) {
                     console.log(data);
-                    api.send('abortInstall')
-                }
+                    // api.send('abortInstall')
+                });
+
+                api.handle('installComplete', (event, data) => function (event, data) {
+                    if (data) {
+                        // install complete
+
+                    }
+                });
                 break;
             default:
                 return B(a, b, c, v(c, 1));

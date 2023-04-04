@@ -3,14 +3,19 @@ const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
 var lock = false;
-var res;
+var kill = false;
 
 async function runPython(channel, filename, progress_bar) {
   while (lock) {
     await sleep(1000);
   }
+  if (kill) {
+    win.send(channel, `Installation of ${filename} aborted`);
+    return;
+  } else {
+    win.send(channel, `Starting installation of ${filename}`);
+  }
   lock = true;
-  win.send(channel, `Starting installation of ${filename}`);
   let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
 
   pyshell.send(filename);
@@ -23,12 +28,13 @@ async function runPython(channel, filename, progress_bar) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
     if (res.code != 0) {
-      win.send('abortInstall', res.code);
+      kill = true;
     }
     win.send(channel, JSON.stringify(res));
     win.send('progressUpdate', progress_bar)
     lock = false;
-    return res.code == 0;
+    // return res.code == 0;
+    return;
   });
 }
 
@@ -37,25 +43,25 @@ function runInstallation(data) {
   const count = Object.entries(data['modules']).reduce((acc, [key, value]) => {
     return acc + (value ? 1 : 0);
   }, 0);
-  var increment = (100 / count);
+  var increment = Math.round((100 / count) * 10) / 10;
+
   progress_bar += increment;
   runPython('startInstallation', 'system_requirements', progress_bar);
+
   progress_bar += increment;
   runPython('startInstallation', 'traefik_ssl', progress_bar);
+
   Object.entries(data['modules']).forEach(async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
       try {
         progress_bar += increment;
-        res = await runPython('startInstallation', module, progress_bar)
-        // res.increment = (100 / Object.keys(data['modules']).length);
-        // console.log(res);
-        // win.send(channel, JSON.stringify(res));
+        runPython('startInstallation', module, progress_bar)
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
     }
   })
-  win.send('startInstallation', JSON.stringify(res));
+  win.send('installComplete', true);
 };
 
 function writeEnvVars(filename, string) {
@@ -122,6 +128,7 @@ app.whenReady().then(() => {
       'config': config,
       'modules': modules
     }
+    kill = false;
     runInstallation(data);
   })
 
