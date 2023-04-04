@@ -344,7 +344,7 @@
                         logs.appendChild(text);
                         logs.scrollTop = logs.scrollHeight;
                     } else {
-                        return throwError('Starting installation failed.', 'Please contact developers or try again.')
+                        return throwError('Starting installation failed.', 'Please contact iNethi team or try again.')
                     }
                     if (data.code == 1) {
                         return B(a, b, c, v(c, 1));
@@ -359,16 +359,14 @@
                     progress_bar.style.width = `${data}%`;
                 });
 
-                api.handle('abortInstall', (event, data) => function (event, data) {
-                    console.log(data);
-                    // api.send('abortInstall')
+                api.handle('installAbort', (event, data) => function (event, data) {
+                    console.log("abort = " + data);
+                    return throwError('Installation failed.', 'Please check the logs or contact the iNethi team.')
                 });
 
                 api.handle('installComplete', (event, data) => function (event, data) {
-                    if (data) {
-                        // install complete
-
-                    }
+                    console.log("complete = " + data);
+                    return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
             default:

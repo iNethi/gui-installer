@@ -3,13 +3,15 @@ const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
 var lock = false;
-var kill = false;
+var abort = false;
+var num_installed;
+var num_modules_selected;
 
 async function runPython(channel, filename, progress_bar) {
   while (lock) {
     await sleep(1000);
   }
-  if (kill) {
+  if (abort) {
     win.send(channel, `Installation of ${filename} aborted`);
     return;
   } else {
@@ -28,22 +30,29 @@ async function runPython(channel, filename, progress_bar) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
     if (res.code != 0) {
-      kill = true;
+      // abort = true;
+      // win.send('installAbort', abort)
+      num_installed += 1;
+    } else {
+      num_installed += 1;
+      win.send('progressUpdate', progress_bar)
     }
     win.send(channel, JSON.stringify(res));
-    win.send('progressUpdate', progress_bar)
+    if (num_installed == num_modules_selected) {
+      win.send('installComplete', (num_installed == num_modules_selected));
+    }
     lock = false;
-    // return res.code == 0;
     return;
   });
 }
 
 function runInstallation(data) {
+  num_installed = 0;
   var progress_bar = 0;
-  const count = Object.entries(data['modules']).reduce((acc, [key, value]) => {
+  num_modules_selected = Object.entries(data['modules']).reduce((acc, [key, value]) => {
     return acc + (value ? 1 : 0);
   }, 0);
-  var increment = Math.round((100 / count) * 10) / 10;
+  var increment = Math.round((100 / num_modules_selected) * 10) / 10;
 
   progress_bar += increment;
   runPython('startInstallation', 'system_requirements', progress_bar);
@@ -61,7 +70,6 @@ function runInstallation(data) {
       }
     }
   })
-  win.send('installComplete', true);
 };
 
 function writeEnvVars(filename, string) {
@@ -128,7 +136,7 @@ app.whenReady().then(() => {
       'config': config,
       'modules': modules
     }
-    kill = false;
+    abort = false;
     runInstallation(data);
   })
 
