@@ -14,9 +14,8 @@ async function runPython(channel, filename, progress_bar) {
   if (abort) {
     win.send(channel, `Installation of ${filename} aborted`);
     return;
-  } else {
-    win.send(channel, `Starting installation of ${filename}`);
   }
+  win.send(channel, `Starting installation of ${filename}`);
   lock = true;
   let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
 
@@ -30,9 +29,16 @@ async function runPython(channel, filename, progress_bar) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
     if (res.code != 0) {
+
+      // UNCOMMENT THIS FOR NORMAL OPERATION
+
       // abort = true;
       // win.send('installAbort', abort)
+
+      // REMOVE LINE BELOW FOR NORMAL OPERATION
+
       num_installed += 1;
+
     } else {
       num_installed += 1;
       win.send('progressUpdate', progress_bar)
