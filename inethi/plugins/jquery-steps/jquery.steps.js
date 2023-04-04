@@ -169,20 +169,20 @@
             return true;
         }
 
-        function countOccurrences(str, value) {
-            var regExp = new RegExp(value, "gi");
-            return (str.match(regExp) || []).length;
-        }
+        // function countOccurrences(str, value) {
+        //     var regExp = new RegExp(value, "gi");
+        //     return (str.match(regExp) || []).length;
+        // }
 
-        function success(message) {
-            if (countOccurrences(message, 'failed')) {
-                return 1
-            } else if (countOccurrences(message, 'successful')) {
-                return 1
-            } else {
-                return 0
-            }
-        }
+        // function success(message) {
+        //     if (countOccurrences(message, 'failed')) {
+        //         return 1
+        //     } else if (countOccurrences(message, 'successful')) {
+        //         return 1
+        //     } else {
+        //         return 0
+        //     }
+        // }
 
         switch (c.currentIndex) {
             case 1:
@@ -342,6 +342,7 @@
                         var logs = document.getElementsByClassName("logs")[0];
                         var text = document.createTextNode(`${data}` + "\n");
                         logs.appendChild(text);
+                        logs.scrollTop = logs.scrollHeight;
                     } else {
                         return throwError('Starting installation failed.', 'Please contact developers or try again.')
                     }
@@ -351,6 +352,17 @@
                         return B(a, b, c, v(c, 0));
                     }
                 });
+
+                api.handle('progressUpdate', (event, data) => function (event, data) {
+                    var progress_bar = document.getElementById("progressBar");
+                    progress_bar.innerHTML = `${data}%`;
+                    progress_bar.style.width = `${data}%`;
+                });
+
+                api.handle('abortInstall', (event, data) => function (event, data) {
+                    console.log(data);
+                    api.send('abortInstall')
+                }
                 break;
             default:
                 return B(a, b, c, v(c, 1));

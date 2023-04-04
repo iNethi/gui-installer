@@ -5,7 +5,7 @@ const fs = require('fs');
 var lock = false;
 var res;
 
-async function runPython(channel, filename) {
+async function runPython(channel, filename, progress_bar) {
   while (lock) {
     await sleep(1000);
   }
@@ -22,21 +22,34 @@ async function runPython(channel, filename) {
   pyshell.end(function (err, code, signal) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
+    if (res.code != 0) {
+      win.send('abortInstall', res.code);
+    }
     win.send(channel, JSON.stringify(res));
+    win.send('progressUpdate', progress_bar)
     lock = false;
     return res.code == 0;
   });
 }
 
 function runInstallation(data) {
-  runPython('startInstallation', 'system_requirements');
-  runPython('startInstallation', 'traefik_ssl');
+  var progress_bar = 0;
+  const count = Object.entries(data['modules']).reduce((acc, [key, value]) => {
+    return acc + (value ? 1 : 0);
+  }, 0);
+  var increment = (100 / count);
+  progress_bar += increment;
+  runPython('startInstallation', 'system_requirements', progress_bar);
+  progress_bar += increment;
+  runPython('startInstallation', 'traefik_ssl', progress_bar);
   Object.entries(data['modules']).forEach(async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
       try {
-        res = await runPython('startInstallation', module)
-        console.log(res);
-        win.send(channel, JSON.stringify(res));
+        progress_bar += increment;
+        res = await runPython('startInstallation', module, progress_bar)
+        // res.increment = (100 / Object.keys(data['modules']).length);
+        // console.log(res);
+        // win.send(channel, JSON.stringify(res));
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
