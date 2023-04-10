@@ -32,12 +32,14 @@ async function runPython(channel, filename, progress_bar) {
 
       // UNCOMMENT THIS FOR NORMAL OPERATION
 
-      // abort = true;
-      // win.send('installAbort', abort)
+      console.log('Installation failed');
+      abort = true;
+      win.send('installAbort', abort)
 
-      // REMOVE LINE BELOW FOR NORMAL OPERATION
+      // REMOVE LINES BELOW FOR NORMAL OPERATION
 
-      num_installed += 1;
+      // num_installed += 1;
+      // win.send('progressUpdate', progress_bar)
 
     } else {
       num_installed += 1;
@@ -45,6 +47,7 @@ async function runPython(channel, filename, progress_bar) {
     }
     win.send(channel, JSON.stringify(res));
     if (num_installed == num_modules_selected) {
+      console.log('Installation successful');
       win.send('installComplete', (num_installed == num_modules_selected));
     }
     lock = false;
@@ -144,6 +147,13 @@ app.whenReady().then(() => {
     }
     abort = false;
     runInstallation(data);
+  })
+
+
+  ipcMain.handle('restartApp', async (event, args) => {
+    console.log('Restarting installer');
+    app.relaunch();
+    app.exit();
   })
 
   createWindow()

@@ -90,11 +90,11 @@
                                     <h3>Introduction</h3>
                                     <fieldset>
                                         <p>You will be guided through the steps necessary to install this software.</p>
-                                        <p>By installing this application, you are accepting the Terms of Service and Privacy Statement and are consenting to receive communications, updates, and upgrades for iNethi services. iNethi may collect usage data and personal information, such as your email address, from your computer or device for the operation of the iNethi service.</p>
-                                        <div class="custom-control custom-checkbox my-3">
+                                        <p>By installing this application, you are accepting the Terms of Service and Privacy Statement as can be found on our website. iNethi may collect usage data and personal information, such as your email address, from your computer or device for the operation of the iNethi services.</p>
+                                        <!-- <div class="custom-control custom-checkbox my-3">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                                             <label class="custom-control-label" for="customCheck1">I accept the Terms of Service and the Privacy Statement.</label>
-                                        </div>
+                                        </div> -->
                                     </fieldset>                                               
                                     <h3>Server config</h3>
                                     <fieldset>
@@ -102,19 +102,19 @@
                                         <div class="form-group ">
                                             <label for="server-ip" class="col-form-label">Server IP</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="serverIp" value="test" placeholder="192.168.0.1" required>
+                                                <input class="form-control" type="text" id="serverIp" value="192.168.0.1" placeholder="192.168.0.1" required>
                                             </div>
                                         </div> 
                                         <div class="form-group ">
                                             <label for="server-username" class="col-form-label">Server Username</label>
                                             <div class="">
-                                                <input class="form-control" type="text" id="serverUsername" value="test" placeholder="root" required>                                                       
+                                                <input class="form-control" type="text" id="serverUsername" value="root" placeholder="root" required>                                                       
                                             </div>                                                    
                                         </div>
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Server Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="serverPassword" value="test" placeholder="••••••••" required>                                                       
+                                                <input class="form-control" type="password" id="serverPassword" value="password" placeholder="••••••••" required>                                                       
                                             </div>                                                    
                                         </div>
                                     </fieldset>
@@ -148,7 +148,7 @@
                                         <div class="form-group ">
                                             <label for="server-password" class="col-form-label">Master Password</label>
                                             <div class="">
-                                                <input class="form-control" type="password" id="masterPassword" placeholder="••••••••" value="test" aria-describedby="passwordHelp">
+                                                <input class="form-control" type="password" id="masterPassword" placeholder="••••••••" value="password" aria-describedby="passwordHelp">
                                                 <div id="passwordHelp" class="form-text">The master password required to adjust service settings.</div>                                                    
                                             </div>                                                    
                                         </div>
@@ -220,7 +220,7 @@
                                     <fieldset>
                                         <p>Please wait while the selected modules are being installed on your server.</p>
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 5%">0%</div>
                                         </div>
                                         <br>
                                         <div class="mb-3">
@@ -230,8 +230,14 @@
                                     </fieldset><!--end fieldset-->
                                     <h3>Summary</h3>
                                     <fieldset>
-                                        <p>The installation was successful. You can now close this window.</p>
-                                        <p>Next steps...</p>
+                                        <div class="success">
+                                            <p class="result">The installation was successful. You can now close this window, or restart the installer application to retry.</p>
+                                            <p>Next steps...</p>
+                                        </div>
+                                        <div class="fail">
+                                            <p class="result">The installation was successful. You can now close this window, or restart the installer application to retry.</p>
+                                            <p>Next steps...</p>
+                                        </div>
                                     </fieldset><!--end fieldset-->                               
                                 </form><!--end form-->
                                 <p class="text-muted mb-0">© iNethi 2023</p>    

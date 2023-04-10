@@ -324,7 +324,7 @@
                                 B(a, b, c, v(c, 1));
                                 check_action(a, b, c);
                             })
-                        }, 1000);
+                        }, 2000);
 
                     } else {
                         return throwError('Saving module selection unsuccessful', 'Check for errors and try again.');
@@ -334,10 +334,12 @@
             case 4:
                 console.log('Start installation!');
 
+                document.getElementsByClassName("actions")[0].style.display = "none";
+
                 api.send('startInstallation', 'hello')
 
                 api.handle('startInstallation', (event, data) => function (event, data) {
-                    if (data) {
+                    if (data) { // DO I NEED THIS ?
                         console.log(data);
                         var logs = document.getElementsByClassName("logs")[0];
                         var text = document.createTextNode(`${data}` + "\n");
@@ -361,14 +363,20 @@
 
                 api.handle('installAbort', (event, data) => function (event, data) {
                     console.log("abort = " + data);
-                    return throwError('Installation failed.', 'Please check the logs or contact the iNethi team.')
+                    throwError('Installation failed.', 'Please check the logs or contact the iNethi team.')
+                    return B(a, b, c, v(c, 1));
                 });
 
                 api.handle('installComplete', (event, data) => function (event, data) {
                     console.log("complete = " + data);
+                    document.getElementsByClassName("actions")[0].style.display = "block";
+                    document.querySelector(".actions a[href$='#previous']").style.display = "none";
+                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Restart";
                     return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
+            // case 5:
+                api.send('restartApp', true);
             default:
                 return B(a, b, c, v(c, 1));
         }
@@ -459,6 +467,7 @@
                 e(d);
                 break;
             case "finish":
+                api.send('restartApp', true);
                 h(d, g);
                 break;
             case "next":
