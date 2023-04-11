@@ -2,7 +2,8 @@
   hosts: localserver
   become: true
   gather_facts: false
-
+  vars_files:
+    - ../config.yml
   vars:
     PEERTUBE_VOLUME: "/mnt/data/peertube"
     REDIS_VOLUME: "/mnt/data/peertube-redis"
@@ -17,7 +18,7 @@
           - "{{ POSTGRESS_VOLUME }}:/var/lib/postgresql/data"
         env:
           POSTGRES_USER: "inethi"
-          POSTGRES_PASSWORD: "iNethi2023#"
+          POSTGRES_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           POSTGRES_DB: "peertube"
         restart_policy: unless-stopped
         networks:
@@ -44,7 +45,7 @@
           PEERTUBE_TRUST_PROXY: '["127.0.0.1", "loopback", "172.18.0.0/16"]'
           PEERTUBE_SECRET: "59feff05bff4842e6aeb29531dc4b198d57fbda212aac06b6be6fa6839d6f32e"
           PEERTUBE_DB_USERNAME: "inethi"
-          PEERTUBE_DB_PASSWORD: "iNethi2023#"
+          PEERTUBE_DB_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           PEERTUBE_DB_HOSTNAME: "inethi-peertube-postgress"
           PEERTUBE_WEBSERVER_HOSTNAME: "peertube.inethilocal.net"
           PEERTUBE_SMTP_HOSTNAME: "postfix"
