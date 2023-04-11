@@ -221,7 +221,7 @@
                                 return throwError('Connection unsuccessful', 'Check your credentials and try again.')
                             }
                         } catch {
-                            console.log(message);
+                            // console.log(message);
                         }
                     });
                 } else {
