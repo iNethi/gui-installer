@@ -211,14 +211,14 @@
                             
                             console.log(message);
 
-                            if (message.code == 0) {
+                            if (message.code == 1) {
                                 connected = true;
                                 return throwSuccess('Connection successful!');
                             } else {
                                 return throwError('Connection unsuccessful', 'Check your credentials and try again.')
                             }
                         } catch {
-                            // console.log(message);
+                            console.log(message);
                         }
                     });
                 } else {
@@ -269,7 +269,6 @@
                 break;
             case 3:
                 var args = {};
-                // var paum_args = {};
 
                 const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk'];
                 modules.forEach((module) => {
