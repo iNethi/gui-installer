@@ -169,20 +169,18 @@
             return true;
         }
 
-        // function countOccurrences(str, value) {
-        //     var regExp = new RegExp(value, "gi");
-        //     return (str.match(regExp) || []).length;
-        // }
+        function countOccurrences(str, value) {
+            var regExp = new RegExp(value, "gi");
+            return (str.match(regExp) || []).length;
+        }
 
-        // function success(message) {
-        //     if (countOccurrences(message, 'failed')) {
-        //         return 1
-        //     } else if (countOccurrences(message, 'successful')) {
-        //         return 1
-        //     } else {
-        //         return 0
-        //     }
-        // }
+        function success(message) {
+            if (countOccurrences(message, 'successful')) {
+                return 0
+            } else {
+                return 1
+            }
+        }
 
         switch (c.currentIndex) {
             case 1:
@@ -211,29 +209,19 @@
                     });
 
                     api.handle('openConnection', (event, data) => function (event, message) {
-                        // try {
-                        //     message = JSON.parse(message);
-                        //     console.log(message)
-                        // } catch (e) {
-                        //     console.log(message);
-                        // }
-                        // var count = 0;
-                        // if (count == 0) {
-                        //     count += 1;
-                        //     return throwSuccess('Connection successful!');
-                        // }
+                        try {
+                            message = JSON.parse(message);
+                            
+                            console.log(message);
 
-                        console.log(message);
-                        // var res = success(message);
-                        // res = message 
-                        // console.log(res);
-                        if (message == "failed") {
-                            connected = true;
-                            return throwSuccess('Connection successful!');
-                        } else if (message == "failed") {
-                            return throwError('Connection unsuccessful', 'Check your credentials and try again.')
-                        // } else if (res == 0) {
-                        //     console.log('Normal message')
+                            if (message.code == 1) {
+                                connected = true;
+                                return throwSuccess('Connection successful!');
+                            } else {
+                                return throwError('Connection unsuccessful', 'Check your credentials and try again.')
+                            }
+                        } catch {
+                            console.log(message);
                         }
                     });
                 } else {

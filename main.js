@@ -7,7 +7,7 @@ var abort = false;
 var num_installed;
 var num_modules_selected;
 
-async function runPython(channel, filename, progress_bar) {
+async function installModule(channel, filename, progress_bar) {
   while (lock) {
     await sleep(1000);
   }
@@ -64,16 +64,16 @@ function runInstallation(data) {
   var increment = Math.round((100 / num_modules_selected) * 10) / 10;
 
   progress_bar += increment;
-  runPython('startInstallation', 'system_requirements', progress_bar);
+  installModule('startInstallation', 'system_requirements', progress_bar);
 
   progress_bar += increment;
-  runPython('startInstallation', 'traefik_ssl', progress_bar);
+  installModule('startInstallation', 'traefik_ssl', progress_bar);
 
   Object.entries(data['modules']).forEach(async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
       try {
         progress_bar += increment;
-        runPython('startInstallation', module, progress_bar)
+        installModule('startInstallation', module, progress_bar)
       } catch (error) {
         console.log(`There is no installation script for ${module} yet.`)
       }
@@ -113,12 +113,13 @@ var credentials, config, modules;
 app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
+    abort = false;
     // await sleep(200);
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = writeEnvVars('credentials', `CRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
     if (res) {
-      runPython('openConnection', 'test_server_connection');
+      installModule('openConnection', 'test_server_connection');
     }
   })
 
