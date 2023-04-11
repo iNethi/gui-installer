@@ -5,7 +5,7 @@ const fs = require('fs');
 var lock = false;
 var abort = false;
 var num_installed;
-var num_modules_selected;
+var num_modules_selected = 100;
 
 async function installModule(channel, filename, progress_bar) {
   while (lock) {
@@ -118,6 +118,7 @@ app.whenReady().then(() => {
     console.log(credentials);
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
     if (res) {
+      console.log('Trying to connect to remote host...');
       installModule('openConnection', 'test_server_connection');
     }
   })
