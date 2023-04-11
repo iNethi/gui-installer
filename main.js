@@ -33,14 +33,14 @@ async function installModule(channel, filename, progress_bar) {
 
       // UNCOMMENT THIS FOR NORMAL OPERATION
 
-      // console.log('Installation failed');
-      // abort = true;
-      // win.send('installAbort', abort)
+      console.log('Installation failed');
+      abort = true;
+      win.send('installAbort', abort)
 
       // REMOVE LINES BELOW FOR NORMAL OPERATION
 
-      num_installed += 1;
-      win.send('progressUpdate', progress_bar)
+      // num_installed += 1;
+      // win.send('progressUpdate', progress_bar)
 
     } else {
       num_installed += 1;
@@ -113,6 +113,7 @@ const createWindow = () => {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      // devTools: false
     },
   })
   win.loadFile('inethi/front/index.html')
