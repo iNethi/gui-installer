@@ -214,7 +214,7 @@
                             
                             console.log(message);
 
-                            if (message.code == 0) {
+                            if (message.code == 1) {
                                 connected = true;
                                 return throwSuccess('Connection successful!');
                             } else {
@@ -326,10 +326,11 @@
 
                 api.send('startInstallation', 'hello')
 
+                var logs = document.getElementsByClassName("logs")[0];
+
                 api.handle('startInstallation', (event, data) => function (event, data) {
                     if (data) { // DO I NEED THIS ?
                         console.log(data);
-                        var logs = document.getElementsByClassName("logs")[0];
                         var text = document.createTextNode(`${data}` + "\n");
                         logs.appendChild(text);
                         logs.scrollTop = logs.scrollHeight;
@@ -351,7 +352,12 @@
 
                 api.handle('installAbort', (event, data) => function (event, data) {
                     console.log("abort = " + data);
-                    throwError('Installation failed.', 'Please check the logs or contact the iNethi team.')
+                    document.getElementsByClassName("actions")[0].style.display = "block";
+                    document.querySelector(".actions a[href$='#previous']").style.display = "none";
+                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Restart";
+                    document.querySelector("p.result").innerHTML = "The installation failed. Please inspect the logs below and restart the installer to try again or contact the iNethi team for support.";
+                    document.getElementsByClassName("logreport")[0].innerHTML = logs.innerHTML;
+                    throwError('Installation failed.', 'Please restart and retry or contact the iNethi team.')
                     return B(a, b, c, v(c, 1));
                 });
 
@@ -359,12 +365,12 @@
                     console.log("complete = " + data);
                     document.getElementsByClassName("actions")[0].style.display = "block";
                     document.querySelector(".actions a[href$='#previous']").style.display = "none";
-                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Restart";
+                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Close";
+                    document.querySelector("p.result").innerHTML = "The installation was successful. You can now close this window, or restart the installer to install additional components.";
+                    document.getElementsByClassName("logreport-div")[0].style.display = "none";
                     return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
-            // case 5:
-                api.send('restartApp', true);
             default:
                 return B(a, b, c, v(c, 1));
         }
