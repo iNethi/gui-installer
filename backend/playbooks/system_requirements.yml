@@ -45,7 +45,7 @@
           - docker-ce
           - docker-ce-cli
           - containerd.io
-        state: latest
+        state: present
         update_cache: yes
     - name: Adding users to docker group
       user:
@@ -78,7 +78,7 @@
       reboot:
         reboot_timeout: 600
         pre_reboot_delay: 0
-        post_reboot_delay: 5
+        post_reboot_delay: 15
 
     - name: Create the Docker Network network
       docker_network:
