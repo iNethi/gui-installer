@@ -214,7 +214,7 @@
                             
                             console.log(message);
 
-                            if (message.code == 1) {
+                            if (message.code == 0) {
                                 connected = true;
                                 return throwSuccess('Connection successful!');
                             } else {
