@@ -4,9 +4,6 @@
  * Licensed under MIT http://www.opensource.org/licenses/MIT
  */
 
-// const { ipcRenderer } = require("electron");
-
-
 !(function (a, b) {
     var connected, saved = false;
 
