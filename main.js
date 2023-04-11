@@ -91,6 +91,16 @@ function writeEnvVars(filename, string) {
   }
 }
 
+function writeYamlVars(filename, string) {
+  try {
+    fs.writeFileSync(`./backend/${filename}.yml`, string, 'utf-8');
+    return true
+  } catch (e) {
+    console.log(e);
+    return false
+  }
+}
+
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -126,7 +136,7 @@ app.whenReady().then(() => {
     await sleep(1000);
     config = JSON.parse(args);
     console.log(config);
-    var res = writeEnvVars('config', `CONF_STORAGE_PATH=${config.storagepath}\nCONF_DOMAIN_NAME=${config.domainname}\nCONF_HTTPS=${config.https}\nCONF_MASTER_PASSWORD=${config.master}\n`);
+    var res = writeYamlVars('config', `CONF_STORAGE_PATH: ${config.storagepath}\nCONF_DOMAIN_NAME: ${config.domainname}\nCONF_HTTPS: ${config.https}\nCONF_MASTER_PASSWORD: ${config.master}\n`);
     win.send('saveConfig', res);
   })
 

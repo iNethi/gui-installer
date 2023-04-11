@@ -2,6 +2,8 @@
   hosts: localserver
   become: true
   gather_facts: no
+  vars_files:
+    - ../config.yml
   vars:
     WORDPRESS_MOUNT: "/mnt/data/wordpress"
     WORDPRESS_DB_NAME: "wordpress"
@@ -24,9 +26,9 @@
         state: started
         restart_policy: unless-stopped
         env:
-          MYSQL_ROOT_PASSWORD: "{{ MYSQL_ROOT_PASSWORD }}"
+          MYSQL_ROOT_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           MYSQL_USER: "{{ WORDPRESS_DB_USER }}"
-          MYSQL_PASSWORD: "{{ WORDPRESS_DB_PASSWORD }}"
+          MYSQL_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           MYSQL_DATABASE: "{{ WORDPRESS_DB_NAME }}"
         volumes:
           - "{{ MARIADB_MOUNT }}:/var/lib/mysql"
@@ -44,7 +46,7 @@
           WORDPRESS_TABLE_PREFIX: "{{ WORDPRESS_TABLE_PREFIX }}"
           WORDPRESS_DB_HOST: "{{ WORDPRESS_DB_HOST }}"
           WORDPRESS_DB_USER: "{{ WORDPRESS_DB_USER }}"
-          WORDPRESS_DB_PASSWORD: "{{ WORDPRESS_DB_PASSWORD }}"
+          WORDPRESS_DB_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
         volumes:
           - "{{ WORDPRESS_MOUNT }}:/var/www/html"
         labels:

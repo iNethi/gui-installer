@@ -2,6 +2,8 @@
   hosts: localserver
   become: true
   gather_facts: no
+  vars_files:
+    - ../config.yml
   vars:
     mysql_root_password: "iNethi2023#"
     mysql_password: "iNethi2023#"
@@ -23,8 +25,8 @@
         image: mysql:latest
         command: "--transaction-isolation=READ-COMMITTED --binlog-format=ROW"
         env:
-          MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
-          MYSQL_PASSWORD: "{{ mysql_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+          MYSQL_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           MYSQL_DATABASE: "inethi_nextcloud"
           MYSQL_USER: "inethi"
         volumes:
