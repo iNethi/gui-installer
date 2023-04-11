@@ -28,6 +28,7 @@ async function installModule(channel, filename, progress_bar) {
   pyshell.end(function (err, code, signal) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
+    win.send(channel, JSON.stringify(res));
     if (res.code != 0) {
 
       // UNCOMMENT THIS FOR NORMAL OPERATION
@@ -45,7 +46,6 @@ async function installModule(channel, filename, progress_bar) {
       num_installed += 1;
       win.send('progressUpdate', progress_bar)
     }
-    win.send(channel, JSON.stringify(res));
     if (num_installed == num_modules_selected) {
       console.log('Installation successful');
       win.send('installComplete', (num_installed == num_modules_selected));
@@ -113,7 +113,6 @@ var credentials, config, modules;
 app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
-    // await sleep(200);
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
@@ -142,14 +141,6 @@ app.whenReady().then(() => {
     win.send('saveModuleSelection', res);
   })
 
-  // ipcMain.handle('savePaumArgs', async (event, args) => {
-  //   await sleep(1000);
-  //   paum = JSON.parse(args);
-  //   console.log(modules);
-  //   var res = writeEnvVars('paum', `PAUM_LIMIT_RESET=${paum.limit_reset}\nPAUM_USAGE_LIMIT=${paum.usage_limit}\nPAUM_COST_30=${paum.cost_30}\nPAUM_COST_60=${paum.cost_60}\nPAUM_COST_24=${paum.cost_24}\nPAUM_COST_1GB=${paum.cost_1gb}\n`);
-  //   win.send('savePaumArgs', res);
-  // })
-
   ipcMain.handle('startInstallation', async (event, args) => {
     console.log('Starting installation');
     var data = {
@@ -166,6 +157,11 @@ app.whenReady().then(() => {
     console.log('Restarting installer');
     app.relaunch();
     app.exit();
+  })
+
+  ipcMain.handle('quitApp', async (event, args) => {
+    console.log('Closing installer, see ya!');
+    app.quit();
   })
 
   createWindow()

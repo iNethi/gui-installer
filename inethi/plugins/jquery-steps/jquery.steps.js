@@ -5,7 +5,7 @@
  */
 
 !(function (a, b) {
-    var connected, saved = false;
+    var connected, install_success = false;
 
     function c(a, b) {
         o(a).push(b);
@@ -211,7 +211,7 @@
                             
                             console.log(message);
 
-                            if (message.code == 1) {
+                            if (message.code == 0) {
                                 connected = true;
                                 return throwSuccess('Connection successful!');
                             } else {
@@ -373,6 +373,7 @@
                 });
 
                 api.handle('installComplete', (event, data) => function (event, data) {
+                    install_success = true;
                     console.log("complete = " + data);
                     document.getElementsByClassName("actions")[0].style.display = "block";
                     document.querySelector(".actions a[href$='#previous']").style.display = "none";
@@ -472,8 +473,13 @@
                 e(d);
                 break;
             case "finish":
-                api.send('restartApp', true);
-                h(d, g);
+                if (install_success) {
+                    api.send('quitApp', true);
+                    h(d, g);
+                } else {
+                    api.send('restartApp', true);
+                    h(d, g);
+                }
                 break;
             case "next":
                 s(d, f, g);
