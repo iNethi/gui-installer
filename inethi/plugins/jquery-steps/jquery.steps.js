@@ -211,7 +211,7 @@
                             
                             console.log(message);
 
-                            if (message.code == 0) {
+                            if (message.code == 1) {
                                 connected = true;
                                 return throwSuccess('Connection successful!');
                             } else {
@@ -268,11 +268,25 @@
                 });
                 break;
             case 3:
-                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk'];
                 var args = {};
+                // var paum_args = {};
+
+                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk'];
                 modules.forEach((module) => {
                     args[module] = document.getElementById(module + 'Checkbox').checked;
                 });
+
+                if (args.paum) {
+                    try {
+                        args.paum_args = {};
+                        const paum_fields = ['limit_reset', 'usage_limit', 'cost_30', 'cost_60', 'cost_24', 'cost_1gb'];
+                        paum_fields.forEach((paum_field) => {
+                            args.paum_args[paum_field] = document.getElementById(paum_field).valueAsNumber;
+                        });
+                    } catch {
+                        console.log('One or multiple PAUM fields are not available.')
+                    }
+                }
 
                 console.log(args);
 
