@@ -26,7 +26,7 @@ def main():
     wordpress = 'wordpress'
 
     # Define the path to the playbook and inventory files
-    playbook_path = f"{abs_path}/{wordpress}.yml"
+    playbook_path = f"{abs_path}/{system_requirements}.yml"
     inventory_path = f"{abs_path}/inventory"
 
     r = ansible_runner.run(private_data_dir='./', playbook=playbook_path, inventory=inventory_path,

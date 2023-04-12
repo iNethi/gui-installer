@@ -1,0 +1,56 @@
+- name: Deploy Keycloak Stack
+  hosts: localserver
+  become: true
+  gather_facts: no
+  vars_files:
+    - ../config.yml
+
+  vars:
+    KEYCLOAK_ADMIN_USER: "admin"
+    KEYCLOAK_TRAEFIK_API_RULE: "keycloak"
+    KEYCLOAK_USER: "inethi"
+    MYSQLDB_VOLUME: "/mnt/data/keycloak-mysql"
+    TRAEFIK_ENTRYPOINT: "websecure"
+    inethiDN: "inethilocal.net"
+    INETHI_NETWORK: "inethi-bridge-traefik"
+
+  tasks:
+    - name: Create MySQL container for Keycloak
+      docker_container:
+        name: inethi-mysql-keycloak
+        image: mysql:5.7
+        restart_policy: unless-stopped
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+          MYSQL_DATABASE: "keycloak"
+          MYSQL_USER: "{{ KEYCLOAK_ADMIN_USER }}"
+          MYSQL_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+        volumes:
+          - "{{ MYSQLDB_VOLUME }}:/var/lib/mysql"
+        networks:
+          - name: "{{ INETHI_NETWORK }}"
+
+    - name: Create Keycloak container
+      docker_container:
+        image: jboss/keycloak
+        name: inethi-keycloak
+        restart_policy: unless-stopped
+        env:
+          HOSTNAME: "{{ KEYCLOAK_TRAEFIK_API_RULE }}"
+          KEYCLOAK_ADMIN: "{{ KEYCLOAK_ADMIN_USER }}"
+          KEYCLOAK_ADMIN_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+          KEYCLOAK_USER: "{{ KEYCLOAK_USER }}"
+          KEYCLOAK_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+          DB_VENDOR: "MYSQL"
+          DB_ADDR: "inethi-mysql-keycloak"
+          DB_DATABASE: "keycloak"
+          DB_USER: "{{ KEYCLOAK_ADMIN_USER }}"
+          DB_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
+          PROXY_ADDRESS_FORWARDING: "true"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.keycloak.rule: "Host(`{{ KEYCLOAK_TRAEFIK_API_RULE }}.{{ inethiDN }}`)"
+          traefik.http.routers.keycloak.entrypoints: "{{ TRAEFIK_ENTRYPOINT }}"
+          traefik.http.services.keycloak.loadbalancer.server.port: "8080"
+        networks:
+          - name: "{{ INETHI_NETWORK }}"
