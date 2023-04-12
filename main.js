@@ -130,6 +130,7 @@ app.whenReady().then(() => {
     if (res) {
       console.log('Trying to connect to remote host...');
       installModule('openConnection', 'test_server_connection');
+      abort = false;
     }
   })
 
