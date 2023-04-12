@@ -112,9 +112,9 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // devTools: false
+      preload: path.join(__dirname, 'preload.js')
     },
+    icon: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
   })
   win.loadFile('inethi/front/index.html')
 }
