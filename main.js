@@ -112,9 +112,9 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // devTools: false
+      preload: path.join(__dirname, 'preload.js')
     },
+    icon: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
   })
   win.loadFile('inethi/front/index.html')
 }
@@ -124,6 +124,7 @@ var credentials, config, modules;
 app.whenReady().then(() => {
 
   ipcMain.handle('openConnection', async (event, args) => {
+    abort = false;
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
