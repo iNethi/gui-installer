@@ -33,14 +33,14 @@ async function installModule(channel, filename, progress_bar) {
 
       // UNCOMMENT THIS FOR NORMAL OPERATION
 
-      console.log('Installation failed');
-      abort = true;
-      win.send('installAbort', abort)
+      // console.log('Installation failed');
+      // abort = true;
+      // win.send('installAbort', abort)
 
       // REMOVE LINES BELOW FOR NORMAL OPERATION
 
-      // num_installed += 1;
-      // win.send('progressUpdate', progress_bar)
+      num_installed += 1;
+      win.send('progressUpdate', progress_bar)
 
     } else {
       num_installed += 1;
@@ -58,6 +58,12 @@ async function installModule(channel, filename, progress_bar) {
 function runInstallation(data) {
   num_installed = 0;
   var progress_bar = 0;
+  // if (data.modules.paum_args) {
+  //   // delete 
+  // }
+
+  // PAUM_ARGS VERWIJDEREN UIT MODULES VOOR PERCENTAGE
+
   num_modules_selected = Object.entries(data['modules']).reduce((acc, [key, value]) => {
     return acc + (value ? 1 : 0);
   }, 0);
