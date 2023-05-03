@@ -8,6 +8,7 @@ var num_installed;
 var num_modules_selected = 100;
 
 async function installModule(channel, filename, progress_bar) {
+  win.send('testMessages', `Starting installation of ${filename}`);
   while (lock) {
     await sleep(1000);
   }

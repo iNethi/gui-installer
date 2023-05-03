@@ -4,6 +4,10 @@
  * Licensed under MIT http://www.opensource.org/licenses/MIT
  */
 
+api.handle('testMessages', (event, data) => function (event, message) {
+    console.log(message)
+});
+
 !(function (a, b) {
     var connected, install_success = false;
 
