@@ -166,23 +166,24 @@
             return true;
         }
 
-        function countOccurrences(str, value) {
-            var regExp = new RegExp(value, "gi");
-            return (str.match(regExp) || []).length;
-        }
+        // function countOccurrences(str, value) {
+        //     var regExp = new RegExp(value, "gi");
+        //     return (str.match(regExp) || []).length;
+        // }
 
-        function success(message) {
-            if (countOccurrences(message, 'successful')) {
-                return 0
-            } else {
-                return 1
-            }
-        }
+        // function success(message) {
+        //     if (countOccurrences(message, 'successful')) {
+        //         return 0
+        //     } else {
+        //         return 1
+        //     }
+        // }
 
         switch (c.currentIndex) {
+            case 0:
+                return B(a, b, c, v(c, 1));
             case 1:
                 if (!connected) {
-
                     var args = {
                         'ip': document.getElementById('serverIp').value,
                         'username': document.getElementById('serverUsername').value,
@@ -213,10 +214,11 @@
 
                             if (message.code == 0) {
                                 connected = true;
-                                return throwSuccess('Connection successful!');
+                                throwSuccess('Connection successful!');
                             } else {
-                                return throwError('Connection unsuccessful', 'Check your credentials and try again.')
+                                throwError('Connection unsuccessful', 'Check your credentials and try again.')
                             }
+                            api.close();
                         } catch {
                             console.log(message);
                         }
@@ -382,8 +384,8 @@
                     return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
-            default:
-                return B(a, b, c, v(c, 1));
+            // default:
+            //     return B(a, b, c, v(c, 1));
         }
     }
 
