@@ -216,7 +216,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                             
                             console.log(message);
 
-                            if (message.code == 0) {
+                            if (message.code == 1) {
                                 connected = true;
                                 throwSuccess('Connection successful!');
                             } else {
@@ -276,7 +276,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
             case 3:
                 var args = {};
 
-                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk'];
+                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk', 'azuracast'];
                 modules.forEach((module) => {
                     args[module] = document.getElementById(module + 'Checkbox').checked;
                 });
