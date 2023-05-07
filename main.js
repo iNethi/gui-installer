@@ -60,7 +60,7 @@ function runInstallation(data) {
   num_installed = 0;
   var progress_bar = 0;
   // if (data.modules.paum_args) {
-  //   // delete 
+  //    delete data.modules.paum_args
   // }
 
   // PAUM_ARGS VERWIJDEREN UIT MODULES VOOR PERCENTAGE

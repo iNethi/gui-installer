@@ -170,19 +170,6 @@ api.handle('testMessages', (event, data) => function (event, message) {
             return true;
         }
 
-        // function countOccurrences(str, value) {
-        //     var regExp = new RegExp(value, "gi");
-        //     return (str.match(regExp) || []).length;
-        // }
-
-        // function success(message) {
-        //     if (countOccurrences(message, 'successful')) {
-        //         return 0
-        //     } else {
-        //         return 1
-        //     }
-        // }
-
         switch (c.currentIndex) {
             case 0:
                 return B(a, b, c, v(c, 1));
@@ -216,7 +203,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                             
                             console.log(message);
 
-                            if (message.code == 1) {
+                            if (message.code == 0) {
                                 connected = true;
                                 throwSuccess('Connection successful!');
                             } else {
@@ -388,8 +375,6 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
-            // default:
-            //     return B(a, b, c, v(c, 1));
         }
     }
 
