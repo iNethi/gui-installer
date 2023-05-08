@@ -174,6 +174,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
             case 0:
                 return B(a, b, c, v(c, 1));
             case 1:
+                console.log('I am here!')
                 if (!connected) {
                     var args = {
                         'ip': document.getElementById('serverIp').value,
@@ -188,6 +189,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     console.log(args)
 
                     api.send('openConnection', JSON.stringify(args));
+                    console.log('I am here!')
 
                     Swal.fire({
                         title: 'Connecting to server...',

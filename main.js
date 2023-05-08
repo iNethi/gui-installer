@@ -7,49 +7,66 @@ var abort = false;
 var num_installed;
 var num_modules_selected = 100;
 
+function runCommand(command) {
+  require('child_process').execSync(command, {stdio: 'inherit'}, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`${stderr}`);
+      return;
+    }
+    console.log(`${stdout}`);
+  });
+}
+
 async function installModule(channel, filename, progress_bar) {
-  win.send('testMessages', `Starting installation of ${filename}`);
+  // let win = window.getFocusedWindow();
+  win.webContents.send('testMessages', `Test message received!`);
+  win.webContents.send('testMessages', PythonShell.getVersionSync());
   while (lock) {
     await sleep(1000);
   }
   if (abort) {
-    win.send(channel, `Installation of ${filename} aborted`);
+    win.webContents.send(channel, `Installation of ${filename} aborted`);
+    api.handle()
     return;
   }
-  win.send(channel, `Starting installation of ${filename}`);
+  win.webContents.send(channel, `Starting installation of ${filename}`);
   lock = true;
-  let pyshell = new PythonShell(`./backend/playbooks/start_playbook.py`, { mode: 'text' });
+  let pyshell = new PythonShell(path.join(__dirname, 'backend/playbooks/start_playbook.py'), { mode: 'text' });
 
-  pyshell.send(filename);
+  pyshell.send(`${app.getPath("userData")}===${filename}`);
 
   pyshell.on('message', function (message) {
-    win.send(channel, message);
+    win.webContents.send(channel, message);
   });
 
   pyshell.end(function (err, code, signal) {
     var res = { 'code': code };
     if (err) { res.error = err.message; }
-    win.send(channel, JSON.stringify(res));
+    win.webContents.send(channel, JSON.stringify(res));
     if (res.code != 0) {
 
       // UNCOMMENT THIS FOR NORMAL OPERATION
 
       console.log('Installation failed');
       abort = true;
-      win.send('installAbort', abort)
+      win.webContents.send('installAbort', abort)
 
       // REMOVE LINES BELOW FOR NORMAL OPERATION
 
       // num_installed += 1;
-      // win.send('progressUpdate', progress_bar)
+      // win.webContents.send('progressUpdate', progress_bar)
 
     } else {
       num_installed += 1;
-      win.send('progressUpdate', progress_bar)
+      win.webContents.send('progressUpdate', progress_bar)
     }
     if (num_installed == num_modules_selected) {
       console.log('Installation successful');
-      win.send('installComplete', (num_installed == num_modules_selected));
+      win.webContents.send('installComplete', (num_installed == num_modules_selected));
     }
     lock = false;
     return;
@@ -90,17 +107,20 @@ function runInstallation(data) {
 
 function writeEnvVars(filename, string) {
   try {
-    fs.writeFileSync(`./backend/${filename}.env`, string, 'utf-8');
+    win.webContents.send('testMessages', `${app.getPath("userData")}`);
+    fs.writeFileSync(`${app.getPath("userData")}/${filename}.env`, string, 'utf-8');
+    win.webContents.send('testMessages', 'I am here writeEnvVars 2!');
     return true
   } catch (e) {
     console.log(e);
+    win.webContents.send('testMessages', e);
     return false
   }
 }
 
 function writeYamlVars(filename, string) {
   try {
-    fs.writeFileSync(`./backend/${filename}.yml`, string, 'utf-8');
+    fs.writeFileSync(`${app.getPath("userData")}/${filename}.yml`, string, 'utf-8');
     return true
   } catch (e) {
     console.log(e);
@@ -125,20 +145,35 @@ const createWindow = () => {
     icon: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
   })
   win.loadFile('inethi/front/index.html')
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.openDevTools()
+    win.webContents.send('testMessages', 'I am alive!');
+  });
 }
 
 var credentials, config, modules;
 
 app.whenReady().then(() => {
 
+  runCommand(`chmod +x ${path.join(__dirname, './preinstallation.sh')}`);
+  runCommand(`${path.join(__dirname, './preinstallation.sh')}`);
+
+  createWindow()
+
   ipcMain.handle('openConnection', async (event, args) => {
+    win.webContents.send('testMessages', 'I am here openConnection 1!');
     abort = false;
     credentials = JSON.parse(args);
     console.log(credentials);
+    win.webContents.send('testMessages', 'I am here openConnection 2!');
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
+    win.webContents.send('testMessages', 'I am here openConnection 5!');
+    win.webContents.send('testMessages', res);
     if (res) {
+      win.webContents.send('testMessages', 'I am here openConnection 3!');
       console.log('Trying to connect to remote host...');
       installModule('openConnection', 'test_server_connection');
+      win.webContents.send('testMessages', 'I am here openConnection 4!');
     }
   })
 
@@ -147,7 +182,7 @@ app.whenReady().then(() => {
     config = JSON.parse(args);
     console.log(config);
     var res = writeYamlVars('config', `CONF_STORAGE_PATH: ${config.storagepath}\nCONF_DOMAIN_NAME: ${config.domainname}\nCONF_HTTPS: ${config.https}\nCONF_MASTER_PASSWORD: ${config.master}\n`);
-    win.send('saveConfig', res);
+    win.webContents.send('saveConfig', res);
   })
 
   ipcMain.handle('saveModuleSelection', async (event, args) => {
@@ -158,7 +193,7 @@ app.whenReady().then(() => {
     if (modules.paum && res) {
       res = writeEnvVars('paum', `PAUM_LIMIT_RESET=${modules.paum_args.limit_reset}\nPAUM_USAGE_LIMIT=${modules.paum_args.usage_limit}\nPAUM_COST_30=${modules.paum_args.cost_30}\nPAUM_COST_60=${modules.paum_args.cost_60}\nPAUM_COST_24=${modules.paum_args.cost_24}\nPAUM_COST_1GB=${modules.paum_args.cost_1gb}\n`);
     }
-    win.send('saveModuleSelection', res);
+    win.webContents.send('saveModuleSelection', res);
   })
 
   ipcMain.handle('startInstallation', async (event, args) => {
@@ -172,7 +207,6 @@ app.whenReady().then(() => {
     runInstallation(data);
   })
 
-
   ipcMain.handle('restartApp', async (event, args) => {
     console.log('Restarting installer');
     app.relaunch();
@@ -184,7 +218,6 @@ app.whenReady().then(() => {
     app.quit();
   })
 
-  createWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })

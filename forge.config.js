@@ -1,6 +1,9 @@
 module.exports = {
   packagerConfig: {
-    icon: 'inethi/front/assets/images/icon/icon' // no file extension required
+    icon: 'inethi/front/assets/images/icon/icon', // no file extension required
+    ignore: [
+      "/inethi/dastyle"
+    ]
   },
   rebuildConfig: {},
   makers: [

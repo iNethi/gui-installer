@@ -56,13 +56,13 @@
         cb(start, end, '');
     }
    
-    function initMetisMenu() {
-        //metis menu
-        $(".metismenu").metisMenu();
-        $( window ).resize(function() {
-            initEnlarge();
-        });
-    }
+    // function initMetisMenu() {
+    //     //metis menu
+    //     $(".metismenu").metisMenu();
+    //     $( window ).resize(function() {
+    //         initEnlarge();
+    //     });
+    // }
 
     function initLeftMenuCollapse() {
         // Left menu collapse
@@ -120,9 +120,9 @@
         });
     }
 
-    function initFeatherIcon() {
-        feather.replace()
-    }
+    // function initFeatherIcon() {
+    //     feather.replace()
+    // }
     // Auto complate
 
     function initAutoComplate() {
@@ -177,13 +177,13 @@
 
     function init() {
         initDateRangrPicker();
-        initMetisMenu();
+        // initMetisMenu();
         initLeftMenuCollapse();
         initEnlarge();
         initTooltipPlugin();
         initMainIconTabMenu();
         initActiveMenu();
-        initFeatherIcon();
+        // initFeatherIcon();
         initAutoComplate();
         initMainIconMenu();
         initTopbarMenu();
