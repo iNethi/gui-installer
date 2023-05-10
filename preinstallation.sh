@@ -28,6 +28,44 @@ fi
 
 
 
+if ! command -v pip3 &> /dev/null; then
+    echo "pip3 is not installed. Installing now..."
+
+    if [ "$(uname)" == "Darwin" ]; then
+        if ! command -v brew &> /dev/null; then
+            echo "Homebrew is not installed. Installing now..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+        brew install python
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            if [ "$ID" == "ubuntu" ] || [ "$ID" == "debian" ]; then
+                sudo apt-get update
+                sudo apt-get install -y python3-pip
+            elif [ "$ID" == "centos" ] || [ "$ID" == "rhel" ]; then
+                sudo yum install -y epel-release
+                sudo yum install -y python3-pip
+            else
+                echo "Your operating system is not supported by this script."
+                exit 1
+            fi
+        else
+            echo "Your operating system is not supported by this script."
+            exit 1
+        fi
+    else
+        echo "Your operating system is not supported by this script."
+        exit 1
+    fi
+
+    echo "pip3 has been installed."
+else
+    echo "pip3 is already installed."
+fi
+
+
+
 if ! command -v ansible &> /dev/null; then
     echo "Ansible is not installed. Installing now..."
 
