@@ -2,11 +2,11 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
+var sudo = require('sudo-prompt');
 var lock = false;
 var abort = false;
 var num_installed;
 var num_modules_selected = 100;
-var sudo = require('sudo-prompt');
 
 function runCommand(command) {
   var options = {
@@ -15,8 +15,15 @@ function runCommand(command) {
   };
   sudo.exec(command, options,
     function(error, stdout, stderr) {
-      if (error) throw error;
-      console.log('stdout: ' + stdout);
+      if (error) {
+        var res = { 'code': 1, 'error': error };
+        console.log(error);
+        throw error;
+      } else {
+        var res = { 'code': 0 };
+        console.log(stdout);
+      }
+      win.webContents.send('checkRequirements', JSON.stringify(res));
     }
   );
 }
@@ -36,9 +43,6 @@ function runMacCommand(command) {
 }
 
 async function installModule(channel, filename, progress_bar) {
-  // let win = window.getFocusedWindow();
-  win.webContents.send('testMessages', `Test message received!`);
-  win.webContents.send('testMessages', PythonShell.getVersionSync());
   while (lock) {
     await sleep(1000);
   }
@@ -120,13 +124,10 @@ function runInstallation(data) {
 
 function writeEnvVars(filename, string) {
   try {
-    win.webContents.send('testMessages', `${app.getPath("userData")}`);
     fs.writeFileSync(`${app.getPath("userData")}/${filename}.env`, string, 'utf-8');
-    win.webContents.send('testMessages', 'I am here writeEnvVars 2!');
     return true
   } catch (e) {
     console.log(e);
-    win.webContents.send('testMessages', e);
     return false
   }
 }
@@ -158,40 +159,39 @@ const createWindow = () => {
     icon: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
   })
   win.loadFile('inethi/front/index.html')
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.openDevTools()
-    win.webContents.send('testMessages', 'I am alive!');
-  });
+  // win.webContents.on('did-finish-load', () => {
+  //   win.webContents.openDevTools()
+  //   win.webContents.send('testMessages', 'I am alive!');
+  // });
 }
 
 var credentials, config, modules;
 
 app.whenReady().then(() => {
 
-  if (process.platform === 'darwin') {
-    runMacCommand(`osascript -e 'do shell script "chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`)
-  } else if (process.platform === 'win32') {
-    alert('This platform is not supported for automated requirements installation. Please install: ...')
-  } else {
-    runCommand(`${path.join(__dirname, './preinstallation.sh')}`)
-  }
-
   createWindow()
 
+  ipcMain.handle('checkRequirements', async (event, args) => {
+    console.log('Checking requirements...');
+    if (process.platform === 'darwin') {
+      console.log("I'm a stupid MAC");
+      // runMacCommand(`osascript -e 'do shell script "${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`);
+    } else if (process.platform === 'win32') {
+      alert('Windows is not yet supported for automated requirements installation. Please install python3, pip3, ansible, ansible-runner (python library) and sshpass manually.')
+    } else {
+      runCommand(`${path.join(__dirname, './preinstallation.sh')}`)
+    }
+    await sleep(5000);
+  });
+
   ipcMain.handle('openConnection', async (event, args) => {
-    win.webContents.send('testMessages', 'I am here openConnection 1!');
     abort = false;
     credentials = JSON.parse(args);
     console.log(credentials);
-    win.webContents.send('testMessages', 'I am here openConnection 2!');
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
-    win.webContents.send('testMessages', 'I am here openConnection 5!');
-    win.webContents.send('testMessages', res);
     if (res) {
-      win.webContents.send('testMessages', 'I am here openConnection 3!');
       console.log('Trying to connect to remote host...');
       installModule('openConnection', 'test_server_connection');
-      win.webContents.send('testMessages', 'I am here openConnection 4!');
     }
   })
 

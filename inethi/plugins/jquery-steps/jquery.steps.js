@@ -4,12 +4,8 @@
  * Licensed under MIT http://www.opensource.org/licenses/MIT
  */
 
-api.handle('testMessages', (event, data) => function (event, message) {
-    console.log(message)
-});
-
 !(function (a, b) {
-    var connected, install_success = false;
+    var complete, connected, install_success = false;
 
     function c(a, b) {
         o(a).push(b);
@@ -172,9 +168,42 @@ api.handle('testMessages', (event, data) => function (event, message) {
 
         switch (c.currentIndex) {
             case 0:
-                return B(a, b, c, v(c, 1));
-            case 1:
-                console.log('I am here!')
+                console.log('Lets get started!')
+                
+                B(a, b, c, v(c, 1));
+
+                // if (!complete) {
+                console.log('Checking requirements...');
+                api.send('checkRequirements', 'hello');
+
+                Swal.fire({
+                    title: 'Checking system requirements...',
+                    text: 'Get a cup of coffee, this might take a while.',
+                    html: '<div class="lds-dual-ring"></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    showCancelButton: false
+                });
+
+                api.handle('checkRequirements', (event, data) => function (event, message) {
+                    try {
+                        message = JSON.parse(message);
+                        console.log(message);
+                        if (message.code == 0) {
+                            complete = true;
+                            return throwSuccess('Installing requirements complete!');
+                        } else {
+                            throwError('Oops! Something went wrong...', 'Please check the logs and try again or contact the iNethi team.')
+                        }
+                        api.close();
+                    } catch {
+                        console.log(message);
+                    }
+                });
+                // } else {
+                //     return B(a, b, c, v(c, 1));
+                // }
+            case 2:
                 if (!connected) {
                     var args = {
                         'ip': document.getElementById('serverIp').value,
@@ -189,7 +218,6 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     console.log(args)
 
                     api.send('openConnection', JSON.stringify(args));
-                    console.log('I am here!')
 
                     Swal.fire({
                         title: 'Connecting to server...',
@@ -220,7 +248,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     return B(a, b, c, v(c, 1));
                 }
                 break;
-            case 2:
+            case 3:
                 var args = {
                     'storagepath': document.getElementById('storagePath').value,
                     'domainname': document.getElementById('domainName').value,
@@ -262,7 +290,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     }
                 });
                 break;
-            case 3:
+            case 4:
                 var args = {};
 
                 const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk', 'azuracast'];
@@ -324,7 +352,7 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     }
                 });
                 break;
-            case 4:
+            case 5:
                 console.log('Start installation!');
 
                 document.getElementsByClassName("actions")[0].style.display = "none";
@@ -377,6 +405,8 @@ api.handle('testMessages', (event, data) => function (event, message) {
                     return throwSuccess('Your iNethi installation was successful!');
                 });
                 break;
+            // default:
+            //     return B(a, b, c, v(c, 1));
         }
     }
 
