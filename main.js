@@ -6,19 +6,19 @@ var lock = false;
 var abort = false;
 var num_installed;
 var num_modules_selected = 100;
+var sudo = require('sudo-prompt');
 
 function runCommand(command) {
-  require('child_process').execSync(command, {stdio: 'inherit'}, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`${error.message}`);
-      return;
+  var options = {
+    name: 'iNethi',
+    icns: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
+  };
+  sudo.exec(command, options,
+    function(error, stdout, stderr) {
+      if (error) throw error;
+      console.log('stdout: ' + stdout);
     }
-    if (stderr) {
-      console.error(`${stderr}`);
-      return;
-    }
-    console.log(`${stdout}`);
-  });
+  );
 }
 
 async function installModule(channel, filename, progress_bar) {
