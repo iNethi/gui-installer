@@ -44,7 +44,6 @@ async function installModule(channel, filename, progress_bar) {
   }
   if (abort) {
     win.webContents.send(channel, `Installation of ${filename} aborted`);
-    api.handle()
     return;
   }
   win.webContents.send(channel, `Starting installation of ${filename}`);
@@ -169,13 +168,12 @@ var credentials, config, modules;
 
 app.whenReady().then(() => {
 
-  // if (process.platform === 'darwin') {
-  //   runMacCommand(`osascript -e 'do shell script "chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`)
-  // } else 
-  if (process.platform === 'win32') {
+  if (process.platform === 'darwin') {
+    runMacCommand(`osascript -e 'do shell script "chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`)
+  } else if (process.platform === 'win32') {
     alert('This platform is not supported for automated requirements installation. Please install: ...')
   } else {
-    runCommand(`chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}`)
+    runCommand(`${path.join(__dirname, './preinstallation.sh')}`)
   }
 
   createWindow()
