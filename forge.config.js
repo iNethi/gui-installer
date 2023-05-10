@@ -7,10 +7,10 @@ module.exports = {
   },
   rebuildConfig: {},
   makers: [
-    {
-      name: '@electron-forge/maker-squirrel',
-      config: {},
-    },
+    // {
+    //   name: '@electron-forge/maker-squirrel',
+    //   config: {},
+    // },
     // {
     //   name: '@electron-forge/maker-zip',
     //   platforms: ['darwin'],
@@ -22,16 +22,16 @@ module.exports = {
           icon: 'inethi/front/assets/images/icon/icon.png'
         }
       },
-      name: '@electron-forge/maker-dmg',
-      config: {
-        format: 'ULFO',
-        background: './inethi/front/assets/images/icon/dmg_background.png',
-        icon: './inethi/front/assets/images/icon/icon.png'
-      }
+      // name: '@electron-forge/maker-dmg',
+      // config: {
+      //   format: 'ULFO',
+      //   background: './inethi/front/assets/images/icon/dmg_background.png',
+      //   icon: './inethi/front/assets/images/icon/icon.png'
+      // }
     },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+    // {
+    //   name: '@electron-forge/maker-rpm',
+    //   config: {},
+    // },
   ],
 };
