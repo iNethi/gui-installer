@@ -21,6 +21,20 @@ function runCommand(command) {
   );
 }
 
+function runMacCommand(command) {
+  require('child_process').execSync(command, {stdio: 'inherit'}, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`${stderr}`);
+      return;
+    }
+    console.log(`${stdout}`);
+  });
+}
+
 async function installModule(channel, filename, progress_bar) {
   // let win = window.getFocusedWindow();
   win.webContents.send('testMessages', `Test message received!`);
@@ -155,8 +169,14 @@ var credentials, config, modules;
 
 app.whenReady().then(() => {
 
-  runCommand(`chmod +x ${path.join(__dirname, './preinstallation.sh')}`);
-  runCommand(`${path.join(__dirname, './preinstallation.sh')}`);
+  // if (process.platform === 'darwin') {
+  //   runMacCommand(`osascript -e 'do shell script "chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`)
+  // } else 
+  if (process.platform === 'win32') {
+    alert('This platform is not supported for automated requirements installation. Please install: ...')
+  } else {
+    runCommand(`chmod +x ${path.join(__dirname, './preinstallation.sh')} | ${path.join(__dirname, './preinstallation.sh')}`)
+  }
 
   createWindow()
 
