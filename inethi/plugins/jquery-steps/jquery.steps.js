@@ -172,37 +172,38 @@
                 
                 B(a, b, c, v(c, 1));
 
-                // if (!complete) {
-                console.log('Checking requirements...');
-                api.send('checkRequirements', 'hello');
+                if (!complete) {
+                    console.log('Checking requirements...');
+                    api.send('checkRequirements', 'hello');
 
-                Swal.fire({
-                    title: 'Checking system requirements...',
-                    text: 'Get a cup of coffee, this might take a while.',
-                    html: '<div class="lds-dual-ring"></div>',
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    showCancelButton: false
-                });
+                    Swal.fire({
+                        title: 'Checking system requirements...',
+                        text: 'Get a cup of coffee, this might take a while.',
+                        html: '<div class="lds-dual-ring"></div>',
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        showCancelButton: false
+                    });
 
-                api.handle('checkRequirements', (event, data) => function (event, message) {
-                    try {
-                        message = JSON.parse(message);
-                        console.log(message);
-                        if (message.code == 0) {
-                            complete = true;
-                            return throwSuccess('Installing requirements complete!');
-                        } else {
-                            throwError('Oops! Something went wrong...', 'Please check the logs and try again or contact the iNethi team.')
+                    api.handle('checkRequirements', (event, data) => function (event, message) {
+                        try {
+                            message = JSON.parse(message);
+                            console.log(message);
+                            if (message.code == 0) {
+                                complete = true;
+                                return throwSuccess('Installing requirements complete!');
+                            } else {
+                                throwError('Oops! Something went wrong...', 'Please check the logs and try again or contact the iNethi team.')
+                            }
+                            api.close();
+                        } catch {
+                            console.log(message);
                         }
-                        api.close();
-                    } catch {
-                        console.log(message);
-                    }
-                });
-                // } else {
-                //     return B(a, b, c, v(c, 1));
-                // }
+                    });
+                } else {
+                    return B(a, b, c, v(c, 1));
+                }
+                break;
             case 2:
                 if (!connected) {
                     var args = {
