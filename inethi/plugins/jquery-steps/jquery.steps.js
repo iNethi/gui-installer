@@ -174,15 +174,25 @@
 
                 if (!complete) {
                     console.log('Checking requirements...');
-                    api.send('checkRequirements', 'hello');
 
                     Swal.fire({
-                        title: 'Checking system requirements...',
-                        text: 'Get a cup of coffee, this might take a while.',
-                        html: '<div class="lds-dual-ring"></div>',
-                        showConfirmButton: false,
-                        allowOutsideClick: false,
-                        showCancelButton: false
+                        title: 'Requirements check',
+                        text: 'In order to install iNethi on your remote server, we need to install a few requirements on your machine.',
+                        footer: 'Please enter your password when prompted.',
+                        confirmButtonText: 'Check!',
+                        icon: 'info',
+                        showConfirmButton: true,
+                        allowOutsideClick: false
+                    }, { once: true }).then(function () {
+                        api.send('checkRequirements', 'hello');
+                        Swal.fire({
+                            title: 'Checking system requirements...',
+                            text: 'Get a cup of coffee, this might take a while.',
+                            html: '<div class="lds-dual-ring"></div>',
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            showCancelButton: false
+                        })
                     });
 
                     api.handle('checkRequirements', (event, data) => function (event, message) {
