@@ -119,6 +119,22 @@ fi
 
 
 
+if ! command -v sshd &> /dev/null; then
+    echo "OpenSSH server is not installed. Installing..."
+
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sudo apt-get install openssh-server
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        sudo systemsetup -setremotelogin on
+    fi
+    
+    echo "OpenSSH server installed successfully."
+else
+    echo "OpenSSH server is already installed."
+fi
+
+
+
 if ! command -v sshpass &> /dev/null; then
     echo "sshpass is not installed. Installing now..."
 
