@@ -169,11 +169,13 @@
         switch (c.currentIndex) {
             case 0:
                 console.log('Lets get started!')
-                
                 B(a, b, c, v(c, 1));
-
+                break;
+            case 1:
                 if (!complete) {
                     console.log('Checking requirements...');
+
+                    document.getElementsByClassName("actions")[0].style.display = "none";
 
                     Swal.fire({
                         title: 'Requirements check',
@@ -187,7 +189,7 @@
                         api.send('checkRequirements', 'hello');
                         Swal.fire({
                             title: 'Checking system requirements...',
-                            text: 'Get a cup of coffee, this might take a while.',
+                            footer: 'Get a cup of coffee, this might take a while.',
                             html: '<div class="lds-dual-ring"></div>',
                             showConfirmButton: false,
                             allowOutsideClick: false,
@@ -213,6 +215,7 @@
                 } else {
                     return B(a, b, c, v(c, 1));
                 }
+                document.getElementsByClassName("actions")[0].style.display = "block";
                 break;
             case 2:
                 if (!connected) {

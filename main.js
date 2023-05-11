@@ -173,15 +173,14 @@ app.whenReady().then(() => {
 
   ipcMain.handle('checkRequirements', async (event, args) => {
     console.log('Checking requirements...');
+    await sleep(500);
     if (process.platform === 'darwin') {
-      await sleep(5000);
       var res = { 'code': 0 };
       win.webContents.send('checkRequirements', JSON.stringify(res));
       // runMacCommand(`osascript -e 'do shell script "${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`);
     } else if (process.platform === 'win32') {
       console.log('Windows is not yet supported for automated requirements installation. Please install python3, pip3, ansible, ansible-runner (python library) and sshpass manually.')
     } else {
-      await sleep(1000);
       runCommand(`${path.join(__dirname, './preinstallation.sh')}`)
     }
   });
