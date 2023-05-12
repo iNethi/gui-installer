@@ -210,7 +210,7 @@ app.whenReady().then(() => {
     console.log(modules);
     var res = writeEnvVars('modules', `MODS_DOCKER=${modules.docker}\nMODS_TRAEFIK=${modules.traefik}\nMODS_NGINX=${modules.nginx}\nMODS_KEYCLOAK=${modules.keycloak}\nMODS_NEXTCLOUD=${modules.nextcloud}\nMODS_JELLYFIN=${modules.jellyfin}\nMODS_WORDPRESS=${modules.wordpress}\nMODS_PEERTUBE=${modules.peertube}\nMODS_PAUM=${modules.paum}\nMODS_RADIUSDESK=${modules.radiusdesk}\nMODS_AZURACAST=${modules.azuracast}\n`);
     if (modules.paum && res) {
-      res = writeEnvVars('paum', `PAUM_LIMIT_RESET=${modules.paum_args.limit_reset}\nPAUM_USAGE_LIMIT=${modules.paum_args.usage_limit}\nPAUM_COST_30=${modules.paum_args.cost_30}\nPAUM_COST_60=${modules.paum_args.cost_60}\nPAUM_COST_24=${modules.paum_args.cost_24}\nPAUM_COST_1GB=${modules.paum_args.cost_1gb}\n`);
+      res = writeYamlVars('paum-values', `PAUM_LIMIT_RESET: ${modules.paum_args.limit_reset}\nPAUM_USAGE_LIMIT: ${modules.paum_args.usage_limit}\nPAUM_COST_30: ${modules.paum_args.cost_30}\nPAUM_COST_60: ${modules.paum_args.cost_60}\nPAUM_COST_24: ${modules.paum_args.cost_24}\nPAUM_COST_1GB: ${modules.paum_args.cost_1gb}\n`);
     }
     win.webContents.send('saveModuleSelection', res);
   })

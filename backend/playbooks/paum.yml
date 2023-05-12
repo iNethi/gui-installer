@@ -4,6 +4,7 @@
   gather_facts: yes
   vars_files:
     - ../config.yml
+    - ../paum-values.yml
 
   vars:
     TRAEFIK_API_RULE_DJANGO: "inethi-user-management"
@@ -61,6 +62,13 @@
       copy:
         src: "{{ playbook_dir }}/inethi_user_management/requirements.txt"
         dest: "{{ DJANGO_MNT }}/app/requirements.txt"
+
+    - name: Update Python file with values from builder
+      lineinfile:
+        path: "{{ DJANGO_MNT }}/app/inethi_management/views.py"
+        regexp: "^PriceToPackageMap = "
+        line: "PriceToPackageMap = { {{ PAUM_COST_30 }}: ['TIME30M', 1800, '1W'], {{ PAUM_COST_60 }}: ['TIME1H', 3600, '2W'], {{ PAUM_COST_24 }}: ['TIME24H', 86400, '1M'], {{ PAUM_COST_1GB }}: ['DATA1G', 2592000, '3M']}"
+      when: docker_ps_result_api.rc != 0
 
     - name: Deploy API
       command: "docker-compose -f /mnt/data/inethi_user_management/docker-compose.yml up -d inethi-user-management-mysql"
