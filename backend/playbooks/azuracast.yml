@@ -4,7 +4,7 @@
   gather_facts: yes
 
   vars:
-    RADIO_MNT: "/mnt/data/radio"
+    AZURACAST_MNT: "/mnt/data/azuracast"
 
   tasks:
     - name: Create directories
@@ -13,12 +13,12 @@
         state: directory
         mode: '0777'
       with_items:
-        - "{{ RADIO_MNT }}"
+        - "{{ AZURACAST_MNT }}"
 
     - name: Copy files to Server
       copy:
-        src: "{{ playbook_dir }}/radio/"
-        dest: "{{ RADIO_MNT }}/"
+        src: "{{ playbook_dir }}/azuracast/"
+        dest: "{{ AZURACAST_MNT }}/"
 
 #    - name: Set executable permissions on docker.sh
 #      file:
@@ -36,8 +36,8 @@
 
     - name: Set executable permissions on build file
       file:
-        path: "/mnt/data/radio/build.sh"
+        path: "/mnt/data/azuracast/docker.sh"
         mode: '+x'
 
     - name: build the container
-      command: "docker-compose -f /mnt/data/radio/docker-compose.yml up -d"
+      command: "docker-compose -f /mnt/data/azuracast/docker-compose.yml up -d"
