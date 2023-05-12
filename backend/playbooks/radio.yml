@@ -1,0 +1,43 @@
+- name: Deploy AzuraCast
+  hosts: localserver
+  become: true
+  gather_facts: yes
+
+  vars:
+    RADIO_MNT: "/mnt/data/radio"
+
+  tasks:
+    - name: Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0777'
+      with_items:
+        - "{{ RADIO_MNT }}"
+
+    - name: Copy files to Server
+      copy:
+        src: "{{ playbook_dir }}/radio/"
+        dest: "{{ RADIO_MNT }}/"
+
+#    - name: Set executable permissions on docker.sh
+#      file:
+#        path: "/mnt/data/radio/docker.sh"
+#        mode: '+x'
+#
+#    - name: Run docker.sh setup-release
+#      command: >
+#        bash -c "echo 'Y' | /mnt/data/radio/docker.sh setup-release"
+#
+#    - name: Run docker.sh install
+#      command: >
+#        bash -c "echo '' | /mnt/data/radio/docker.sh install"
+#      ignore_errors: true
+
+    - name: Set executable permissions on build file
+      file:
+        path: "/mnt/data/radio/build.sh"
+        mode: '+x'
+
+    - name: build the container
+      command: "docker-compose -f /mnt/data/radio/docker-compose.yml up -d"
