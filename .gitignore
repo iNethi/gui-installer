@@ -139,4 +139,4 @@ dist
 
 *artifacts/
 
-*.env
+.env
