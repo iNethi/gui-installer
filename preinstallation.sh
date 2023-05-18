@@ -1,35 +1,33 @@
 #!/bin/bash
 
-
-#!/bin/bash
-
-# Function to check if updates are available and perform the upgrade
-perform_upgrade() {
+# Function to update system packages
+update_packages() {
     # Check if the package manager command exists
     if command -v $PKG_MANAGER &> /dev/null; then
-        # Update package lists
-        $PKG_MANAGER update
+        echo "Updating system packages..."
 
-        # Check if updates are available
-        updates=$($PKG_MANAGER outdated | wc -l | xargs)
-        if [[ $updates -gt 0 ]]; then
-            echo "There are $updates updates available."
+        # Perform system package update
+        case $PKG_MANAGER in
+            apt-get)
+                sudo $PKG_MANAGER update
+                sudo $PKG_MANAGER upgrade -y
+                ;;
+            yum)
+                sudo $PKG_MANAGER update -y
+                ;;
+            brew)
+                brew update
+                brew upgrade
+                ;;
+            *)
+                echo "Unsupported package manager ($PKG_MANAGER). Please update the system packages manually."
+                exit 1
+                ;;
+        esac
 
-            # Prompt user to upgrade
-            read -p "Do you want to upgrade the system? (y/n): " choice
-            if [[ $choice =~ ^[Yy]$ ]]; then
-                echo "Upgrading the system..."
-                # Perform system upgrade
-                $PKG_MANAGER upgrade
-                echo "System upgraded successfully."
-            else
-                echo "Upgrade canceled."
-            fi
-        else
-            echo "The system is up to date. No updates available."
-        fi
+        echo "System packages updated successfully."
     else
-        echo "Package manager ($PKG_MANAGER) not found. Please update the system manually."
+        echo "Package manager ($PKG_MANAGER) not found. Please update the system packages manually."
     fi
 }
 
@@ -39,10 +37,26 @@ PKG_MANAGER=""
 
 case $OS in
     Linux*)
-        PKG_MANAGER=$( command -v apt-get || command -v yum || command -v dnf || command -v zypper )
+        if [ -n "$(command -v apt-get)" ]; then
+            PKG_MANAGER="apt-get"
+        elif [ -n "$(command -v yum)" ]; then
+            PKG_MANAGER="yum"
+        elif [ -n "$(command -v dnf)" ]; then
+            PKG_MANAGER="dnf"
+        elif [ -n "$(command -v zypper)" ]; then
+            PKG_MANAGER="zypper"
+        else
+            echo "No supported package manager found on the system."
+            exit 1
+        fi
         ;;
     Darwin*)
-        PKG_MANAGER=$( command -v brew )
+        if [ -n "$(command -v brew)" ]; then
+            PKG_MANAGER="brew"
+        else
+            echo "Homebrew package manager is not installed on the system."
+            exit 1
+        fi
         ;;
     *)
         echo "Unsupported operating system."
@@ -50,7 +64,8 @@ case $OS in
         ;;
 esac
 
-perform_upgrade
+update_packages
+
 
 
 
