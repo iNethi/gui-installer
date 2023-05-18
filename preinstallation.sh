@@ -1,5 +1,59 @@
 #!/bin/bash
 
+
+#!/bin/bash
+
+# Function to check if updates are available and perform the upgrade
+perform_upgrade() {
+    # Check if the package manager command exists
+    if command -v $PKG_MANAGER &> /dev/null; then
+        # Update package lists
+        $PKG_MANAGER update
+
+        # Check if updates are available
+        updates=$($PKG_MANAGER outdated | wc -l | xargs)
+        if [[ $updates -gt 0 ]]; then
+            echo "There are $updates updates available."
+
+            # Prompt user to upgrade
+            read -p "Do you want to upgrade the system? (y/n): " choice
+            if [[ $choice =~ ^[Yy]$ ]]; then
+                echo "Upgrading the system..."
+                # Perform system upgrade
+                $PKG_MANAGER upgrade
+                echo "System upgraded successfully."
+            else
+                echo "Upgrade canceled."
+            fi
+        else
+            echo "The system is up to date. No updates available."
+        fi
+    else
+        echo "Package manager ($PKG_MANAGER) not found. Please update the system manually."
+    fi
+}
+
+# Determine the package manager based on the operating system
+OS=$(uname -s)
+PKG_MANAGER=""
+
+case $OS in
+    Linux*)
+        PKG_MANAGER=$( command -v apt-get || command -v yum || command -v dnf || command -v zypper )
+        ;;
+    Darwin*)
+        PKG_MANAGER=$( command -v brew )
+        ;;
+    *)
+        echo "Unsupported operating system."
+        exit 1
+        ;;
+esac
+
+perform_upgrade
+
+
+
 if ! command -v python3 &> /dev/null; then
     echo "Python 3 is not installed. Installing now..."
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -123,7 +177,8 @@ if ! command -v sshd &> /dev/null; then
     echo "OpenSSH server is not installed. Installing..."
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        sudo apt-get install openssh-server
+        sudo apt-get install openssh-server -y
+        sudo apt-get install openssh-server -y
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         sudo systemsetup -setremotelogin on
     fi
