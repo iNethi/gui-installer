@@ -179,16 +179,16 @@
 
                     Swal.fire({
                         title: 'Requirements check',
-                        text: 'In order to install iNethi on your remote server, we need to install a few requirements on your machine.',
+                        // text: 'In order to install iNethi on your remote server, we need to install a few requirements on your machine.',
                         footer: 'Please enter your password when prompted.',
-                        confirmButtonText: 'Check!',
+                        confirmButtonText: 'Start',
                         icon: 'info',
                         showConfirmButton: true,
                         allowOutsideClick: false
                     }, { once: true }).then(function () {
                         api.send('checkRequirements', 'hello');
                         Swal.fire({
-                            title: 'Checking system requirements...',
+                            title: 'Installing system requirements...',
                             footer: 'Get a cup of coffee, this might take a while.',
                             html: '<div class="lds-dual-ring"></div>',
                             showConfirmButton: false,
@@ -350,7 +350,7 @@
                         setTimeout(function () {
                             Swal.fire({
                                 title: 'Installation ready',
-                                text: 'The iNethi system is ready to be installed. This may take a while. Please make sure the installation is not interrupted by a disruption in internet or power.',
+                                footer: 'The iNethi system is ready to be installed. This may take a while. Please make sure the installation is not interrupted by a disruption in internet or power.',
                                 confirmButtonText: 'Start',
                                 icon: 'info',
                                 showConfirmButton: true,
@@ -376,7 +376,7 @@
                 var logs = document.getElementsByClassName("logs")[0];
 
                 api.handle('startInstallation', (event, data) => function (event, data) {
-                    if (data) { // DO I NEED THIS ?
+                    if (data) {
                         console.log(data);
                         var text = document.createTextNode(`${data}` + "\n");
                         logs.appendChild(text);
@@ -401,7 +401,7 @@
                     console.log("abort = " + data);
                     document.getElementsByClassName("actions")[0].style.display = "block";
                     document.querySelector(".actions a[href$='#previous']").style.display = "none";
-                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Restart";
+                    document.querySelector(".actions a[href$='#finish']").innerHTML = "Close";
                     document.querySelector("p.result").innerHTML = "The installation failed. Please inspect the logs below and restart the installer to try again or contact the iNethi team for support.";
                     document.getElementsByClassName("logreport")[0].innerHTML = logs.innerHTML;
                     throwError('Installation failed.', 'Please restart and retry or contact the iNethi team.')
@@ -509,13 +509,7 @@
                 e(d);
                 break;
             case "finish":
-                if (install_success) {
-                    api.send('quitApp', true);
-                    h(d, g);
-                } else {
-                    api.send('restartApp', true);
-                    h(d, g);
-                }
+                api.send('quitApp', true);
                 break;
             case "next":
                 s(d, f, g);

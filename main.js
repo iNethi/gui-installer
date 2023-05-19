@@ -3,10 +3,12 @@ const path = require('path')
 const { PythonShell } = require('python-shell')
 const fs = require('fs');
 var sudo = require('sudo-prompt');
+
 var lock = false;
 var abort = false;
 var num_installed;
 var num_modules_selected = 100;
+
 
 function runCommand(command) {
   var options = {
@@ -28,19 +30,19 @@ function runCommand(command) {
   );
 }
 
-function runMacCommand(command) {
-  require('child_process').execSync(command, {stdio: 'inherit'}, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`${stderr}`);
-      return;
-    }
-    console.log(`${stdout}`);
-  });
-}
+// function runMacCommand(command) {
+//   require('child_process').execSync(command, {stdio: 'inherit'}, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`${error.message}`);
+//       return;
+//     }
+//     if (stderr) {
+//       console.error(`${stderr}`);
+//       return;
+//     }
+//     console.log(`${stdout}`);
+//   });
+// }
 
 async function installModule(channel, filename, progress_bar) {
   while (lock) {
@@ -93,11 +95,6 @@ async function installModule(channel, filename, progress_bar) {
 function runInstallation(data) {
   num_installed = 0;
   var progress_bar = 0;
-  // if (data.modules.paum_args) {
-  //    delete data.modules.paum_args
-  // }
-
-  // PAUM_ARGS VERWIJDEREN UIT MODULES VOOR PERCENTAGE
 
   num_modules_selected = Object.entries(data['modules']).reduce((acc, [key, value]) => {
     return acc + (value ? 1 : 0);
@@ -177,7 +174,7 @@ app.whenReady().then(() => {
     if (process.platform === 'darwin') {
       var res = { 'code': 0 };
       win.webContents.send('checkRequirements', JSON.stringify(res));
-      // runMacCommand(`osascript -e 'do shell script "${path.join(__dirname, './preinstallation.sh')}" with administrator privileges'`);
+      // runMacCommand(`${path.join(__dirname, './preinstallation.sh')}`);
     } else if (process.platform === 'win32') {
       console.log('Windows is not yet supported for automated requirements installation. Please install python3, pip3, ansible, ansible-runner (python library) and sshpass manually.')
     } else {
@@ -224,12 +221,6 @@ app.whenReady().then(() => {
     }
     abort = false;
     runInstallation(data);
-  })
-
-  ipcMain.handle('restartApp', async (event, args) => {
-    console.log('Restarting installer');
-    app.relaunch();
-    app.exit();
   })
 
   ipcMain.handle('quitApp', async (event, args) => {
