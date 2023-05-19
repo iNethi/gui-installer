@@ -1,6 +1,5 @@
 import configparser
 import os
-
 import ansible_runner
 import pathlib
 import sys
@@ -20,6 +19,7 @@ def my_event_handler(data):
 
 
 def main(filename):
+    print(f"Python version: {sys.version}")
     abs_path = pathlib.Path(__file__).parent.resolve()  # get absolute path
     parent_dir = os.path.abspath(os.path.join(abs_path, '..'))
     # Define the path to the playbook and inventory files
@@ -32,8 +32,8 @@ def main(filename):
         cred_ip_address = config['LOCAL_SERVER']['CRED_IP_ADDRESS'].strip()
         cred_username = config['LOCAL_SERVER']['CRED_USERNAME'].strip()
         cred_password = config['LOCAL_SERVER']['CRED_PASSWORD'].strip()
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(f"An Ansible related error has occured: {error}")
     # Update the inventory file with the variables
     with open(inventory_path, 'w') as f:
         f.write(
