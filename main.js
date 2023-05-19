@@ -174,11 +174,11 @@ app.whenReady().then(() => {
     if (process.platform === 'darwin') {
       var res = { 'code': 0 };
       win.webContents.send('checkRequirements', JSON.stringify(res));
-      // runMacCommand(`${path.join(__dirname, './preinstallation.sh')}`);
+      // runMacCommand(`${path.join(__dirname, './scripts/preinstallation.sh')}`);
     } else if (process.platform === 'win32') {
       console.log('Windows is not yet supported for automated requirements installation. Please install python3, pip3, ansible, ansible-runner (python library) and sshpass manually.')
     } else {
-      runCommand(`${path.join(__dirname, './preinstallation.sh')}`)
+      runCommand(`${path.join(__dirname, './scripts/preinstallation.sh')}`)
     }
   });
 
