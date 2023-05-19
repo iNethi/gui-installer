@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# Function to update system packages
 update_packages() {
-    # Check if the package manager command exists
     if command -v $PKG_MANAGER &> /dev/null; then
         echo "Updating system packages..."
 
-        # Perform system package update
         case $PKG_MANAGER in
             apt-get)
                 sudo $PKG_MANAGER update
@@ -193,7 +190,7 @@ if ! command -v sshd &> /dev/null; then
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         sudo apt-get install openssh-server -y
-        sudo apt-get install openssh-server -y
+        sudo apt-get install ssh -y
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         sudo systemsetup -setremotelogin on
     fi
