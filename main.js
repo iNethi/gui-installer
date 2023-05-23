@@ -156,10 +156,6 @@ const createWindow = () => {
     icon: path.join(__dirname, 'inethi/front/assets/images/icon/icon.icns')
   })
   win.loadFile('inethi/front/index.html')
-  // win.webContents.on('did-finish-load', () => {
-  //   win.webContents.openDevTools()
-  //   win.webContents.send('testMessages', 'I am alive!');
-  // });
 }
 
 var credentials, config, modules;

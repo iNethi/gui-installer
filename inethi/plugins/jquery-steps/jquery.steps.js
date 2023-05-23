@@ -182,7 +182,6 @@
                         // text: 'In order to install iNethi on your remote server, we need to install a few requirements on your machine.',
                         footer: 'Please enter your password when prompted.',
                         confirmButtonText: 'Start',
-                        icon: 'info',
                         showConfirmButton: true,
                         allowOutsideClick: false
                     }, { once: true }).then(function () {
@@ -205,7 +204,7 @@
                                 complete = true;
                                 return throwSuccess('Installing requirements complete!');
                             } else {
-                                throwError('Oops! Something went wrong...', 'Please check the logs and try again or contact the iNethi team.')
+                                throwError('Installing requirements failed.', 'Please check the logs and try again or contact the iNethi team.')
                             }
                             api.close();
                         } catch {
@@ -352,7 +351,6 @@
                                 title: 'Installation ready',
                                 footer: 'The iNethi system is ready to be installed. This may take a while. Please make sure the installation is not interrupted by a disruption in internet or power.',
                                 confirmButtonText: 'Start',
-                                icon: 'info',
                                 showConfirmButton: true,
                                 allowOutsideClick: false
                             }, { once: true }).then(function () {
