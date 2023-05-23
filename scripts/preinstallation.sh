@@ -1,67 +1,67 @@
 #!/bin/bash
 
-update_packages() {
-    if command -v $PKG_MANAGER &> /dev/null; then
-        echo "Updating system packages..."
+# update_packages() {
+#     if command -v $PKG_MANAGER &> /dev/null; then
+#         echo "Updating system packages..."
 
-        case $PKG_MANAGER in
-            apt-get)
-                sudo $PKG_MANAGER update
-                sudo $PKG_MANAGER upgrade -y
-                ;;
-            yum)
-                sudo $PKG_MANAGER update -y
-                ;;
-            brew)
-                brew update
-                brew upgrade
-                ;;
-            *)
-                echo "Unsupported package manager ($PKG_MANAGER). Please update the system packages manually."
-                exit 1
-                ;;
-        esac
+#         case $PKG_MANAGER in
+#             apt-get)
+#                 sudo $PKG_MANAGER update
+#                 sudo $PKG_MANAGER upgrade -y
+#                 ;;
+#             yum)
+#                 sudo $PKG_MANAGER update -y
+#                 ;;
+#             brew)
+#                 brew update
+#                 brew upgrade
+#                 ;;
+#             *)
+#                 echo "Unsupported package manager ($PKG_MANAGER). Please update the system packages manually."
+#                 exit 1
+#                 ;;
+#         esac
 
-        echo "System packages updated successfully."
-    else
-        echo "Package manager ($PKG_MANAGER) not found. Please update the system packages manually."
-    fi
-}
+#         echo "System packages updated successfully."
+#     else
+#         echo "Package manager ($PKG_MANAGER) not found. Please update the system packages manually."
+#     fi
+# }
 
-# Determine the package manager based on the operating system
-OS=$(uname -s)
-PKG_MANAGER=""
+# # Determine the package manager based on the operating system
+# OS=$(uname -s)
+# PKG_MANAGER=""
 
-case $OS in
-    Linux*)
-        if [ -n "$(command -v apt-get)" ]; then
-            PKG_MANAGER="apt-get"
-        elif [ -n "$(command -v yum)" ]; then
-            PKG_MANAGER="yum"
-        elif [ -n "$(command -v dnf)" ]; then
-            PKG_MANAGER="dnf"
-        elif [ -n "$(command -v zypper)" ]; then
-            PKG_MANAGER="zypper"
-        else
-            echo "No supported package manager found on the system."
-            exit 1
-        fi
-        ;;
-    Darwin*)
-        if [ -n "$(command -v brew)" ]; then
-            PKG_MANAGER="brew"
-        else
-            echo "Homebrew package manager is not installed on the system."
-            exit 1
-        fi
-        ;;
-    *)
-        echo "Unsupported operating system."
-        exit 1
-        ;;
-esac
+# case $OS in
+#     Linux*)
+#         if [ -n "$(command -v apt-get)" ]; then
+#             PKG_MANAGER="apt-get"
+#         elif [ -n "$(command -v yum)" ]; then
+#             PKG_MANAGER="yum"
+#         elif [ -n "$(command -v dnf)" ]; then
+#             PKG_MANAGER="dnf"
+#         elif [ -n "$(command -v zypper)" ]; then
+#             PKG_MANAGER="zypper"
+#         else
+#             echo "No supported package manager found on the system."
+#             exit 1
+#         fi
+#         ;;
+#     Darwin*)
+#         if [ -n "$(command -v brew)" ]; then
+#             PKG_MANAGER="brew"
+#         else
+#             echo "Homebrew package manager is not installed on the system."
+#             exit 1
+#         fi
+#         ;;
+#     *)
+#         echo "Unsupported operating system."
+#         exit 1
+#         ;;
+# esac
 
-update_packages
+# update_packages
 
 
 
