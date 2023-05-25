@@ -306,7 +306,7 @@
             case 4:
                 var args = {};
 
-                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk', 'azuracast'];
+                const modules = ['docker', 'traefik', 'updater', 'keycloak', 'nginx', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk', 'azuracast'];
                 modules.forEach((module) => {
                     args[module] = document.getElementById(module + 'Checkbox').checked;
                 });
