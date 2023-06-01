@@ -105,7 +105,7 @@ function runInstallation(data) {
   installModule('startInstallation', 'system_requirements', progress_bar);
 
   progress_bar += increment;
-  installModule('startInstallation', 'traefik_ssl', progress_bar);
+  installModule('startInstallation', 'traefik', progress_bar);
 
   Object.entries(data['modules']).forEach(async ([module, selected]) => {
     if (selected && module != "docker" && module != "traefik") {
@@ -181,7 +181,7 @@ app.whenReady().then(() => {
   ipcMain.handle('openConnection', async (event, args) => {
     abort = false;
     credentials = JSON.parse(args);
-    console.log(credentials);
+    // console.log(credentials);
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
     if (res) {
       console.log('Trying to connect to remote host...');
