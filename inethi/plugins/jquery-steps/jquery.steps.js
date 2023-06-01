@@ -391,7 +391,7 @@
 
                 api.handle('progressUpdate', (event, data) => function (event, data) {
                     var progress_bar = document.getElementById("progressBar");
-                    progress_bar.innerHTML = `${data}%`;
+                    progress_bar.innerHTML = `${data.toString().substring(0,2)}%`;
                     progress_bar.style.width = `${data}%`;
                 });
 
