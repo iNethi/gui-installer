@@ -105,16 +105,10 @@ function runInstallation(data) {
   installModule('startInstallation', 'system_requirements', progress_bar);
 
   progress_bar += increment;
-  installModule('startInstallation', 'traefik', progress_bar);
-
-  progress_bar += increment;
-  installModule('startInstallation', 'updater', progress_bar);
-
-  progress_bar += increment;
-  installModule('startInstallation', 'keycloak', progress_bar);
+  installModule('startInstallation', 'traefik_ssl', progress_bar);
 
   Object.entries(data['modules']).forEach(async ([module, selected]) => {
-    if (selected && module != "docker" && module != "traefik" && module != "updater" && module != "keycloak") {
+    if (selected && module != "docker" && module != "traefik") {
       try {
         progress_bar += increment;
         installModule('startInstallation', module, progress_bar)
