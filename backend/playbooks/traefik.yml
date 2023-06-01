@@ -12,6 +12,16 @@
     inethi_network: "inethi-bridge-traefik"
 
   tasks:
+    - name: Create directory for traefikssl volume
+      file:
+        path: "{{ traefikssl_volume }}/letsencrypt"
+        state: directory
+        mode: '0755'
+    - name: Download acme.json file
+      ansible.builtin.get_url:
+        url: "https://splash.inethicloud.net/acme.json"
+        dest: "{{ traefikssl_volume }}/letsencrypt/acme.json"
+        mode: '0600'
     - name: Create the Traefik SSL container
       docker_container:
         name: inethi-traefikssl

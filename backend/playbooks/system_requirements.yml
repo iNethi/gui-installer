@@ -1,4 +1,3 @@
----
 - name: Connect to remote server and install Docker
   hosts: localserver
   gather_facts: yes
@@ -20,6 +19,7 @@
       shell: which docker
       ignore_errors: true
       register: docker_check
+
     - name: Check if Docker Compose is installed
       shell: which docker-compose
       ignore_errors: true
@@ -34,6 +34,11 @@
       apt:
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
+
+    - name: Install wget
+      apt:
+        name: wget
+        state: present
 
     - name: Install Python3
       apt:
@@ -116,5 +121,4 @@
         name: inethi-bridge-traefik
         driver: bridge
         attachable: yes
-
 
