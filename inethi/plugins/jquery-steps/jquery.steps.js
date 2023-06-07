@@ -306,7 +306,7 @@
             case 4:
                 var args = {};
 
-                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'peertube', 'paum', 'radiusdesk', 'azuracast'];
+                const modules = ['docker', 'traefik', 'nginx', 'keycloak', 'nextcloud', 'jellyfin', 'wordpress', 'paum', 'radiusdesk', 'azuracast'];
                 modules.forEach((module) => {
                     args[module] = document.getElementById(module + 'Checkbox').checked;
                 });
@@ -391,7 +391,7 @@
 
                 api.handle('progressUpdate', (event, data) => function (event, data) {
                     var progress_bar = document.getElementById("progressBar");
-                    progress_bar.innerHTML = `${data}%`;
+                    progress_bar.innerHTML = `${data.toString().substring(0,2)}%`;
                     progress_bar.style.width = `${data}%`;
                 });
 
