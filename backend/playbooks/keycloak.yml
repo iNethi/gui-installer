@@ -8,6 +8,7 @@
   vars:
     KEYCLOAK_ADMIN_USER: "admin"
     KEYCLOAK_TRAEFIK_API_RULE: "keycloak"
+    MYSQL_KEYCLOAK_TRAEFIK_API_RULE: "mysql-keycloak"
     KEYCLOAK_USER: "inethi"
     MYSQLDB_VOLUME: "/mnt/data/keycloak-mysql"
     TRAEFIK_ENTRYPOINT: "websecure"
@@ -27,6 +28,10 @@
           MYSQL_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
         volumes:
           - "{{ MYSQLDB_VOLUME }}:/var/lib/mysql"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.mysql-keycloak.rule: "Host(`{{ MYSQL_KEYCLOAK_TRAEFIK_API_RULE }}.{{ inethiDN }}`)"
+          traefik.http.routers.mysql-keycloak.entrypoints: "{{ TRAEFIK_ENTRYPOINT }}"
         networks:
           - name: "{{ INETHI_NETWORK }}"
 
