@@ -1,5 +1,5 @@
 # iNethi GUI Installer
-A GUI installer app built with Electron to ease the process of installing the iNethi network system.
+A GUI installer app built with Electron to simplify the process of installing the iNethi network system. Find more details on the [iNethi website](http://inethi.org.za/software).
 
 ## Usage
 This app can be built from source or run from a pre-packaged application for Ubuntu Desktop 22. A 
@@ -19,7 +19,7 @@ npm start
 4. Follow the on-screen instructions to build your server.
 
 ### Run from Pre-packaged Application
-Under construction.
+Find a release in our GitHub [releases](https://github.com/iNethi/inethi-network-builder/releases).
 
 ## Contributors
 [Pieter Hoppenbrouwers](https://github.com/pieterhop)
