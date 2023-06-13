@@ -151,3 +151,4 @@ dist
 
 # production
 /build
+/.idea/*
