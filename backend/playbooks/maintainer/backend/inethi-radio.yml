@@ -1,0 +1,29 @@
+- name: Deploy AzuraCast
+  hosts: localserver
+  become: true
+  gather_facts: yes
+
+  vars:
+    AZURACAST_MNT: "/mnt/data/azuracast"
+
+  tasks:
+    - name: Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0777'
+      with_items:
+        - "{{ AZURACAST_MNT }}"
+
+    - name: Copy files to Server
+      copy:
+        src: "{{ playbook_dir }}/azuracast/"
+        dest: "{{ AZURACAST_MNT }}/"
+
+    - name: Set executable permissions on build file
+      file:
+        path: "/mnt/data/azuracast/docker.sh"
+        mode: '+x'
+
+    - name: build the container
+      command: "docker-compose -f /mnt/data/azuracast/docker-compose.yml up -d"

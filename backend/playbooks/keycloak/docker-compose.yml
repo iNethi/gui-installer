@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  inethi-mysql-keycloak:
+      image: mysql:5.7
+      container_name: inethi-mysql-keycloak
+      restart: unless-stopped
+      environment:
+        - "MYSQL_ROOT_PASSWORD=${CONF_MASTER_PASSWORD}"
+        - "MYSQL_DATABASE=keycloak"
+        - "MYSQL_USER=keycloak"
+        - "MYSQL_PASSWORD=${CONF_MASTER_PASSWORD}"
+      volumes:
+        - "/mnt/data/keycloak-mysql:/var/lib/mysql"
+
+  inethi-keycloak:
+      image: jboss/keycloak
+      container_name: inethi-keycloak
+      restart: unless-stopped
+      environment:
+        - "KEYCLOAK_USER=admin"
+        - "KEYCLOAK_PASSWORD=${CONF_MASTER_PASSWORD}"
+        - "DB_ADDR=inethi-mysql-keycloak"
+        - "DB_PASSWORD=${CONF_MASTER_PASSWORD}"
+        - "PROXY_ADDRESS_FORWARDING=true"
+
+      labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.inethilocal.net`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+
+networks:
+  default:
+    external:
+      name: "inethi-bridge-traefik"

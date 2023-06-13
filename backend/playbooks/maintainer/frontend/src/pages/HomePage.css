@@ -1,0 +1,46 @@
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #ccc;
+  margin: 20px;
+  padding: 20px;
+}
+
+.homepage-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #eee;
+  padding: 0 20px;
+}
+
+.homepage-navbar ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.homepage-navbar li {
+  margin-right: 20px;
+}
+
+.homepage-navbar li:last-child {
+  margin-right: 0;
+}
+
+.homepage-navbar a {
+  color: #333;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.homepage-navbar a:hover {
+  color: #666;
+}
+
+.homepage-content {
+  flex: 1;
+  margin-top: 20px;
+}

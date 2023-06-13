@@ -1,0 +1,4 @@
+Flask==2.2.4
+docker==6.0.1
+Flask-Cors==3.0.10
+ansible-runner==2.3.2

@@ -1,0 +1,36 @@
+- name: Deploy Kiwix with Docker Container
+  hosts: localserver
+  become: true
+  gather_facts: yes
+
+  vars:
+    KIWIX_VOLUME: "/mnt/data/kiwix"
+    TRAEFIK_ENTRYPOINT: "websecure"
+    INETHI_NETWORK: "inethi-bridge-traefik"
+    COMMAND: "wikipedia_en_100_mini_2023-04.zim"
+
+  tasks:
+    - name: Create a directory for kiwix volume
+      file:
+        path: "{{ KIWIX_VOLUME }}"
+        state: directory
+    - name: Copy kiwix files to the volume
+      copy:
+        src: "{{ playbook_dir }}/kiwix/"
+        dest: "{{ KIWIX_VOLUME }}"
+    - name: Start Kiwix container
+      docker_container:
+        name: inethi-kiwix
+        image: ghcr.io/kiwix/kiwix-serve
+        volumes:
+          - "{{ KIWIX_VOLUME }}:/data"
+        restart_policy: unless-stopped
+        command:
+          "{{ COMMAND }}"
+        labels:
+          traefik.enable: "true"
+          traefik.http.services.kiwix.loadbalancer.server.port: "8080"
+          traefik.http.routers.kiwix.rule: "Host(`kiwix.inethilocal.net`)"
+          traefik.http.routers.kiwix.entrypoints: "{{ TRAEFIK_ENTRYPOINT }}"
+        networks:
+          - name: "{{ INETHI_NETWORK }}"
