@@ -82,7 +82,6 @@ web_modules/
 # yaml config
 backend/config.yml
 backend/*.env
-backend/playbooks/inventory
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -152,3 +151,6 @@ dist
 # production
 /build
 /.idea/*
+
+# inventory files
+backend/playbooks/inventory
