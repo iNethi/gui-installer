@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@react-keycloak/web": "^3.4.0",
-    "keycloak-js": "^21.1.1",
-    "react-router-dom": "^6.12.1"
-  }
-}

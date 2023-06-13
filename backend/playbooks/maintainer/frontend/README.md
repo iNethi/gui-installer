@@ -1,1 +1,0 @@
-A front end made with react.
