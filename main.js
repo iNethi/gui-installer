@@ -189,6 +189,7 @@ app.whenReady().then(() => {
     credentials = JSON.parse(args);
     console.log(credentials);
     var res = writeEnvVars('credentials', `[LOCAL_SERVER]\nCRED_IP_ADDRESS=${credentials.ip}\nCRED_USERNAME=${credentials.username}\nCRED_PASSWORD=${credentials.password}`);
+    var res_yaml = writeYamlVars('credentials', `CRED_IP_ADDRESS: ${credentials.ip}\nCRED_USERNAME: ${credentials.username}\nCRED_PASSWORD=: {credentials.password}`);
     if (res) {
       console.log('Trying to connect to remote host...');
       installModule('openConnection', 'test_server_connection');

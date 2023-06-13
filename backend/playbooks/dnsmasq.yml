@@ -1,0 +1,40 @@
+- name: Deploy DNSMasq
+  hosts: localserver
+  become: true
+  gather_facts: no
+
+  vars_files:
+    - ../credentials.yml
+
+  vars:
+    DNSMASQ_VOLUME: "/mnt/data/dnsmasq"
+    INETHI_NETWORK: "inethi-bridge-traefik"
+
+  tasks:
+    - name: Create DNSMasq volume directory
+      file:
+        path: "{{ DNSMASQ_VOLUME }}"
+        state: directory
+    - name: Create dnsmasq.conf file
+      copy:
+        content: |
+          no-resolv
+          log-queries
+          server=1.0.0.1
+          server=1.1.1.1
+          strict-order
+          address=/inethilocal.net/{{ CRED_IP_ADDRESS }}
+        dest: "{{ DNSMASQ_VOLUME }}/dnsmasq.conf"
+
+    - name: Deploy DNSMasq container
+      docker_container:
+        name: inethi-dnsmasq
+        restart_policy: unless-stopped
+        image: jpillora/dnsmasq:latest
+        ports:
+          - 53:53/udp
+          - "5380:8080"
+        volumes:
+          - "{{ DNSMASQ_VOLUME }}/dnsmasq.conf:/etc/dnsmasq.conf:ro"
+        networks:
+          - name: "{{ INETHI_NETWORK }}"
