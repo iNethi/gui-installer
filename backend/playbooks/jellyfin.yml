@@ -4,10 +4,10 @@
   gather_facts: no
 
   vars:
-    NEXTCLOUD_RSHARE_VOLUME: "/mnt/data/Rshare"
-    NEXTCLOUD_RVIDEO_VOLUME: "/mnt/data/Rvideo"
-    NEXTCLOUD_RPHOTO_VOLUME: "/mnt/data/Rvideo"
-    NEXTCLOUD_RMUSIC_VOLUME: "/mnt/data/Rvideo"
+    NEXTCLOUD_RSHARE_VOLUME: "/mnt/data/share/Rshare"
+    NEXTCLOUD_RVIDEO_VOLUME: "/mnt/data/share/Rvideo"
+    NEXTCLOUD_RPHOTO_VOLUME: "/mnt/data/share/Rvideo"
+    NEXTCLOUD_RMUSIC_VOLUME: "/mnt/data/share/Rvideo"
     JELLYFIN_VOLUME: "/mnt/data/jellyfin"
     TRAEFIK_API_RULE_HOST: "jellyfin"
     inethi_dn: "inethilocal.net"
