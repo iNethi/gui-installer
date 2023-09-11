@@ -1,3 +1,4 @@
+---
 - name: Deploy Traefik
   hosts: localserver
   become: true
@@ -5,11 +6,15 @@
 
   vars:
     traefikssl_volume: "/mnt/data/traefikssl"
+    grafana_volume: "/mnt/data/grafana"
+    prometheus_volume: "/mnt/data/prometheus"
     inethiDN: "inethilocal.net"
     traefik_api_rule_host: "traefik"
     traefik_api_service: "api@internal"
     traefik_entrypoint: "websecure"
     inethi_network: "inethi-bridge-traefik"
+
+
 
   tasks:
     - name: Create directory for traefikssl volume
@@ -17,39 +22,43 @@
         path: "{{ traefikssl_volume }}/letsencrypt"
         state: directory
         mode: '0755'
+    - name: Create directory for prometheus volume
+      file:
+        path: "{{ grafana_volume }}"
+        state: directory
+        mode: '0777'
+    - name: Create directory for prometheus volume
+      file:
+        path: "{{ prometheus_volume }}/prometheus-config"
+        state: directory
+        mode: '0777'
+    - name: Copy traefik toml to Server
+      copy:
+        src: resources/traefik
+        dest: "{{ traefikssl_volume }}"
+    - name: Copy prometheus yml to Server
+      copy:
+        src: resources/prometheus/prometheus.yml
+        dest: "{{ prometheus_volume }}/prometheus-config/"
     - name: Download acme.json file
       ansible.builtin.get_url:
-        url: "https://splash.inethicloud.net/acme.json"
+        url: "http://54.88.150.74/cert/acme.json"
         dest: "{{ traefikssl_volume }}/letsencrypt/acme.json"
         mode: '0600'
+        validate_certs: no
     - name: Create the Traefik SSL container
       docker_container:
         name: inethi-traefikssl
         image: traefik:v2.5
         restart_policy: unless-stopped
         state: started
-        command:
-          - "--api.dashboard=true"
-          - "--api.insecure=true"
-          - "--providers.docker=true"
-          - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
-          - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=route53"
-          - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-          - "--entrypoints.web.address=:80"
-          - "--entrypoints.websecure.address=:443"
-          - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-          - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-          - "--entrypoints.websecure.http.tls=true"
-          - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
-          - "--entrypoints.websecure.http.tls.domains[0].main={{ inethiDN }}"
-          - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ inethiDN }}"
-          - "--serversTransport.insecureSkipVerify=true"
         ports:
           - "80:80"
           - "443:443"
         volumes:
           - "{{ traefikssl_volume }}/letsencrypt:/letsencrypt"
           - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          - "{{ traefikssl_volume }}/traefik/traefik.toml:/etc/traefik/traefik.toml"
         labels:
           traefik.enable: "true"
           traefik.http.routers.traefik.rule: "Host(`{{ traefik_api_rule_host }}.{{ inethiDN }}`)"
@@ -57,5 +66,41 @@
           traefik.http.routers.traefik.entrypoints: "{{ traefik_entrypoint }}"
           traefik.http.routers.traefik.tls.certresolver: "letsencrypt"
 
+        networks:
+          - name: "{{ inethi_network }}"
+    - name: Create the Grafana container
+      docker_container:
+        name: inethi-grafana
+        image: grafana/grafana:latest
+        restart_policy: unless-stopped
+        state: started
+        env:
+          GF_SECURITY_ADMIN_USER: admin
+          GF_SECURITY_ADMIN_PASSWORD: admin
+        volumes:
+          - "{{ grafana_volume }}:/var/lib/grafana"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.grafana.rule: "Host(`grafana.{{ inethiDN }}`)"
+          traefik.http.routers.grafana.entrypoints: "{{ traefik_entrypoint }}"
+        networks:
+          - name: "{{ inethi_network }}"
+
+    - name: Create the Prometheus container
+      docker_container:
+        name: inethi-prometheus
+        image: prom/prometheus:latest
+        restart_policy: unless-stopped
+        state: started
+        volumes:
+          - "{{ prometheus_volume }}:/prometheus"
+          - "{{ prometheus_volume }}/prometheus-config:/etc/prometheus"
+        command:
+          - '--config.file=/etc/prometheus/prometheus.yml'
+          - '--storage.tsdb.path=/prometheus'
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.prometheus.rule: "Host(`prometheus.{{ inethiDN }}`)"
+          traefik.http.routers.prometheus.entrypoints: "{{ traefik_entrypoint }}"
         networks:
           - name: "{{ inethi_network }}"

@@ -3,7 +3,7 @@
   become: true
   gather_facts: no
   vars_files:
-    - ../config.yml
+    - ./config.yml
   vars:
     WORDPRESS_MOUNT: "/mnt/data/wordpress"
     WORDPRESS_DB_NAME: "wordpress"
@@ -17,6 +17,7 @@
     inethiDN: "inethilocal.net"
     TRAEFIK_ENTRYPOINT: "websecure"
     INETHI_NETWORK: "inethi-bridge-traefik"
+    CONF_MASTER_PASSWORD: "iNethi2023#"
 
   tasks:
     - name: Deploy MariaDB
@@ -34,6 +35,9 @@
           - "{{ MARIADB_MOUNT }}:/var/lib/mysql"
         networks:
           - name: "{{ INETHI_NETWORK }}"
+    - name: Wait for 60 seconds
+      pause:
+        seconds: 60
 
     - name: Deploy WordPress
       docker_container:

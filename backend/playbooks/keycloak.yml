@@ -2,8 +2,6 @@
   hosts: localserver
   become: true
   gather_facts: no
-  vars_files:
-    - ../config.yml
 
   vars:
     KEYCLOAK_ADMIN_USER: "admin"
@@ -14,11 +12,26 @@
     TRAEFIK_ENTRYPOINT: "websecure"
     inethiDN: "inethilocal.net"
     INETHI_NETWORK: "inethi-bridge-traefik"
+    CONF_MASTER_PASSWORD: "iNethi2023#"
+    keycloak_volume: "/mnt/data/keycloak"
 
   tasks:
+    - name: Create directory for keycloak volume
+      file:
+        path: "{{ keycloak_volume }}/"
+        state: directory
+        mode: '0755'
+    - name: Copy secret question ftl to Server
+      copy:
+        src: resources/keycloak/secret-question.ftl
+        dest: "{{ keycloak_volume }}/"
+    - name: Copy secret question config ftl to Server
+      copy:
+        src: resources/keycloak/secret-question-config.ftl
+        dest: "{{ keycloak_volume }}/"
     - name: Create MySQL container for Keycloak
       docker_container:
-        name: inethi-mysql-keycloak
+        name: inethi-keycloak-mysql
         image: mysql:5.7
         restart_policy: unless-stopped
         env:
@@ -34,12 +47,19 @@
           traefik.http.routers.mysql-keycloak.entrypoints: "{{ TRAEFIK_ENTRYPOINT }}"
         networks:
           - name: "{{ INETHI_NETWORK }}"
+    - name: Wait (3 mins) for Keycloak Database
+      pause:
+        seconds: 180
 
     - name: Create Keycloak container
       docker_container:
-        image: jboss/keycloak
+        image: jboss/keycloak:16.1.1
         name: inethi-keycloak
         restart_policy: unless-stopped
+        state: started
+        volumes:
+          - "{{ keycloak_volume }}/secret-question.ftl:/opt/jboss/keycloak/themes/base/login/secret-question.ftl"
+          - "{{ keycloak_volume }}/secret-question-config.ftl:/opt/jboss/keycloak/themes/base/login/secret-question-config.ftl"
         env:
           HOSTNAME: "{{ KEYCLOAK_TRAEFIK_API_RULE }}"
           KEYCLOAK_ADMIN: "{{ KEYCLOAK_ADMIN_USER }}"
@@ -47,7 +67,7 @@
           KEYCLOAK_USER: "{{ KEYCLOAK_USER }}"
           KEYCLOAK_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
           DB_VENDOR: "MYSQL"
-          DB_ADDR: "inethi-mysql-keycloak"
+          DB_ADDR: "inethi-keycloak-mysql"
           DB_DATABASE: "keycloak"
           DB_USER: "{{ KEYCLOAK_ADMIN_USER }}"
           DB_PASSWORD: "{{ CONF_MASTER_PASSWORD }}"
@@ -59,3 +79,6 @@
           traefik.http.services.keycloak.loadbalancer.server.port: "8080"
         networks:
           - name: "{{ INETHI_NETWORK }}"
+    - name: Wait (1 min) for Keycloak to be up and initialised
+      pause:
+        seconds: 60
