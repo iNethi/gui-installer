@@ -3,7 +3,7 @@
   become: true
   gather_facts: no
   vars_files:
-    - ./config.yml
+
   vars:
     WORDPRESS_MOUNT: "/mnt/data/wordpress"
     WORDPRESS_DB_NAME: "wordpress"

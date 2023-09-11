@@ -1,0 +1,35 @@
+[metrics]
+  [metrics.prometheus]
+    buckets = [0.1,0.3,1.2,5.0]
+
+[api]
+  dashboard = true
+  insecure = true
+
+[providers.docker]
+  exposedByDefault = false
+
+[entryPoints.web]
+  address = ":80"
+  [entryPoints.web.http.redirections.entryPoint]
+    to = "websecure"
+    scheme = "https"
+
+
+
+[entryPoints.websecure]
+  address = ":443"
+  [entryPoints.websecure.http.tls]
+    certResolver = "letsencrypt"
+    [[entryPoints.websecure.http.tls.domains]]
+      main = "inethilocal.net"
+      sans = ["*.inethilocal.net"]
+
+[certificatesResolvers.letsencrypt.acme]
+  storage = "/letsencrypt/acme.json"
+  [certificatesResolvers.letsencrypt.acme.dnsChallenge]
+    provider = "route53"
+
+[serversTransport]
+  insecureSkipVerify = true
+
