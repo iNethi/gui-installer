@@ -1,6 +1,6 @@
 {
   "name": "inethi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A GUI Installer for the iNethi system",
   "main": "main.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "iNethi"
   ],
   "author": "iNethi",
-  "license": "MIT",
+  "license": "GNU General Public License v3.0",
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",
     "@electron-forge/maker-deb": "^6.1.1",
